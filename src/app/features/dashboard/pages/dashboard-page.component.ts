@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common'
 import { FinanceiroStore } from '@/app/application/financeiro/stores/financeiro.store'
 import { SaldoCardComponent } from '../components/saldo-card/saldo-card.component'
 import { UltimosLancamentosComponent } from '../components/ultimos-lancamentos/ultimos-lancamentos.component'
+import { GastosCategoriaChartComponent } from '../components/gastos-categoria-chart/gastos-categoria-chart.component'
 
 @Component({
   selector: 'app-dashboard-page',
@@ -10,7 +11,8 @@ import { UltimosLancamentosComponent } from '../components/ultimos-lancamentos/u
   imports: [
     CommonModule,
     SaldoCardComponent,
-    UltimosLancamentosComponent
+    UltimosLancamentosComponent,
+    GastosCategoriaChartComponent
   ],
   template: `
 <div class="p-6 space-y-6">
@@ -38,8 +40,16 @@ titulo="Despesas"
 
 </div>
 
+<!-- 📊 AQUI entra o gráfico -->
+
+<app-gastos-categoria-chart
+  [lancamentos]="store.lancamentos()">
+</app-gastos-categoria-chart>
+
+<!-- 📋 Lista de lançamentos -->
+
 <app-ultimos-lancamentos
-[lancamentos]="store.ultimosLancamentos()">
+  [lancamentos]="store.ultimosLancamentos()">
 </app-ultimos-lancamentos>
 
 </div>
