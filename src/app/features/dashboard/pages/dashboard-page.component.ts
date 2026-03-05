@@ -1,9 +1,17 @@
-import { Component, inject } from '@angular/core';
-import { FinanceiroStore } from '@/app/application/financeiro/stores/financeiro.store';
+import { Component, inject } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { FinanceiroStore } from '@/app/application/financeiro/stores/financeiro.store'
+import { SaldoCardComponent } from '../components/saldo-card/saldo-card.component'
+import { UltimosLancamentosComponent } from '../components/ultimos-lancamentos/ultimos-lancamentos.component'
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
+  imports: [
+    CommonModule,
+    SaldoCardComponent,
+    UltimosLancamentosComponent
+  ],
   template: `
 <div class="p-6 space-y-6">
 

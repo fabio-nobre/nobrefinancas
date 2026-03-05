@@ -1,3 +1,4 @@
+import { Parcela } from './parcela.entity'
 export class Lancamento {
 
   constructor(

@@ -1,8 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core'
+import { CurrencyPipe } from '@angular/common'
 
 @Component({
   selector: 'app-saldo-card',
   standalone: true,
+  imports: [CurrencyPipe],
   template: `
 <div class="bg-white border rounded-2xl p-4 shadow-sm">
 
