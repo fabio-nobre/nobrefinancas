@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core'
 import { Lancamento } from '@/app/domain/financeiro/entities/lancamento.entity'
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-lancamento-list',
   standalone: true,
+  imports: [CommonModule],
   template: `
 <div class="space-y-2">
 
