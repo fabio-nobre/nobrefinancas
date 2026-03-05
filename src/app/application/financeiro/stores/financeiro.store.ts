@@ -1,6 +1,10 @@
-import { signal, computed } from '@angular/core'
+import { Injectable, signal, computed } from '@angular/core'
 import { Lancamento } from '@/app/domain/financeiro/entities/lancamento.entity'
 
+
+@Injectable({
+  providedIn: 'root'
+})
 export class FinanceiroStore {
 
   private _lancamentos = signal<Lancamento[]>([])
