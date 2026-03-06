@@ -21,7 +21,7 @@ import { GastosCategoriaChartComponent } from '../components/gastos-categoria-ch
 Dashboard Financeiro
 </h1>
 
-<div class="grid grid-cols-3 gap-4">
+<div class="grid grid-cols-4 gap-4">
 
 <app-saldo-card
 titulo="Saldo atual"
@@ -39,6 +39,12 @@ tipo="receita">
 titulo="Despesas"
 [valor]="store.totalDespesas()"
 tipo="despesa">
+</app-saldo-card>
+
+<app-saldo-card
+titulo="Saldo previsto"
+[valor]="store.saldoPrevisto()"
+tipo="saldo">
 </app-saldo-card>
 
 </div>

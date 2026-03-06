@@ -16,10 +16,43 @@ export class FinanceiroStore {
   lancamentos = this._lancamentos.asReadonly()
 
   constructor() {
-
     const dados = this.repo.carregar()
 
-    this._lancamentos.set(dados)
+    if (dados.length) {
+
+      this._lancamentos.set(dados)
+
+    } else {
+
+      const mock = [
+        new Lancamento(
+          crypto.randomUUID(),
+          'Salário',
+          5000,
+          new Date(),
+          'RECEITA'
+        ),
+
+        new Lancamento(
+          crypto.randomUUID(),
+          'Supermercado',
+          350,
+          new Date(),
+          'DESPESA'
+        ),
+
+        new Lancamento(
+          crypto.randomUUID(),
+          'Netflix',
+          39,
+          new Date(),
+          'DESPESA'
+        )
+      ]
+
+      this._lancamentos.set(mock)
+
+    }
 
   }
 
@@ -45,6 +78,10 @@ export class FinanceiroStore {
 
   ultimosLancamentos = computed(() =>
     FinanceEngine.ultimosLancamentos(this._lancamentos())
+  )
+
+  saldoPrevisto = computed(() =>
+    FinanceEngine.saldoPrevisto(this._lancamentos())
   )
 
 

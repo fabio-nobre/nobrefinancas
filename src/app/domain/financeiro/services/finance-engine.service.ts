@@ -32,4 +32,30 @@ export class FinanceEngine {
 
   }
 
+  static saldoPrevisto(lancamentos: Lancamento[]): number {
+
+    const hoje = new Date()
+
+    return lancamentos.reduce((total, l) => {
+
+      const valor = l.valorTotal
+
+      if (l.data >= hoje) {
+
+        if (l.tipo === 'RECEITA') {
+          total += valor
+        }
+
+        if (l.tipo === 'DESPESA') {
+          total -= valor
+        }
+
+      }
+
+      return total
+
+    }, 0)
+
+  }
+
 }

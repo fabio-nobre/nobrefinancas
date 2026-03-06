@@ -16,7 +16,9 @@ Chart.register(...registerables)
     Gastos por categoria
   </div>
 
-  <canvas #chart></canvas>
+  <div class="h-80">
+    <canvas #chart></canvas>
+  </div>
 
 </div>
 `
@@ -50,11 +52,17 @@ export class GastosCategoriaChartComponent implements AfterViewInit {
 
     const config: ChartConfiguration = {
       type: 'doughnut',
+
       data: {
         labels,
         datasets: [{
           data: valores
         }]
+      },
+
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
       }
     }
 
