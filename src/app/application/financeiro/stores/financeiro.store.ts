@@ -2,7 +2,7 @@ import { Injectable, signal, computed } from '@angular/core'
 import { Lancamento } from '@/app/domain/financeiro/entities/lancamento/lancamento.entity'
 import { FinanceiroRepository } from '@/app/infrastructure/persistence/financeiro.repository'
 import { inject } from '@angular/core'
-
+import { FinanceEngine } from '@/app/domain/financeiro/services/finance-engine.service'
 
 @Injectable({
   providedIn: 'root'
@@ -32,18 +32,21 @@ export class FinanceiroStore {
   )
 
   totalReceitas = computed(() =>
-    this.receitas()
-      .reduce((t, l) => t + l.valorTotal, 0)
+    FinanceEngine.totalReceitas(this._lancamentos())
   )
 
   totalDespesas = computed(() =>
-    this.despesas()
-      .reduce((t, l) => t + l.valorTotal, 0)
+    FinanceEngine.totalDespesas(this._lancamentos())
   )
 
   saldo = computed(() =>
-    this.totalReceitas() - this.totalDespesas()
+    FinanceEngine.saldo(this._lancamentos())
   )
+
+  ultimosLancamentos = computed(() =>
+    FinanceEngine.ultimosLancamentos(this._lancamentos())
+  )
+
 
   adicionarLancamento(l: Lancamento) {
 
@@ -99,13 +102,6 @@ export class FinanceiroStore {
 
   }
 
-  ultimosLancamentos = computed(() =>
-
-    [...this._lancamentos()]
-      .sort((a, b) => b.data.getTime() - a.data.getTime())
-      .slice(0, 5)
-
-  )
 
   private persistir(lista: Lancamento[]) {
 
