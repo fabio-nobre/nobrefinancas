@@ -1,5 +1,7 @@
 import { Injectable, signal, computed } from '@angular/core'
 import { Lancamento } from '@/app/domain/financeiro/entities/lancamento.entity'
+import { FinanceiroRepository } from '@/app/infrastructure/persistence/financeiro.repository'
+import { inject } from '@angular/core'
 
 
 @Injectable({
@@ -7,9 +9,19 @@ import { Lancamento } from '@/app/domain/financeiro/entities/lancamento.entity'
 })
 export class FinanceiroStore {
 
+  repo = inject(FinanceiroRepository)
+
   private _lancamentos = signal<Lancamento[]>([])
 
   lancamentos = this._lancamentos.asReadonly()
+
+  constructor() {
+
+    const dados = this.repo.carregar()
+
+    this._lancamentos.set(dados)
+
+  }
 
   receitas = computed(() =>
     this._lancamentos().filter(l => l.tipo === 'RECEITA')
@@ -33,12 +45,17 @@ export class FinanceiroStore {
     this.totalReceitas() - this.totalDespesas()
   )
 
-  adicionarLancamento(lancamento: Lancamento) {
+  adicionarLancamento(l: Lancamento) {
 
-    this._lancamentos.update(list => [
-      ...list,
-      lancamento
-    ])
+    this._lancamentos.update(list => {
+
+      const nova = [...list, l]
+
+      this.repo.salvar(nova)
+
+      return nova
+
+    })
 
   }
 
