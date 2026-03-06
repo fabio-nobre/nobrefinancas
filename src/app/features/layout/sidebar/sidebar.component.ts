@@ -1,30 +1,48 @@
-import { Component } from '@angular/core'
-import { RouterLink } from '@angular/router'
+import { Component, signal } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { RouterLink, RouterLinkActive } from '@angular/router'
+import { LucideAngularModule } from 'lucide-angular'
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink],
+  imports: [
+    CommonModule,
+    RouterLink,
+    RouterLinkActive,
+    LucideAngularModule
+  ],
   template: `
-<div class="w-64 bg-white border-r p-4">
 
-  <div class="text-xl font-semibold mb-6">
-    Nobrefinanças
-  </div>
+<nav class="p-3 space-y-2">
 
-  <nav class="space-y-2">
+<a
+routerLink="/"
+routerLinkActive="bg-blue-50 text-blue-600 border-l-4 border-blue-600"
+class="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-100">
 
-    <a routerLink="/" class="block p-2 rounded hover:bg-slate-100">
-      Dashboard
-    </a>
+<lucide-icon name="layout-dashboard" size="18"></lucide-icon>
 
-    <a routerLink="/lancamentos" class="block p-2 rounded hover:bg-slate-100">
-      Lançamentos
-    </a>
+<span *ngIf="!collapsed()">Dashboard</span>
 
-  </nav>
+</a>
 
-</div>
+<a
+routerLink="/lancamentos"
+routerLinkActive="bg-blue-50 text-blue-600 border-l-4 border-blue-600"
+class="flex items-center gap-3 p-3 rounded-lg hover:bg-slate-100">
+
+<lucide-icon name="wallet" size="18"></lucide-icon>
+
+<span *ngIf="!collapsed()">Lançamentos</span>
+
+</a>
+
+</nav>
 `
 })
-export class SidebarComponent { }
+export class SidebarComponent {
+
+  collapsed = signal(false)
+
+}

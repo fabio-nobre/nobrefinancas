@@ -25,21 +25,23 @@ Dashboard Financeiro
 
 <app-saldo-card
 titulo="Saldo atual"
-[valor]="store.saldo()">
+[valor]="store.saldo()"
+tipo="saldo">
 </app-saldo-card>
 
 <app-saldo-card
 titulo="Receitas"
-[valor]="store.totalReceitas()">
+[valor]="store.totalReceitas()"
+tipo="receita">
 </app-saldo-card>
 
 <app-saldo-card
 titulo="Despesas"
-[valor]="store.totalDespesas()">
+[valor]="store.totalDespesas()"
+tipo="despesa">
 </app-saldo-card>
 
 </div>
-
 <!-- 📊 AQUI entra o gráfico -->
 
 <app-gastos-categoria-chart

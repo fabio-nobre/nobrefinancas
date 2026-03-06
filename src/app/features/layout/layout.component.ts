@@ -15,6 +15,7 @@ import { HeaderComponent } from './header/header.component'
     HeaderComponent
   ],
   template: `
+
 <div class="flex h-screen bg-slate-100">
 
   <app-sidebar></app-sidebar>
@@ -30,6 +31,7 @@ import { HeaderComponent } from './header/header.component'
   </div>
 
 </div>
+
 `
 })
 export class LayoutComponent { }
