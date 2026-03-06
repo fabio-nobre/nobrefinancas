@@ -1,5 +1,5 @@
 export * from './entities/lancamento/lancamento.entity'
 export * from './entities/parcela/parcela.entity'
 export * from './entities/categoria/categoria.entity'
-export * from './services/finance-engine.service'
+export * from './finance-engine.service'
 export * from './utils/categorias-default'

@@ -1,4 +1,4 @@
-import { Lancamento } from '../entities/lancamento/lancamento.entity'
+import { Lancamento } from './entities/lancamento/lancamento.entity'
 
 export class FinanceEngine {
 
