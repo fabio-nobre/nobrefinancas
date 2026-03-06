@@ -1,8 +1,8 @@
 import { Injectable, signal, computed } from '@angular/core'
-import { Lancamento } from '@/app/domain/financeiro/entities/lancamento/lancamento.entity'
+import { Lancamento } from '@domain'
 import { FinanceiroRepository } from '@/app/infrastructure/persistence/financeiro.repository'
 import { inject } from '@angular/core'
-import { FinanceEngine } from '@/app/domain/financeiro/services/finance-engine.service'
+import { FinanceEngine } from '@domain'
 
 @Injectable({
   providedIn: 'root'

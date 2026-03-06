@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
-import { Parcela } from '@/app/domain/financeiro/entities/parcela/parcela.entity';
+import { Parcela } from '@domain'
 
 @Component({
   selector: 'app-parcela-item',

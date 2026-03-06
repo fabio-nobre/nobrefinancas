@@ -3,6 +3,7 @@ import { Routes } from '@angular/router'
 import { LayoutComponent } from './features/layout/layout.component'
 import { DashboardPageComponent } from './features/dashboard/pages/dashboard-page.component'
 import { LancamentosPageComponent } from './features/lancamentos/pages/lancamentos-page.component'
+import { CategoriasPageComponent } from './features/categorias/pages/categorias-page.component'
 
 export const routes: Routes = [
 
@@ -19,6 +20,11 @@ export const routes: Routes = [
       {
         path: 'lancamentos',
         component: LancamentosPageComponent
+      },
+
+      {
+        path: 'categorias',
+        component: CategoriasPageComponent
       }
 
     ]

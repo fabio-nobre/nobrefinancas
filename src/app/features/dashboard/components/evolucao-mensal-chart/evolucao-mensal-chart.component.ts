@@ -1,8 +1,8 @@
 import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { Chart, ChartConfiguration, registerables } from 'chart.js'
-import { Lancamento } from '@/app/domain/financeiro/entities/lancamento/lancamento.entity'
-import { FinanceEngine } from '@/app/domain/financeiro/services/finance-engine.service'
+import { Lancamento } from '@domain'
+import { FinanceEngine } from '@domain'
 
 Chart.register(...registerables)
 

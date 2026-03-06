@@ -1,4 +1,4 @@
-import { Parcela } from '@/app/domain/financeiro/entities/parcela/parcela.entity'
+import { Parcela } from '@domain'
 
 export function gerarParcelas(
   valor: number,

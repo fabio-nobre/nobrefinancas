@@ -86,6 +86,26 @@ Lançamentos
 
 </span>
 
+
+</a>
+
+<a routerLink="/categorias"
+  routerLinkActive="bg-blue-50 text-blue-600 border-l-4 border-blue-600"
+class="flex items-center gap-3 px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 transition group">
+
+<lucide-icon name="wallet" size="18"></lucide-icon>
+
+<span *ngIf="!collapsed()">
+Categorias
+</span>
+
+<span
+*ngIf="collapsed()"
+class="absolute left-16 bg-slate-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition">
+
+Categorias
+
+</span>
 </a>
 
 </nav>

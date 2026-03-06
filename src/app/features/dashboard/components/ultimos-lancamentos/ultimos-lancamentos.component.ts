@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Lancamento } from '@/app/domain/financeiro/entities/lancamento/lancamento.entity';
+import { Lancamento } from '@domain';
 
 @Component({
   selector: 'app-ultimos-lancamentos',

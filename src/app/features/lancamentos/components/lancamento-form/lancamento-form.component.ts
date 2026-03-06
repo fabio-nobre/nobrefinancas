@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core'
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
 import { FinanceiroStore } from '@/app/application/financeiro/stores/financeiro.store'
-import { Lancamento } from '@/app/domain/financeiro/entities/lancamento/lancamento.entity'
+import { Lancamento } from '@domain'
 
 @Component({
   selector: 'app-lancamento-form',
