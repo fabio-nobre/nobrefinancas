@@ -97,9 +97,51 @@ export class GastosCategoriaChartComponent implements AfterViewInit {
 
     }
 
+    const centerTextPlugin = {
+
+      id: 'centerText',
+
+      beforeDraw(chart: any) {
+
+        const { ctx, chartArea } = chart
+
+        const total = chart.data.datasets[0].data
+          .reduce((a: number, b: number) => a + b, 0)
+
+        ctx.save()
+
+        ctx.font = 'bold 20px sans-serif'
+        ctx.fillStyle = '#0f172a'
+        ctx.textAlign = 'center'
+
+        ctx.fillText(
+          `R$ ${total}`,
+          chartArea.width / 2 + chartArea.left,
+          chartArea.height / 2 + chartArea.top
+        )
+
+        ctx.font = '12px sans-serif'
+        ctx.fillStyle = '#64748b'
+
+        ctx.fillText(
+          'Total',
+          chartArea.width / 2 + chartArea.left,
+          chartArea.height / 2 + chartArea.top + 20
+        )
+
+        ctx.restore()
+
+      }
+
+    }
+
+    Chart.register(centerTextPlugin)
     this.chart = new Chart(
       this.chartRef.nativeElement,
-      config
+      {
+        ...config,
+        plugins: [centerTextPlugin]
+      }
     )
 
   }
