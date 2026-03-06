@@ -47,22 +47,17 @@ export class FinanceiroStore {
 
   adicionarLancamento(l: Lancamento) {
 
-    this._lancamentos.update(list => {
-
-      const nova = [...list, l]
-
-      this.repo.salvar(nova)
-
-      return nova
-
-    })
+    this._lancamentos.update(list =>
+      this.persistir([...list, l])
+    )
 
   }
-
   removerLancamento(id: string) {
 
     this._lancamentos.update(list =>
-      list.filter(l => l.id !== id)
+      this.persistir(
+        list.filter(l => l.id !== id)
+      )
     )
 
   }
@@ -70,32 +65,36 @@ export class FinanceiroStore {
   marcarParcelaPaga(lancamentoId: string, numero: number) {
 
     this._lancamentos.update(list =>
-      list.map(l => {
+      this.persistir(
 
-        if (l.id !== lancamentoId) return l
+        list.map(l => {
 
-        const parcelas = l.parcelas.map(p => {
+          if (l.id !== lancamentoId) return l
 
-          if (p.numero === numero) {
-            p.marcarComoPaga(p.valor)
-          }
+          const parcelas = l.parcelas.map(p => {
 
-          return p
+            if (p.numero === numero) {
+              p.marcarComoPaga(p.valor)
+            }
+
+            return p
+          })
+
+          return new Lancamento(
+            l.id,
+            l.descricao,
+            l.valor,
+            l.data,
+            l.tipo,
+            l.contaId,
+            l.cartaoId,
+            l.categoriaId,
+            parcelas
+          )
+
         })
 
-        return new Lancamento(
-          l.id,
-          l.descricao,
-          l.valor,
-          l.data,
-          l.tipo,
-          l.contaId,
-          l.cartaoId,
-          l.categoriaId,
-          parcelas
-        )
-
-      })
+      )
     )
 
   }
@@ -107,5 +106,13 @@ export class FinanceiroStore {
       .slice(0, 5)
 
   )
+
+  private persistir(lista: Lancamento[]) {
+
+    this.repo.salvar(lista)
+
+    return lista
+
+  }
 
 }
