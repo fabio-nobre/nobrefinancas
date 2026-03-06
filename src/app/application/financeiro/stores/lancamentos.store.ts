@@ -1,5 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core'
-import { Lancamento } from '@domain'
+import { Lancamento } from '@/app/domain/financeiro'
 
 @Injectable({ providedIn: 'root' })
 export class LancamentosStore {
@@ -7,6 +7,16 @@ export class LancamentosStore {
   private _lancamentos = signal<Lancamento[]>([])
 
   lancamentos = this._lancamentos.asReadonly()
+
+  adicionar(lancamento: Lancamento) {
+    this._lancamentos.update(lista => [...lista, lancamento])
+  }
+
+  remover(id: string) {
+    this._lancamentos.update(lista =>
+      lista.filter(l => l.id !== id)
+    )
+  }
 
   totalReceitas = computed(() =>
     this._lancamentos()
@@ -19,9 +29,5 @@ export class LancamentosStore {
       .filter(l => l.tipo === 'DESPESA')
       .reduce((s, l) => s + l.valor, 0)
   )
-
-  adicionar(l: Lancamento) {
-    this._lancamentos.update(v => [...v, l])
-  }
 
 }

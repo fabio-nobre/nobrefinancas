@@ -1,4 +1,4 @@
-import { Injectable, inject, computed } from '@angular/core'
+import { Injectable, computed, inject } from '@angular/core'
 import { LancamentosStore } from './lancamentos.store'
 
 @Injectable({ providedIn: 'root' })
@@ -6,13 +6,13 @@ export class DashboardStore {
 
   private lancamentosStore = inject(LancamentosStore)
 
-  saldo = computed(() => {
+  saldo = computed(() =>
+    this.lancamentosStore.totalReceitas()
+    - this.lancamentosStore.totalDespesas()
+  )
 
-    const receitas = this.lancamentosStore.totalReceitas()
-    const despesas = this.lancamentosStore.totalDespesas()
+  totalReceitas = this.lancamentosStore.totalReceitas
 
-    return receitas - despesas
-
-  })
+  totalDespesas = this.lancamentosStore.totalDespesas
 
 }

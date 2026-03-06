@@ -1,4 +1,4 @@
-import { Injectable, signal, computed } from '@angular/core'
+import { Injectable, signal } from '@angular/core'
 import { Cartao } from '@/app/domain/financeiro'
 
 @Injectable({ providedIn: 'root' })
@@ -9,7 +9,7 @@ export class CartoesStore {
   cartoes = this._cartoes.asReadonly()
 
   adicionar(cartao: Cartao) {
-    this._cartoes.update(v => [...v, cartao])
+    this._cartoes.update(lista => [...lista, cartao])
   }
 
 }
