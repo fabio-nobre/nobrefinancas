@@ -4,6 +4,7 @@ import { FinanceiroStore } from '@/app/application/financeiro/stores/financeiro.
 import { SaldoCardComponent } from '../components/saldo-card/saldo-card.component'
 import { UltimosLancamentosComponent } from '../components/ultimos-lancamentos/ultimos-lancamentos.component'
 import { GastosCategoriaChartComponent } from '../components/gastos-categoria-chart/gastos-categoria-chart.component'
+import { EvolucaoMensalChartComponent } from '../components/evolucao-mensal-chart/evolucao-mensal-chart.component'
 
 @Component({
   selector: 'app-dashboard-page',
@@ -12,7 +13,8 @@ import { GastosCategoriaChartComponent } from '../components/gastos-categoria-ch
     CommonModule,
     SaldoCardComponent,
     UltimosLancamentosComponent,
-    GastosCategoriaChartComponent
+    GastosCategoriaChartComponent,
+    EvolucaoMensalChartComponent
   ],
   template: `
 <div class="p-6 space-y-6">
@@ -48,6 +50,10 @@ tipo="saldo">
 </app-saldo-card>
 
 </div>
+
+<app-evolucao-mensal-chart
+  [lancamentos]="store.lancamentos()">
+</app-evolucao-mensal-chart>
 
 <!-- 📊 gráfico -->
 
