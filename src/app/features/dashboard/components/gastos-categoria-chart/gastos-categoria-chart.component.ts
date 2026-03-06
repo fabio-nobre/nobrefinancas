@@ -2,6 +2,7 @@ import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular
 import { CommonModule } from '@angular/common'
 import { Chart, ChartConfiguration, registerables } from 'chart.js'
 import { Lancamento } from '@/app/domain/financeiro/entities/lancamento/lancamento.entity'
+import { CATEGORIAS_PADRAO } from '@/app/domain/financeiro/utils/categorias-default'
 
 Chart.register(...registerables)
 
@@ -49,23 +50,29 @@ export class GastosCategoriaChartComponent implements AfterViewInit {
 
     despesas.forEach(l => {
 
-      const cat = l.categoriaId ?? 'Outros'
+      const cat = l.categoriaId ?? 'outros'
 
       agrupado[cat] = (agrupado[cat] ?? 0) + l.valor
 
     })
 
-    const labels = Object.keys(agrupado)
+    const labels = Object.keys(agrupado).map(id => {
+
+      const cat = CATEGORIAS_PADRAO.find(c => c.id === id)
+
+      return cat?.nome ?? id
+
+    })
+
     const valores = Object.values(agrupado)
 
-    const cores = [
-      '#6366F1',
-      '#22C55E',
-      '#F59E0B',
-      '#EF4444',
-      '#14B8A6',
-      '#8B5CF6'
-    ]
+    const cores = Object.keys(agrupado).map(id => {
+
+      const cat = CATEGORIAS_PADRAO.find(c => c.id === id)
+
+      return cat?.cor ?? '#64748b'
+
+    })
 
     const config: ChartConfiguration<'doughnut'> = {
 
