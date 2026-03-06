@@ -5,7 +5,7 @@ import { SaldoCardComponent } from '../components/saldo-card/saldo-card.componen
 import { UltimosLancamentosComponent } from '../components/ultimos-lancamentos/ultimos-lancamentos.component'
 import { GastosCategoriaChartComponent } from '../components/gastos-categoria-chart/gastos-categoria-chart.component'
 import { EvolucaoMensalChartComponent } from '../components/evolucao-mensal-chart/evolucao-mensal-chart.component'
-
+import { InsightsFinanceirosComponent } from '../components/insights-financeiros/insights-financeiros.component'
 
 @Component({
   selector: 'app-dashboard-page',
@@ -15,7 +15,8 @@ import { EvolucaoMensalChartComponent } from '../components/evolucao-mensal-char
     SaldoCardComponent,
     UltimosLancamentosComponent,
     GastosCategoriaChartComponent,
-    EvolucaoMensalChartComponent
+    EvolucaoMensalChartComponent,
+    InsightsFinanceirosComponent
   ],
   template: `
 <div class="p-6 space-y-6">
@@ -70,6 +71,12 @@ Gastos por categoria
 
 </div>
 
+<app-insights-financeiros
+[maiorCategoria]="maiorCategoria()"
+[mediaDespesas]="mediaDespesas()"
+[previsaoSaldo]="previsaoSaldo()">
+</app-insights-financeiros>
+
 <!-- 📋 lançamentos -->
 
 <app-ultimos-lancamentos
@@ -105,6 +112,18 @@ export class DashboardPageComponent {
 
   totalDespesas = computed(() =>
     this.store.saldoPrevisto()
+  )
+
+  maiorCategoria = computed(() =>
+    this.store.maiorCategoriaGasto()
+  )
+
+  mediaDespesas = computed(() =>
+    this.store.mediaDespesasMensais()
+  )
+
+  previsaoSaldo = computed(() =>
+    this.store.previsaoSaldoMes()
   )
 
 }

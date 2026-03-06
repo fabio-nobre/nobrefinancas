@@ -139,6 +139,55 @@ export class FinanceiroStore {
 
   }
 
+  maiorCategoriaGasto() {
+
+    const lancamentos = this.lancamentos()
+
+    const despesas = lancamentos.filter(l => l.tipo === 'DESPESA')
+
+    const mapa: Record<string, number> = {}
+
+    for (const l of despesas) {
+
+      const categoria = l.categoriaId ?? 'Outros'
+
+      mapa[categoria] = (mapa[categoria] ?? 0) + l.valor
+
+    }
+
+    const ordenado = Object.entries(mapa)
+      .sort((a, b) => b[1] - a[1])
+
+    return ordenado[0]?.[0] ?? '—'
+
+  }
+
+  mediaDespesasMensais() {
+
+    const lancamentos = this.lancamentos()
+
+    const despesas = lancamentos.filter(l => l.tipo === 'DESPESA')
+
+    if (!despesas.length) return 0
+
+    const total = despesas.reduce((s, l) => s + l.valor, 0)
+
+    return total / 12
+
+  }
+
+  previsaoSaldoMes() {
+
+    const saldoAtual = this.saldo()
+
+    const receitas = this.totalReceitas()
+
+    const despesas = this.totalDespesas()
+
+    return saldoAtual + receitas - despesas
+
+  }
+
 
   private persistir(lista: Lancamento[]) {
 
@@ -147,5 +196,6 @@ export class FinanceiroStore {
     return lista
 
   }
+
 
 }
