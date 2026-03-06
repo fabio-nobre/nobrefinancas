@@ -65,25 +65,51 @@ export class FinanceiroStore {
     this._lancamentos().filter(l => l.tipo === 'DESPESA')
   )
 
-  totalReceitas = computed(() =>
-    FinanceEngine.totalReceitas(this._lancamentos())
-  )
+  totalReceitas = computed(() => {
 
-  totalDespesas = computed(() =>
-    FinanceEngine.totalDespesas(this._lancamentos())
-  )
+    return this._lancamentos()
+      .filter(l => l.tipo === 'RECEITA')
+      .reduce((s, l) => s + l.valor, 0)
 
-  saldo = computed(() =>
-    FinanceEngine.saldo(this._lancamentos())
-  )
+  })
 
-  ultimosLancamentos = computed(() =>
-    FinanceEngine.ultimosLancamentos(this._lancamentos())
-  )
+  totalDespesas = computed(() => {
 
-  saldoPrevisto = computed(() =>
-    FinanceEngine.saldoPrevisto(this._lancamentos())
-  )
+    return this._lancamentos()
+      .filter(l => l.tipo === 'DESPESA')
+      .reduce((s, l) => s + l.valor, 0)
+
+  })
+
+  saldo = computed(() => {
+
+    const lancamentos = this._lancamentos()
+
+    return lancamentos.reduce((s, l) => {
+
+      return l.tipo === 'RECEITA'
+        ? s + l.valor
+        : s - l.valor
+
+    }, 0)
+
+  })
+
+  ultimosLancamentos = computed(() => {
+
+    return [...this._lancamentos()]
+      .sort((a, b) => b.data.getTime() - a.data.getTime())
+      .slice(0, 5)
+
+  })
+
+  saldoPrevisto = computed(() => {
+
+    return this.saldo()
+      + this.totalReceitas()
+      - this.totalDespesas()
+
+  })
 
 
   adicionarLancamento(l: Lancamento) {
