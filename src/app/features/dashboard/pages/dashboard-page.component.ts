@@ -21,7 +21,7 @@ import { GastosCategoriaChartComponent } from '../components/gastos-categoria-ch
 Dashboard Financeiro
 </h1>
 
-<div class="grid grid-cols-4 gap-4">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 
 <app-saldo-card
 titulo="Saldo atual"
@@ -48,16 +48,25 @@ tipo="saldo">
 </app-saldo-card>
 
 </div>
-<!-- 📊 AQUI entra o gráfico -->
+
+<!-- 📊 gráfico -->
+
+<div class="bg-white rounded-xl shadow-sm p-6">
+
+<div class="text-sm font-semibold text-slate-700 mb-4">
+Gastos por categoria
+</div>
 
 <app-gastos-categoria-chart
-  [lancamentos]="store.lancamentos()">
+[lancamentos]="store.lancamentos()">
 </app-gastos-categoria-chart>
 
-<!-- 📋 Lista de lançamentos -->
+</div>
+
+<!-- 📋 lançamentos -->
 
 <app-ultimos-lancamentos
-  [lancamentos]="store.ultimosLancamentos()">
+[lancamentos]="store.ultimosLancamentos()">
 </app-ultimos-lancamentos>
 
 </div>
