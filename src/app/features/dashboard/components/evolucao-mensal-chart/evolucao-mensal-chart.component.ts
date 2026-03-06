@@ -2,6 +2,7 @@ import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular
 import { CommonModule } from '@angular/common'
 import { Chart, ChartConfiguration, registerables } from 'chart.js'
 import { Lancamento } from '@/app/domain/financeiro/entities/lancamento/lancamento.entity'
+import { FinanceEngine } from '@/app/domain/financeiro/services/finance-engine.service'
 
 Chart.register(...registerables)
 
@@ -34,27 +35,8 @@ export class EvolucaoMensalChartComponent implements AfterViewInit {
 
   ngAfterViewInit() {
 
-    const meses = [
-      'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
-      'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
-    ]
-
-    const receitas = new Array(12).fill(0)
-    const despesas = new Array(12).fill(0)
-
-    this.lancamentos.forEach(l => {
-
-      const mes = new Date(l.data).getMonth()
-
-      if (l.tipo === 'RECEITA') {
-        receitas[mes] += l.valor
-      }
-
-      if (l.tipo === 'DESPESA') {
-        despesas[mes] += l.valor
-      }
-
-    })
+    const { meses, receitas, despesas } =
+      FinanceEngine.evolucaoMensal(this.lancamentos)
 
     const config: ChartConfiguration<'line'> = {
 

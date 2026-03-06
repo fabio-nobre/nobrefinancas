@@ -58,4 +58,36 @@ export class FinanceEngine {
 
   }
 
+  static evolucaoMensal(lancamentos: Lancamento[]) {
+
+    const meses = [
+      'Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+      'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'
+    ]
+
+    const receitas = new Array(12).fill(0)
+    const despesas = new Array(12).fill(0)
+
+    lancamentos.forEach(l => {
+
+      const mes = new Date(l.data).getMonth()
+
+      if (l.tipo === 'RECEITA') {
+        receitas[mes] += l.valor
+      }
+
+      if (l.tipo === 'DESPESA') {
+        despesas[mes] += l.valor
+      }
+
+    })
+
+    return {
+      meses,
+      receitas,
+      despesas
+    }
+
+  }
+
 }
