@@ -3,6 +3,7 @@ import { Lancamento } from '@domain'
 import { FinanceiroRepository } from '@/app/infrastructure/persistence/financeiro.repository'
 import { inject } from '@angular/core'
 import { FinanceEngine } from '@domain'
+import { FinanceAnalyticsEngine } from '@/app/domain/financeiro/finance-analytics.engine'
 
 @Injectable({
   providedIn: 'root'
@@ -176,18 +177,41 @@ export class FinanceiroStore {
 
   }
 
-  previsaoSaldoMes() {
 
-    const saldoAtual = this.saldo()
 
-    const receitas = this.totalReceitas()
+  categoriaDominante() {
 
-    const despesas = this.totalDespesas()
-
-    return saldoAtual + receitas - despesas
+    return FinanceAnalyticsEngine.categoriaDominante(
+      this.lancamentos()
+    )
 
   }
 
+  mediaMensalDespesas() {
+
+    return FinanceAnalyticsEngine.mediaMensalDespesas(
+      this.lancamentos()
+    )
+
+  }
+
+  variacaoMensalDespesas() {
+
+    return FinanceAnalyticsEngine.variacaoMensalDespesas(
+      this.lancamentos()
+    )
+
+  }
+
+  previsaoSaldoMes() {
+
+    return FinanceAnalyticsEngine.previsaoSaldoMes(
+      this.saldo(),
+      this.totalReceitas(),
+      this.totalDespesas()
+    )
+
+  }
 
   private persistir(lista: Lancamento[]) {
 

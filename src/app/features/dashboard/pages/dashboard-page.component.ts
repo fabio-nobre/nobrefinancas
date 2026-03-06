@@ -77,6 +77,7 @@ Gastos por categoria
 [previsaoSaldo]="previsaoSaldo()">
 </app-insights-financeiros>
 
+
 <!-- 📋 lançamentos -->
 
 <app-ultimos-lancamentos
@@ -86,6 +87,7 @@ Gastos por categoria
 </div>
 `
 })
+
 export class DashboardPageComponent {
 
   store = inject(FinanceiroStore)
@@ -98,20 +100,20 @@ export class DashboardPageComponent {
     this.store.ultimosLancamentos()
   )
 
+  saldo = computed(() =>
+    this.store.saldo()
+  )
+
   saldoPrevisto = computed(() =>
     this.store.saldoPrevisto()
   )
 
-  saldo = computed(() =>
-    this.store.saldoPrevisto()
-  )
-
   totalReceitas = computed(() =>
-    this.store.saldoPrevisto()
+    this.store.totalReceitas()
   )
 
   totalDespesas = computed(() =>
-    this.store.saldoPrevisto()
+    this.store.totalDespesas()
   )
 
   maiorCategoria = computed(() =>
@@ -119,7 +121,7 @@ export class DashboardPageComponent {
   )
 
   mediaDespesas = computed(() =>
-    this.store.mediaDespesasMensais()
+    this.store.mediaMensalDespesas()
   )
 
   previsaoSaldo = computed(() =>
