@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { Lancamento } from '@/app/domain/financeiro/entities/lancamento.entity'
+import { Lancamento } from '@/app/domain/financeiro/entities/lancamento/lancamento.entity'
 import { CommonModule } from '@angular/common';
 
 @Component({

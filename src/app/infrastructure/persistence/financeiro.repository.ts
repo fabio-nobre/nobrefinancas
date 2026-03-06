@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Lancamento } from '@/app/domain/financeiro/entities/lancamento.entity'
+import { Lancamento } from '@/app/domain/financeiro/entities/lancamento/lancamento.entity'
 
 @Injectable({
   providedIn: 'root'

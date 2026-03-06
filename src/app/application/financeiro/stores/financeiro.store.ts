@@ -1,5 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core'
-import { Lancamento } from '@/app/domain/financeiro/entities/lancamento.entity'
+import { Lancamento } from '@/app/domain/financeiro/entities/lancamento/lancamento.entity'
 import { FinanceiroRepository } from '@/app/infrastructure/persistence/financeiro.repository'
 import { inject } from '@angular/core'
 
@@ -77,9 +77,7 @@ export class FinanceiroStore {
         const parcelas = l.parcelas.map(p => {
 
           if (p.numero === numero) {
-
             p.marcarComoPaga(p.valor)
-
           }
 
           return p
@@ -92,6 +90,7 @@ export class FinanceiroStore {
           l.data,
           l.tipo,
           l.contaId,
+          l.cartaoId,
           l.categoriaId,
           parcelas
         )

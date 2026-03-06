@@ -1,4 +1,5 @@
-import { Parcela } from './parcela.entity'
+import { Parcela } from '../parcela/parcela.entity'
+
 export class Lancamento {
 
   constructor(
@@ -8,9 +9,11 @@ export class Lancamento {
     public data: Date,
     public tipo: 'RECEITA' | 'DESPESA',
     public contaId?: string,
+    public cartaoId?: string,
     public categoriaId?: string,
     public parcelas: Parcela[] = []
   ) { }
+
 
   get valorTotal(): number {
     return this.parcelas.length
