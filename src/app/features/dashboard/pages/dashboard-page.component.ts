@@ -32,8 +32,8 @@ export class DashboardPageComponent {
   facade = inject(FinanceiroFacade)
 
   saldo = this.facade.saldo
-  receitas = this.facade.receitas
-  despesas = this.facade.despesas
+  receitas = this.facade.totalReceitas
+  despesas = this.facade.totalDespesas
 
   evolucaoMensal = this.facade.evolucaoMensal
   gastosPorCategoria = this.facade.gastosPorCategoria

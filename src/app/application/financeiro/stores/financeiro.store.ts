@@ -8,6 +8,8 @@ import { Categoria } from '@domain'
 import { TipoLancamento } from '@/app/domain/financeiro/enums/tipo-lancamento.enum'
 import { gerarLancamentosMock } from '@/app/mocks/lancamentos.mock'
 
+import { FinanceAnalyticsEngine } from '@/app/domain/financeiro/engines/finance-analytics.engine'
+
 export interface FinanceiroState {
 
   lancamentos: Lancamento[]
@@ -77,6 +79,43 @@ export class FinanceiroStore {
 
   })
 
+  evolucaoMensal = computed(() =>
+    FinanceAnalyticsEngine.calcularEvolucaoMensal(
+      this.state().lancamentos
+    )
+  )
+
+  gastosPorCategoria = computed(() =>
+    FinanceAnalyticsEngine.gastosPorCategoria(
+      this.state().lancamentos
+    )
+  )
+
+  resumoDoMes = computed(() =>
+    FinanceAnalyticsEngine.resumoDoMes(
+      this.state().lancamentos
+    )
+  )
+
+  maiorCategoriaGasto = computed(() =>
+    FinanceAnalyticsEngine.maiorCategoriaGasto(
+      this.state().lancamentos
+    )
+  )
+
+  mediaMensalDespesas = computed(() =>
+    FinanceAnalyticsEngine.mediaMensalDespesas(
+      this.state().lancamentos
+    )
+  )
+
+  previsaoSaldoMes = computed(() =>
+    FinanceAnalyticsEngine.previsaoSaldoMes(
+      this.saldo(),
+      this.totalReceitas(),
+      this.totalDespesas()
+    )
+  )
 
   // ACTIONS
 
