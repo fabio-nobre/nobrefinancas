@@ -6,6 +6,7 @@ import { Cartao } from '@domain'
 import { Categoria } from '@domain'
 
 import { TipoLancamento } from '@/app/domain/financeiro/enums/tipo-lancamento.enum'
+import { gerarLancamentosMock } from '@/app/mocks/lancamentos.mock'
 
 export interface FinanceiroState {
 
@@ -19,75 +20,13 @@ export interface FinanceiroState {
 
 }
 
-const MOCK_LANCAMENTOS: Lancamento[] = [
-  new Lancamento(
-    '1',
-    'Salário',
-    5000,
-    new Date('2026-03-01'),
-    TipoLancamento.RECEITA,
-    'conta-1',
-    undefined,
-    'salario',
-    []
-  ),
-
-  new Lancamento(
-    '2',
-    'Supermercado',
-    320,
-    new Date('2026-03-03'),
-    TipoLancamento.DESPESA,
-    'conta-1',
-    undefined,
-    'alimentacao',
-    []
-  ),
-
-  new Lancamento(
-    '3',
-    'Internet',
-    120,
-    new Date('2026-03-05'),
-    TipoLancamento.DESPESA,
-    'conta-1',
-    undefined,
-    'servicos',
-    []
-  ),
-
-  new Lancamento(
-    '4',
-    'Freelance',
-    800,
-    new Date('2026-03-08'),
-    TipoLancamento.RECEITA,
-    'conta-1',
-    undefined,
-    'freelance',
-    []
-  ),
-
-  new Lancamento(
-    '5',
-    'Restaurante',
-    95,
-    new Date('2026-03-09'),
-    TipoLancamento.DESPESA,
-    'conta-1',
-    undefined,
-    'alimentacao',
-    []
-  )
-]
-
 @Injectable({
   providedIn: 'root'
 })
 export class FinanceiroStore {
 
   private state = signal<FinanceiroState>({
-    lancamentos: MOCK_LANCAMENTOS,
+    lancamentos: gerarLancamentosMock(),
     contas: [],
     cartoes: [],
     categorias: []
