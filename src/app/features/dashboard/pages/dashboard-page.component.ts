@@ -1,18 +1,25 @@
 import { Component, inject, computed } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { SaldoCardComponent } from '../components/saldo-card/saldo-card.component'
 import { UltimosLancamentosComponent } from '../components/ultimos-lancamentos/ultimos-lancamentos.component'
 import { GastosCategoriaChartComponent } from '../components/gastos-categoria-chart/gastos-categoria-chart.component'
 import { EvolucaoMensalChartComponent } from '../components/evolucao-mensal-chart/evolucao-mensal-chart.component'
 import { InsightsFinanceirosComponent } from '../components/insights-financeiros/insights-financeiros.component'
 import { DashboardFacade } from '../dashboard.facade'
+import { StatCardComponent } from '@/app/shared/ui/stat-card/stat-card.component'
+import { DashboardGridComponent } from '@/app/shared/ui/dashboard-grid/dashboard-grid.component'
+import { ChartCardComponent } from '@/app/shared/ui/chart-card/chart-card.component'
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
   imports: [
+
+    // Design System
+    StatCardComponent,
+    DashboardGridComponent,
+    ChartCardComponent,
+    // componentes existentes
     CommonModule,
-    SaldoCardComponent,
     UltimosLancamentosComponent,
     GastosCategoriaChartComponent,
     EvolucaoMensalChartComponent,
@@ -25,37 +32,37 @@ import { DashboardFacade } from '../dashboard.facade'
 Dashboard Financeiro
 </h1>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+<ui-dashboard-grid>
 
-<app-saldo-card
+<ui-stat-card
 titulo="Saldo atual"
-[valor]="saldo()"
-tipo="saldo">
-</app-saldo-card>
+[valor]="facade.saldo()">
+</ui-stat-card>
 
-<app-saldo-card
+<ui-stat-card
 titulo="Receitas"
-[valor]="totalReceitas()"
-tipo="receita">
-</app-saldo-card>
+[valor]="facade.totalReceitas()">
+</ui-stat-card>
 
-<app-saldo-card
+<ui-stat-card
 titulo="Despesas"
-[valor]="totalDespesas()"
-tipo="despesa">
-</app-saldo-card>
+[valor]="facade.totalDespesas()">
+</ui-stat-card>
 
-<app-saldo-card
+<ui-stat-card
 titulo="Saldo previsto"
-[valor]="saldoPrevisto()"
-tipo="saldo">
-</app-saldo-card>
+[valor]="facade.saldoPrevisto()">
+</ui-stat-card>
 
-</div>
+</ui-dashboard-grid>
+
+<ui-chart-card titulo="Evolução mensal">
 
 <app-evolucao-mensal-chart
-  [lancamentos]="lancamentos()">
+[lancamentos]="facade.lancamentos()">
 </app-evolucao-mensal-chart>
+
+</ui-chart-card>
 
 <!-- 📊 gráfico -->
 

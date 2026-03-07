@@ -8,6 +8,27 @@ export class LancamentosStore {
 
   lancamentos = this._lancamentos.asReadonly()
 
+  constructor() {
+    this.carregar()
+  }
+
+  carregar() {
+
+    const dados = localStorage.getItem('nobre-financas')
+
+    if (!dados) return
+
+    const lista = JSON.parse(dados)
+
+    const lancamentos = lista.map((l: any) => ({
+      ...l,
+      data: new Date(l.data)
+    }))
+
+    this._lancamentos.set(lancamentos)
+
+  }
+
   adicionar(lancamento: Lancamento) {
     this._lancamentos.update(lista => [...lista, lancamento])
   }
