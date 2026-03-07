@@ -1,11 +1,11 @@
 import { Component, inject, computed } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { FinanceiroStore } from '@/app/application/financeiro/stores/financeiro.store'
 import { SaldoCardComponent } from '../components/saldo-card/saldo-card.component'
 import { UltimosLancamentosComponent } from '../components/ultimos-lancamentos/ultimos-lancamentos.component'
 import { GastosCategoriaChartComponent } from '../components/gastos-categoria-chart/gastos-categoria-chart.component'
 import { EvolucaoMensalChartComponent } from '../components/evolucao-mensal-chart/evolucao-mensal-chart.component'
 import { InsightsFinanceirosComponent } from '../components/insights-financeiros/insights-financeiros.component'
+import { DashboardFacade } from '../dashboard.facade'
 
 @Component({
   selector: 'app-dashboard-page',
@@ -90,42 +90,42 @@ Gastos por categoria
 
 export class DashboardPageComponent {
 
-  store = inject(FinanceiroStore)
+  facade = inject(DashboardFacade)
 
   lancamentos = computed(() =>
-    this.store.lancamentos()
+    this.facade.lancamentos()
   )
 
   ultimosLancamentos = computed(() =>
-    this.store.ultimosLancamentos()
+    this.facade.ultimosLancamentos()
   )
 
   saldo = computed(() =>
-    this.store.saldo()
+    this.facade.saldo()
   )
 
   saldoPrevisto = computed(() =>
-    this.store.saldoPrevisto()
+    this.facade.saldoPrevisto()
   )
 
   totalReceitas = computed(() =>
-    this.store.totalReceitas()
+    this.facade.totalReceitas()
   )
 
   totalDespesas = computed(() =>
-    this.store.totalDespesas()
+    this.facade.totalDespesas()
   )
 
   maiorCategoria = computed(() =>
-    this.store.maiorCategoriaGasto()
+    this.facade.maiorCategoriaGasto()
   )
 
   mediaDespesas = computed(() =>
-    this.store.mediaMensalDespesas()
+    this.facade.mediaMensalDespesas()
   )
 
   previsaoSaldo = computed(() =>
-    this.store.previsaoSaldoMes()
+    this.facade.previsaoSaldoMes()
   )
 
 }
