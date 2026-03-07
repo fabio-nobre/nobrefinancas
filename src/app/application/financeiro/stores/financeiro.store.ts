@@ -1,252 +1,175 @@
-import { Injectable, signal, computed } from '@angular/core'
-import { Lancamento } from '@domain'
-import { FinanceiroRepository } from '@/app/infrastructure/persistence/financeiro.repository'
-import { inject } from '@angular/core'
-import { FinanceEngine } from '@domain'
-import { FinanceAnalyticsEngine } from '@/app/domain/financeiro/finance-analytics.engine'
+import { Injectable, computed, signal } from '@angular/core';
+
+import { Lancamento, } from '@domain';
+import { Conta } from '@domain';
+import { Cartao } from '@domain'
+import { Categoria } from '@domain'
+
 import { TipoLancamento } from '@/app/domain/financeiro/enums/tipo-lancamento.enum'
+
+export interface FinanceiroState {
+
+  lancamentos: Lancamento[]
+
+  contas: Conta[]
+
+  cartoes: Cartao[]
+
+  categorias: Categoria[]
+
+}
+
+const MOCK_LANCAMENTOS: Lancamento[] = [
+  new Lancamento(
+    '1',
+    'Salário',
+    5000,
+    new Date('2026-03-01'),
+    TipoLancamento.RECEITA,
+    'conta-1',
+    undefined,
+    'salario',
+    []
+  ),
+
+  new Lancamento(
+    '2',
+    'Supermercado',
+    320,
+    new Date('2026-03-03'),
+    TipoLancamento.DESPESA,
+    'conta-1',
+    undefined,
+    'alimentacao',
+    []
+  ),
+
+  new Lancamento(
+    '3',
+    'Internet',
+    120,
+    new Date('2026-03-05'),
+    TipoLancamento.DESPESA,
+    'conta-1',
+    undefined,
+    'servicos',
+    []
+  ),
+
+  new Lancamento(
+    '4',
+    'Freelance',
+    800,
+    new Date('2026-03-08'),
+    TipoLancamento.RECEITA,
+    'conta-1',
+    undefined,
+    'freelance',
+    []
+  ),
+
+  new Lancamento(
+    '5',
+    'Restaurante',
+    95,
+    new Date('2026-03-09'),
+    TipoLancamento.DESPESA,
+    'conta-1',
+    undefined,
+    'alimentacao',
+    []
+  )
+]
 
 @Injectable({
   providedIn: 'root'
 })
 export class FinanceiroStore {
 
-  repo = inject(FinanceiroRepository)
+  private state = signal<FinanceiroState>({
+    lancamentos: MOCK_LANCAMENTOS,
+    contas: [],
+    cartoes: [],
+    categorias: []
+  })
 
-  private _lancamentos = signal<Lancamento[]>([])
+  // SELECTORS
 
-  lancamentos = this._lancamentos.asReadonly()
+  lancamentos = computed(() => this.state().lancamentos)
 
-  constructor() {
-    const dados = this.repo.carregar()
+  contas = computed(() => this.state().contas)
 
-    if (dados.length) {
+  cartoes = computed(() => this.state().cartoes)
 
-      this._lancamentos.set(dados)
+  categorias = computed(() => this.state().categorias)
 
-    } else {
 
-      const mock = [
-        new Lancamento(
-          crypto.randomUUID(),
-          'Salário',
-          5000,
-          new Date(),
-          TipoLancamento.RECEITA
-        ),
-
-        new Lancamento(
-          crypto.randomUUID(),
-          'Supermercado',
-          350,
-          new Date(),
-          TipoLancamento.DESPESA
-        ),
-
-        new Lancamento(
-          crypto.randomUUID(),
-          'Netflix',
-          39,
-          new Date(),
-          TipoLancamento.DESPESA
-        )
-      ]
-
-      this._lancamentos.set(mock)
-
-    }
-
-  }
-
-  receitas = computed(() =>
-    this._lancamentos().filter(l => l.tipo === TipoLancamento.RECEITA)
-  )
-
-  despesas = computed(() =>
-    this._lancamentos().filter(l => l.tipo === TipoLancamento.DESPESA)
-  )
-
-  totalReceitas = computed(() => {
-
-    return this._lancamentos()
+  totalReceitas = computed(() =>
+    this.state().lancamentos
       .filter(l => l.tipo === TipoLancamento.RECEITA)
-      .reduce((s, l) => s + l.valor, 0)
+      .reduce((total, l) => total + l.valor, 0)
+  )
 
-  })
 
-  totalDespesas = computed(() => {
-
-    return this._lancamentos()
+  totalDespesas = computed(() =>
+    this.state().lancamentos
       .filter(l => l.tipo === TipoLancamento.DESPESA)
-      .reduce((s, l) => s + l.valor, 0)
+      .reduce((total, l) => total + l.valor, 0)
+  )
 
-  })
 
-  saldo = computed(() => {
+  saldo = computed(() =>
+    this.totalReceitas() - this.totalDespesas()
+  )
 
-    const lancamentos = this._lancamentos()
 
-    return lancamentos.reduce((s, l) => {
+  saldoPrevisto = computed(() =>
+    this.saldo()
+  )
 
-      return l.tipo === TipoLancamento.RECEITA
-        ? s + l.valor
-        : s - l.valor
-
-    }, 0)
-
-  })
 
   ultimosLancamentos = computed(() => {
 
-    return [...this._lancamentos()]
-      .sort((a, b) => b.data.getTime() - a.data.getTime())
+    return [...this.state().lancamentos]
+      .sort((a, b) =>
+        new Date(b.data).getTime() - new Date(a.data).getTime()
+      )
       .slice(0, 5)
 
   })
 
-  saldoPrevisto = computed(() => {
 
-    return this.saldo()
-      + this.totalReceitas()
-      - this.totalDespesas()
+  // ACTIONS
 
-  })
+  adicionarLancamento(lancamento: Lancamento) {
 
-
-  adicionarLancamento(l: Lancamento) {
-
-    this._lancamentos.update(list =>
-      this.persistir([...list, l])
-    )
+    this.state.update(state => ({
+      ...state,
+      lancamentos: [...state.lancamentos, lancamento]
+    }))
 
   }
+
+
   removerLancamento(id: string) {
 
-    this._lancamentos.update(list =>
-      this.persistir(
-        list.filter(l => l.id !== id)
+    this.state.update(state => ({
+      ...state,
+      lancamentos: state.lancamentos.filter(l => l.id !== id)
+    }))
+
+  }
+
+
+  atualizarLancamento(lancamento: Lancamento) {
+
+    this.state.update(state => ({
+      ...state,
+      lancamentos: state.lancamentos.map(l =>
+        l.id === lancamento.id ? lancamento : l
       )
-    )
+    }))
 
   }
-
-  marcarParcelaPaga(lancamentoId: string, numero: number) {
-
-    this._lancamentos.update(list =>
-      this.persistir(
-
-        list.map(l => {
-
-          if (l.id !== lancamentoId) return l
-
-          const parcelas = l.parcelas.map(p => {
-
-            if (p.numero === numero) {
-              p.marcarComoPaga(p.valor)
-            }
-
-            return p
-          })
-
-          return new Lancamento(
-            l.id,
-            l.descricao,
-            l.valor,
-            l.data,
-            l.tipo,
-            l.contaId,
-            l.cartaoId,
-            l.categoriaId,
-            parcelas
-          )
-
-        })
-
-      )
-    )
-
-  }
-
-  maiorCategoriaGasto() {
-
-    const lancamentos = this.lancamentos()
-
-    const despesas = lancamentos.filter(l => l.tipo === 'DESPESA')
-
-    const mapa: Record<string, number> = {}
-
-    for (const l of despesas) {
-
-      const categoria = l.categoriaId ?? 'Outros'
-
-      mapa[categoria] = (mapa[categoria] ?? 0) + l.valor
-
-    }
-
-    const ordenado = Object.entries(mapa)
-      .sort((a, b) => b[1] - a[1])
-
-    return ordenado[0]?.[0] ?? '—'
-
-  }
-
-  mediaDespesasMensais() {
-
-    const lancamentos = this.lancamentos()
-
-    const despesas = lancamentos.filter(l => l.tipo === 'DESPESA')
-
-    if (!despesas.length) return 0
-
-    const total = despesas.reduce((s, l) => s + l.valor, 0)
-
-    return total / 12
-
-  }
-
-
-
-  categoriaDominante() {
-
-    return FinanceAnalyticsEngine.categoriaDominante(
-      this.lancamentos()
-    )
-
-  }
-
-  mediaMensalDespesas() {
-
-    return FinanceAnalyticsEngine.mediaMensalDespesas(
-      this.lancamentos()
-    )
-
-  }
-
-  variacaoMensalDespesas() {
-
-    return FinanceAnalyticsEngine.variacaoMensalDespesas(
-      this.lancamentos()
-    )
-
-  }
-
-  previsaoSaldoMes() {
-
-    return FinanceAnalyticsEngine.previsaoSaldoMes(
-      this.saldo(),
-      this.totalReceitas(),
-      this.totalDespesas()
-    )
-
-  }
-
-  private persistir(lista: Lancamento[]) {
-
-    this.repo.salvar(lista)
-
-    return lista
-
-  }
-
 
 }

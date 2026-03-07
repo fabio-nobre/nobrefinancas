@@ -1,23 +1,26 @@
-import { Injectable, inject } from '@angular/core'
-import { LancamentosStore } from './stores/lancamentos.store'
-import { DashboardStore } from './stores/dashboard.store'
-import { CartoesStore } from './stores/cartoes.store'
+import { Injectable, inject } from '@angular/core';
+import { FinanceiroStore } from './stores/financeiro.store';
+import { Lancamento } from '@domain';
 
 @Injectable({ providedIn: 'root' })
 export class FinanceiroFacade {
 
-  private lancamentosStore = inject(LancamentosStore)
-  private dashboardStore = inject(DashboardStore)
-  private cartoesStore = inject(CartoesStore)
+  private store = inject(FinanceiroStore)
 
-  lancamentos = this.lancamentosStore.lancamentos
+  lancamentos = this.store.lancamentos
 
-  saldo = this.dashboardStore.saldo
+  receitas = this.store.totalReceitas
 
-  totalReceitas = this.dashboardStore.totalReceitas
+  despesas = this.store.totalDespesas
 
-  totalDespesas = this.dashboardStore.totalDespesas
+  saldo = this.store.saldo
 
-  cartoes = this.cartoesStore.cartoes
+  adicionarLancamento(l: Lancamento) {
+    this.store.adicionarLancamento(l)
+  }
+
+  removerLancamento(id: string) {
+    this.store.removerLancamento(id)
+  }
 
 }
