@@ -1,12 +1,47 @@
-<div class="grid grid-cols-3 gap-6">
+<div class="p-6 space-y-6">
 
-  <ui-stat-card titulo="Saldo" [valor]="saldo()">
-  </ui-stat-card>
+  <h1 class="text-2xl font-semibold">
+    Dashboard Financeiro
+  </h1>
 
-  <ui-stat-card titulo="Receitas" [valor]="receitas()">
-  </ui-stat-card>
+  <!-- CARDS DE ESTATÍSTICAS -->
 
-  <ui-stat-card titulo="Despesas" [valor]="despesas()">
-  </ui-stat-card>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+    <ui-stat-card titulo="Saldo" [valor]="saldo()">
+    </ui-stat-card>
+
+    <ui-stat-card titulo="Receitas" [valor]="receitas()">
+    </ui-stat-card>
+
+    <ui-stat-card titulo="Despesas" [valor]="despesas()">
+    </ui-stat-card>
+
+  </div>
+
+  <!-- GRÁFICOS -->
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+    <!-- EVOLUÇÃO MENSAL -->
+
+    <ui-chart-card titulo="Evolução mensal">
+
+      <app-evolucao-mensal-chart [data]="facade.evolucaoMensal()">
+      </app-evolucao-mensal-chart>
+
+    </ui-chart-card>
+
+
+    <!-- GASTOS POR CATEGORIA -->
+
+    <ui-chart-card titulo="Gastos por categoria">
+
+      <app-gastos-categoria-chart [data]="facade.gastosPorCategoria()">
+      </app-gastos-categoria-chart>
+
+    </ui-chart-card>
+
+  </div>
 
 </div>

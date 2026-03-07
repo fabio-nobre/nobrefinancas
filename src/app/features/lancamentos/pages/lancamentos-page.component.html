@@ -1,69 +1,75 @@
-<ng-container *ngIf="lancamentos().length === 0">
+<div class="p-6">
 
-  <tr>
-    <td colspan="7" class="text-center py-8 text-gray-400">
-      Nenhum lançamento cadastrado
-    </td>
-  </tr>
+  <h1 class="text-2xl font-semibold mb-4">
+    Lançamentos
+  </h1>
 
-</ng-container>
+  <table class="w-full border-collapse">
 
-<ng-container *ngIf="lancamentos().length > 0">
+    <thead>
+      <tr class="text-left border-b">
 
-  <tr *ngFor="let l of lancamentos()" class="hover:bg-gray-50">
+        <th class="py-2">Descrição</th>
+        <th>Categoria</th>
+        <th>Conta</th>
+        <th>Data</th>
+        <th>Valor</th>
+        <th>Tipo</th>
+        <th>Ações</th>
 
-    <td class="px-4 py-3">
-      {{ l.descricao }}
-    </td>
+      </tr>
+    </thead>
 
-    <td class="px-4 py-3">
-      {{ l.categoriaId || '-' }}
-    </td>
+    <tbody>
 
-    <td class="px-4 py-3">
-      {{ l.contaId || '-' }}
-    </td>
+      <tr *ngFor="let l of facade.lancamentos()" class="border-b">
 
-    <td class="px-4 py-3">
-      {{ l.data | date:'dd/MM/yyyy' }}
-    </td>
+        <td class="py-2">
+          {{ l.descricao }}
+        </td>
 
-    <td class="px-4 py-3 text-right font-medium">
-      {{ l.valor | currency:'BRL' }}
-    </td>
+        <td>
+          {{ l.categoriaId }}
+        </td>
 
-    <td class="px-4 py-3 text-center">
+        <td>
+          {{ l.contaId }}
+        </td>
 
-      <span *ngIf="l.tipo === 'RECEITA'" class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded">
+        <td>
+          {{ l.data | date:'dd/MM/yyyy' }}
+        </td>
 
-        Receita
+        <td class="font-medium">
+          {{ l.valor | currency:'BRL' }}
+        </td>
 
-      </span>
+        <td>
 
-      <span *ngIf="l.tipo === 'DESPESA'" class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded">
+          <span class="px-2 py-1 text-xs rounded" [class.bg-green-100]="l.tipo === 'RECEITA'"
+            [class.text-green-700]="l.tipo === 'RECEITA'" [class.bg-red-100]="l.tipo === 'DESPESA'"
+            [class.text-red-700]="l.tipo === 'DESPESA'">
+            {{ l.tipo }}
+          </span>
 
-        Despesa
+        </td>
 
-      </span>
+        <td class="space-x-2">
 
-    </td>
+          <button class="text-blue-600">
+            Editar
+          </button>
 
-    <td class="px-4 py-3 text-right space-x-2">
+          <button class="text-red-600">
+            Excluir
+          </button>
 
-      <button (click)="editar(l)" class="text-blue-600 hover:underline">
+        </td>
 
-        Editar
+      </tr>
 
-      </button>
+    </tbody>
 
-      <button (click)="remover(l.id)" class="text-red-600 hover:underline">
+  </table>
 
-        Excluir
-
-      </button>
-
-    </td>
-
-  </tr>
-
-</ng-container>
+</div>

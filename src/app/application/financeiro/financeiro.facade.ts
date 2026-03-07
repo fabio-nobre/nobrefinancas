@@ -1,26 +1,33 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, computed, inject } from '@angular/core';
 import { FinanceiroStore } from './stores/financeiro.store';
 import { Lancamento } from '@domain';
+import { FinanceAnalyticsEngine } from '@/app/domain/financeiro/finance-analytics.engine';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class FinanceiroFacade {
 
   private store = inject(FinanceiroStore)
 
   lancamentos = this.store.lancamentos
 
+  saldo = this.store.saldo
   receitas = this.store.totalReceitas
-
   despesas = this.store.totalDespesas
 
-  saldo = this.store.saldo
+  ultimosLancamentos = this.store.ultimosLancamentos
 
-  adicionarLancamento(l: Lancamento) {
-    this.store.adicionarLancamento(l)
-  }
+  evolucaoMensal = computed(() =>
+    FinanceAnalyticsEngine.evolucaoMensal(
+      this.lancamentos()
+    )
+  )
 
-  removerLancamento(id: string) {
-    this.store.removerLancamento(id)
-  }
+  gastosPorCategoria = computed(() =>
+    FinanceAnalyticsEngine.gastosPorCategoria(
+      this.lancamentos()
+    )
+  )
 
 }

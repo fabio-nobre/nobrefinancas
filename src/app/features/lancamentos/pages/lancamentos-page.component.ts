@@ -11,7 +11,7 @@ import { Lancamento } from '@domain'
 })
 export class LancamentosPageComponent {
 
-  private facade = inject(LancamentosFacade)
+  facade = inject(LancamentosFacade)
 
   lancamentos = this.facade.lancamentos
 
