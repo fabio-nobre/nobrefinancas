@@ -3,6 +3,10 @@ import { TipoLancamento } from './enums/tipo-lancamento.enum'
 
 export class FinanceAnalyticsEngine {
 
+  private static toDate(d: Date | string): Date {
+    return d instanceof Date ? d : new Date(d)
+  }
+
   static maiorCategoriaGasto(lancamentos: Lancamento[]): string {
 
     const despesas = lancamentos.filter(
@@ -38,7 +42,9 @@ export class FinanceAnalyticsEngine {
 
     for (const l of despesas) {
 
-      const chave = `${l.data.getFullYear()}-${l.data.getMonth()}`
+      const data = this.toDate(l.data)
+
+      const chave = `${data.getFullYear()}-${data.getMonth()}`
 
       mapaMes[chave] = (mapaMes[chave] ?? 0) + l.valor
 
@@ -85,11 +91,17 @@ export class FinanceAnalyticsEngine {
 
     const despesasMes = (mes: number, ano: number) =>
       lancamentos
-        .filter(l =>
-          l.tipo === TipoLancamento.DESPESA &&
-          l.data.getMonth() === mes &&
-          l.data.getFullYear() === ano
-        )
+        .filter(l => {
+
+          const data = this.toDate(l.data)
+
+          return (
+            l.tipo === TipoLancamento.DESPESA &&
+            data.getMonth() === mes &&
+            data.getFullYear() === ano
+          )
+
+        })
         .reduce((s, l) => s + l.valor, 0)
 
     const atual = despesasMes(mesAtual, anoAtual)
@@ -110,4 +122,66 @@ export class FinanceAnalyticsEngine {
     return saldoAtual + receitas - despesas
 
   }
+
+  static evolucaoMensal(lancamentos: Lancamento[]) {
+
+    const mapa = new Map<string, { receitas: number; despesas: number }>()
+
+    for (const l of lancamentos) {
+
+      const data = this.toDate(l.data)
+
+      const chave = `${data.getFullYear()}-${data.getMonth()}`
+
+      if (!mapa.has(chave)) {
+        mapa.set(chave, { receitas: 0, despesas: 0 })
+      }
+
+      const item = mapa.get(chave)!
+
+      if (l.tipo === TipoLancamento.RECEITA) {
+        item.receitas += l.valor
+      } else {
+        item.despesas += l.valor
+      }
+
+    }
+
+    return Array.from(mapa.entries()).map(([chave, v]) => {
+
+      const [ano, mes] = chave.split('-').map(Number)
+
+      const data = new Date(ano, mes)
+
+      return {
+        mes: data.toLocaleDateString('pt-BR', { month: 'short' }),
+        receitas: v.receitas,
+        despesas: v.despesas
+      }
+
+    })
+
+  }
+
+  static gastosPorCategoria(lancamentos: Lancamento[]) {
+
+    const mapa = new Map<string, number>()
+
+    for (const l of lancamentos) {
+
+      if (l.tipo !== TipoLancamento.DESPESA) continue
+
+      const categoria = l.categoriaId ?? 'Outros'
+
+      mapa.set(categoria, (mapa.get(categoria) ?? 0) + l.valor)
+
+    }
+
+    return Array.from(mapa.entries()).map(([categoria, valor]) => ({
+      categoria,
+      valor
+    }))
+
+  }
+
 }

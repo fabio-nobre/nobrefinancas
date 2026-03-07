@@ -1,4 +1,11 @@
-import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges,
+  ViewChild,
+  ElementRef
+} from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { Chart, ChartConfiguration, registerables } from 'chart.js'
 import { Lancamento } from '@domain'
@@ -13,72 +20,68 @@ Chart.register(...registerables)
   template: `
 <div class="bg-white border rounded-2xl p-4 shadow-sm">
 
-  <div class="font-semibold mb-3">
-    Evolução mensal
-  </div>
+<div class="font-semibold mb-3">
+Evolução mensal
+</div>
 
-  <div class="h-80">
-    <canvas #chart></canvas>
-  </div>
+<div class="h-80">
+<canvas #chart></canvas>
+</div>
 
 </div>
 `
 })
-export class EvolucaoMensalChartComponent implements AfterViewInit {
+export class EvolucaoMensalChartComponent implements OnChanges {
 
   @Input() lancamentos: Lancamento[] = []
 
   @ViewChild('chart')
   chartRef!: ElementRef<HTMLCanvasElement>
 
-  chart!: Chart
+  chart?: Chart
 
-  ngAfterViewInit() {
+  ngOnChanges(changes: SimpleChanges) {
+
+    if (!this.chartRef) return
+
+    this.renderChart()
+
+  }
+
+  renderChart() {
 
     const { meses, receitas, despesas } =
       FinanceEngine.evolucaoMensal(this.lancamentos)
+
+    if (this.chart) {
+      this.chart.destroy()
+    }
 
     const config: ChartConfiguration<'line'> = {
 
       type: 'line',
 
       data: {
-
         labels: meses,
-
         datasets: [
-
           {
             label: 'Receitas',
             data: receitas,
             borderColor: '#22c55e',
-            backgroundColor: '#22c55e33',
             tension: 0.4
           },
-
           {
             label: 'Despesas',
             data: despesas,
             borderColor: '#ef4444',
-            backgroundColor: '#ef444433',
             tension: 0.4
           }
-
         ]
-
       },
 
       options: {
-
         responsive: true,
-        maintainAspectRatio: false,
-
-        plugins: {
-          legend: {
-            position: 'bottom'
-          }
-        }
-
+        maintainAspectRatio: false
       }
 
     }

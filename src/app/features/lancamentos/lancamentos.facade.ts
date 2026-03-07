@@ -13,8 +13,6 @@ export class LancamentosFacade {
     this.store.adicionar(l)
   }
 
-  remover(id: string) {
-    this.store.remover(id)
-  }
+
 
 }

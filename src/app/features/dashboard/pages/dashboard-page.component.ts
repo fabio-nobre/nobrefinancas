@@ -1,25 +1,30 @@
-import { Component, inject, computed } from '@angular/core'
+import { Component, effect, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
+
 import { UltimosLancamentosComponent } from '../components/ultimos-lancamentos/ultimos-lancamentos.component'
 import { GastosCategoriaChartComponent } from '../components/gastos-categoria-chart/gastos-categoria-chart.component'
 import { EvolucaoMensalChartComponent } from '../components/evolucao-mensal-chart/evolucao-mensal-chart.component'
 import { InsightsFinanceirosComponent } from '../components/insights-financeiros/insights-financeiros.component'
-import { DashboardFacade } from '../dashboard.facade'
+
+import { DashboardFacade } from '../components/facades/dashboard.facade'
+
 import { StatCardComponent } from '@/app/shared/ui/stat-card/stat-card.component'
 import { DashboardGridComponent } from '@/app/shared/ui/dashboard-grid/dashboard-grid.component'
 import { ChartCardComponent } from '@/app/shared/ui/chart-card/chart-card.component'
+import { FinanceiroStore } from '@/app/application/financeiro/stores/financeiro.store'
 
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
   imports: [
+    CommonModule,
 
     // Design System
     StatCardComponent,
     DashboardGridComponent,
     ChartCardComponent,
-    // componentes existentes
-    CommonModule,
+
+    // Components
     UltimosLancamentosComponent,
     GastosCategoriaChartComponent,
     EvolucaoMensalChartComponent,
@@ -27,10 +32,10 @@ import { ChartCardComponent } from '@/app/shared/ui/chart-card/chart-card.compon
   ],
   template: `
 <div class="p-6 space-y-6">
-
-<h1 class="text-2xl font-semibold">
-Dashboard Financeiro
-</h1>
+  
+  <h1 class="text-2xl font-semibold">
+    Dashboard Financeiro
+  </h1>
 
 <ui-dashboard-grid>
 
@@ -55,84 +60,41 @@ titulo="Saldo previsto"
 </ui-stat-card>
 
 </ui-dashboard-grid>
-
 <ui-chart-card titulo="Evolução mensal">
-
 <app-evolucao-mensal-chart
-[lancamentos]="facade.lancamentos()">
+  [lancamentos]="facade.lancamentos()">
 </app-evolucao-mensal-chart>
-
 </ui-chart-card>
 
-<!-- 📊 gráfico -->
-
-<div class="bg-white rounded-xl shadow-sm p-6">
-
-<div class="text-sm font-semibold text-slate-700 mb-4">
-Gastos por categoria
-</div>
-
+<ui-chart-card titulo="Gastos por categoria">
 <app-gastos-categoria-chart
-[lancamentos]="lancamentos()">
+  [lancamentos]="facade.lancamentos()">
 </app-gastos-categoria-chart>
-
-</div>
+</ui-chart-card>
 
 <app-insights-financeiros
-[maiorCategoria]="maiorCategoria()"
-[mediaDespesas]="mediaDespesas()"
-[previsaoSaldo]="previsaoSaldo()">
+[maiorCategoria]="facade.maiorCategoriaGasto()"
+[mediaDespesas]="facade.mediaMensalDespesas()"
+[previsaoSaldo]="facade.previsaoSaldoMes()">
 </app-insights-financeiros>
 
-
-<!-- 📋 lançamentos -->
-
 <app-ultimos-lancamentos
-[lancamentos]="ultimosLancamentos()">
+[lancamentos]="facade.ultimosLancamentos()">
 </app-ultimos-lancamentos>
 
 </div>
 `
 })
-
 export class DashboardPageComponent {
 
   facade = inject(DashboardFacade)
+  financeiroStore = inject(FinanceiroStore)
 
-  lancamentos = computed(() =>
-    this.facade.lancamentos()
-  )
-
-  ultimosLancamentos = computed(() =>
-    this.facade.ultimosLancamentos()
-  )
-
-  saldo = computed(() =>
-    this.facade.saldo()
-  )
-
-  saldoPrevisto = computed(() =>
-    this.facade.saldoPrevisto()
-  )
-
-  totalReceitas = computed(() =>
-    this.facade.totalReceitas()
-  )
-
-  totalDespesas = computed(() =>
-    this.facade.totalDespesas()
-  )
-
-  maiorCategoria = computed(() =>
-    this.facade.maiorCategoriaGasto()
-  )
-
-  mediaDespesas = computed(() =>
-    this.facade.mediaMensalDespesas()
-  )
-
-  previsaoSaldo = computed(() =>
-    this.facade.previsaoSaldoMes()
-  )
+  constructor() {
+    effect(() => {
+      console.log(this.financeiroStore.lancamentos())
+      console.log(this.financeiroStore.totalReceitas())
+    })
+  }
 
 }

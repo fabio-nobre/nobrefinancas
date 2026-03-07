@@ -4,6 +4,7 @@ import { FinanceiroRepository } from '@/app/infrastructure/persistence/financeir
 import { inject } from '@angular/core'
 import { FinanceEngine } from '@domain'
 import { FinanceAnalyticsEngine } from '@/app/domain/financeiro/finance-analytics.engine'
+import { TipoLancamento } from '@/app/domain/financeiro/enums/tipo-lancamento.enum'
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class FinanceiroStore {
           'Salário',
           5000,
           new Date(),
-          'RECEITA'
+          TipoLancamento.RECEITA
         ),
 
         new Lancamento(
@@ -39,7 +40,7 @@ export class FinanceiroStore {
           'Supermercado',
           350,
           new Date(),
-          'DESPESA'
+          TipoLancamento.DESPESA
         ),
 
         new Lancamento(
@@ -47,7 +48,7 @@ export class FinanceiroStore {
           'Netflix',
           39,
           new Date(),
-          'DESPESA'
+          TipoLancamento.DESPESA
         )
       ]
 
@@ -58,17 +59,17 @@ export class FinanceiroStore {
   }
 
   receitas = computed(() =>
-    this._lancamentos().filter(l => l.tipo === 'RECEITA')
+    this._lancamentos().filter(l => l.tipo === TipoLancamento.RECEITA)
   )
 
   despesas = computed(() =>
-    this._lancamentos().filter(l => l.tipo === 'DESPESA')
+    this._lancamentos().filter(l => l.tipo === TipoLancamento.DESPESA)
   )
 
   totalReceitas = computed(() => {
 
     return this._lancamentos()
-      .filter(l => l.tipo === 'RECEITA')
+      .filter(l => l.tipo === TipoLancamento.RECEITA)
       .reduce((s, l) => s + l.valor, 0)
 
   })
@@ -76,7 +77,7 @@ export class FinanceiroStore {
   totalDespesas = computed(() => {
 
     return this._lancamentos()
-      .filter(l => l.tipo === 'DESPESA')
+      .filter(l => l.tipo === TipoLancamento.DESPESA)
       .reduce((s, l) => s + l.valor, 0)
 
   })
@@ -87,7 +88,7 @@ export class FinanceiroStore {
 
     return lancamentos.reduce((s, l) => {
 
-      return l.tipo === 'RECEITA'
+      return l.tipo === TipoLancamento.RECEITA
         ? s + l.valor
         : s - l.valor
 

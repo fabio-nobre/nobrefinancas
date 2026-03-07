@@ -112,8 +112,11 @@ export class GastosCategoriaChartComponent implements AfterViewInit {
 
         const { ctx, chartArea } = chart
 
-        const total = chart.data.datasets[0].data
-          .reduce((a: number, b: number) => a + b, 0)
+        const dataset = chart?.data?.datasets?.[0]?.data
+
+        if (!dataset || !dataset.length) return
+
+        const total = dataset.reduce((a: number, b: number) => a + b, 0)
 
         ctx.save()
 
