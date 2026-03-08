@@ -1,1 +1,40 @@
-<app-evolucao-mensal-chart></app-evolucao-mensal-chart>
+<div class="overflow-x-auto">
+
+  <table class="w-full text-sm">
+
+    <thead class="text-gray-500 border-b">
+      <tr>
+        <th class="text-left py-2">Mês</th>
+        <th class="text-right py-2 text-green-600">Receitas</th>
+        <th class="text-right py-2 text-red-500">Despesas</th>
+        <th class="text-right py-2">Saldo</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      <tr *ngFor="let mes of data" class="border-b hover:bg-gray-50">
+
+        <td class="py-2">
+          {{ mes.mes }}
+        </td>
+
+        <td class="text-right text-green-600">
+          {{ mes.receitas | currency:'BRL' }}
+        </td>
+
+        <td class="text-right text-red-500">
+          {{ mes.despesas | currency:'BRL' }}
+        </td>
+
+        <td class="text-right font-semibold">
+          {{ mes.saldo | currency:'BRL' }}
+        </td>
+
+      </tr>
+
+    </tbody>
+
+  </table>
+
+</div>

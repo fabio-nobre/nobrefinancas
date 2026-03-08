@@ -5,29 +5,20 @@ import { CommonModule } from '@angular/common'
   selector: 'app-gastos-categoria-chart',
   standalone: true,
   imports: [CommonModule],
-
-  template: `
-    <div class="space-y-2">
-
-      <div
-        *ngFor="let item of data"
-        class="flex justify-between border-b py-1">
-
-        <span>
-          {{ item.categoria }}
-        </span>
-
-        <span class="font-medium">
-          {{ item.valor }}
-        </span>
-
-      </div>
-
-    </div>
-  `
+  templateUrl: './gastos-categoria-chart.component.html'
 })
 export class GastosCategoriaChartComponent {
 
   @Input() data: { categoria: string; valor: number }[] = []
+
+  calcularPercentual(valor: number): number {
+
+    if (!this.data.length) return 0
+
+    const maior = Math.max(...this.data.map(d => d.valor))
+
+    return (valor / maior) * 100
+
+  }
 
 }
