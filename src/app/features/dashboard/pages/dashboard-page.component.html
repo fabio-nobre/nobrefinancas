@@ -4,53 +4,21 @@
     Dashboard Financeiro
   </h1>
 
-  <!-- CARDS DE ESTATÍSTICAS -->
+  <app-saldo-cards [saldo]="saldo()" [receitas]="receitas()" [despesas]="despesas()" [saldoPrevisto]="saldoPrevisto()">
+  </app-saldo-cards>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+  <ui-chart-card titulo="Evolução mensal">
+    <app-evolucao-mensal-chart [data]="facade.evolucaoMensal()">
+    </app-evolucao-mensal-chart>
+  </ui-chart-card>
 
-    <ui-stat-card titulo="Saldo" [valor]="saldo()">
-    </ui-stat-card>
-
-    <ui-stat-card titulo="Receitas" [valor]="receitas()">
-    </ui-stat-card>
-
-    <ui-stat-card titulo="Despesas" [valor]="despesas()">
-    </ui-stat-card>
-
-    <ui-stat-card titulo="Saldo Previsto" [valor]="saldoPrevisto()">
-    </ui-stat-card>
-
-  </div>
-
-  <!-- GRÁFICOS -->
-
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-    <!-- EVOLUÇÃO MENSAL -->
-
-    <ui-chart-card titulo="Evolução mensal">
-
-      <app-evolucao-mensal-chart [data]="facade.evolucaoMensal()">
-      </app-evolucao-mensal-chart>
-
-    </ui-chart-card>
-
-
-    <!-- GASTOS POR CATEGORIA -->
-
-    <ui-chart-card titulo="Gastos por categoria">
-
-      <app-gastos-categoria-chart [data]="facade.gastosPorCategoria()">
-      </app-gastos-categoria-chart>
-
-    </ui-chart-card>
-
-  </div>
+  <ui-chart-card titulo="Gastos por categoria">
+    <app-gastos-categoria-chart [data]="facade.gastosPorCategoria()">
+    </app-gastos-categoria-chart>
+  </ui-chart-card>
 
   <ui-chart-card titulo="Últimos lançamentos">
-
     <app-ultimos-lancamentos [data]="ultimosLancamentos()">
     </app-ultimos-lancamentos>
-
   </ui-chart-card>
 </div>

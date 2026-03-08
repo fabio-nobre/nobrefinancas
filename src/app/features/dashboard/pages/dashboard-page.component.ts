@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common'
 
 import { FinanceiroFacade } from '@/app/application/financeiro/financeiro.facade'
 
-import { StatCardComponent } from '@/app/shared/ui/stat-card/stat-card.component'
 import { ChartCardComponent } from '@/app/shared/ui/chart-card/chart-card.component'
 
 import { EvolucaoMensalChartComponent } from '../components/evolucao-mensal-chart/evolucao-mensal-chart.component'
 import { GastosCategoriaChartComponent } from '../components/gastos-categoria-chart/gastos-categoria-chart.component'
 import { UltimosLancamentosComponent } from '../components/ultimos-lancamentos/ultimos-lancamentos.component'
+
+import { SaldoCardsComponent } from '../components/widgets/saldo-cards/saldo-cards.component'
 
 @Component({
   selector: 'app-dashboard-page',
@@ -16,9 +17,9 @@ import { UltimosLancamentosComponent } from '../components/ultimos-lancamentos/u
 
   imports: [
     CommonModule,
+    SaldoCardsComponent,
 
     // UI
-    StatCardComponent,
     ChartCardComponent,
 
     // Charts
