@@ -17,7 +17,7 @@ export class EvolucaoWidgetComponent implements AfterViewInit {
 
   evolucao = this.facade.evolucaoMensal
 
-  @ViewChild('chartCanvas') canvas!: ElementRef
+  @ViewChild('chartCanvas') canvas!: ElementRef<HTMLCanvasElement>
 
   private chart?: Chart
 
@@ -29,7 +29,6 @@ export class EvolucaoWidgetComponent implements AfterViewInit {
     })
 
   }
-
 
 
   private criarGrafico() {
@@ -47,27 +46,98 @@ export class EvolucaoWidgetComponent implements AfterViewInit {
       type: 'line',
 
       data: {
+
         labels: dados.map(m => m.mes),
 
         datasets: [
+
           {
             label: 'Receitas',
             data: dados.map(m => m.receitas),
             borderColor: '#16a34a',
-            tension: 0.3
+            backgroundColor: 'rgba(22,163,74,0.1)',
+            tension: 0.35,
+            pointRadius: 3,
+            fill: true
           },
+
           {
             label: 'Despesas',
             data: dados.map(m => m.despesas),
             borderColor: '#dc2626',
-            tension: 0.3
+            tension: 0.35,
+            pointRadius: 3
           }
+
         ]
+
       },
 
       options: {
+
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+
+        layout: {
+          padding: {
+            left: 20
+          }
+        },
+
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
+
+        plugins: {
+
+          legend: {
+            display: true,
+            position: 'top'
+          },
+
+          tooltip: {
+            callbacks: {
+              label: (ctx) => {
+
+                const value = Number(ctx.raw)
+
+                return `${ctx.dataset.label}: ${value.toLocaleString('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL'
+                })}`
+
+              }
+            }
+          }
+
+        },
+
+        scales: {
+
+          y: {
+            ticks: {
+              padding: 10,
+              callback: (value: string | number) => {
+                const v = Number(value)
+                return 'R$ ' + v.toLocaleString('pt-BR')
+              }
+            },
+            grid: {
+              color: 'rgba(0,0,0,0.05)'
+            }
+          },
+
+          x: {
+
+            grid: {
+              display: false
+            }
+
+          }
+
+        }
+
       }
 
     })
