@@ -99,7 +99,7 @@ export class FinanceiroStore {
 
   maiorCategoriaGasto = computed(() =>
     FinanceAnalyticsEngine.maiorCategoriaGasto(
-      this.state().lancamentos
+      this.gastosPorCategoria()
     )
   )
 

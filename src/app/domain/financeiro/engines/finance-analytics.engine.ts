@@ -75,19 +75,6 @@ export class FinanceAnalyticsEngine {
   }
 
 
-  static maiorCategoriaGasto(lancamentos: Lancamento[]) {
-
-    const categorias = this.gastosPorCategoria(lancamentos)
-
-    if (categorias.length === 0) {
-      return { categoria: '', valor: 0 }
-    }
-
-    return categorias[0]
-
-  }
-
-
   static mediaMensalDespesas(lancamentos: Lancamento[]) {
 
     const mapa = new Map<string, number>()
@@ -170,6 +157,16 @@ export class FinanceAnalyticsEngine {
       labels: categorias.map(c => c.categoria),
       valores: categorias.map(c => c.valor)
     }
+
+  }
+
+  static maiorCategoriaGasto(categorias: { categoria: string; valor: number }[]) {
+
+    if (!categorias.length) return null
+
+    return categorias.reduce((maior, atual) =>
+      atual.valor > maior.valor ? atual : maior
+    )
 
   }
 

@@ -3,14 +3,14 @@ import { CommonModule } from '@angular/common'
 
 import { FinanceiroFacade } from '@/app/application/financeiro/financeiro.facade'
 
-import { ChartCardComponent } from '@/app/shared/ui/chart-card/chart-card.component'
-
 
 import { EvolucaoWidgetComponent } from '../components/widgets/evolucao-widget/evolucao-widget.component'
 import { CategoriasWidgetComponent } from '../components/widgets/categorias-widget/categorias-widget.component'
 import { UltimosLancamentosWidgetComponent } from '../components/widgets/ultimos-lancamentos-widget/ultimos-lancamentos-widget.component'
 
 import { SaldoCardsComponent } from '../components/widgets/saldo-cards/saldo-cards.component'
+
+import { InsightsComponent } from '../components/insights/insights.component'
 
 @Component({
   selector: 'app-dashboard-page',
@@ -21,7 +21,8 @@ import { SaldoCardsComponent } from '../components/widgets/saldo-cards/saldo-car
     SaldoCardsComponent,
     EvolucaoWidgetComponent,
     CategoriasWidgetComponent,
-    UltimosLancamentosWidgetComponent
+    UltimosLancamentosWidgetComponent,
+    InsightsComponent
   ],
 
   templateUrl: './dashboard-page.component.html'
