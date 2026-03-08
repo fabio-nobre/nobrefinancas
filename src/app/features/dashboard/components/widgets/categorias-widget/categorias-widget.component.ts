@@ -53,6 +53,39 @@ export class CategoriasWidgetComponent implements AfterViewInit {
       this.chart.destroy()
     }
 
+    const centerTextPlugin = {
+      id: 'centerText',
+
+      afterDraw(chart: any) {
+
+        const { ctx } = chart
+
+        const data = chart.data.datasets[0].data
+
+        const total = data.reduce((a: number, b: number) => a + b, 0)
+
+        const texto = total.toLocaleString('pt-BR', {
+          style: 'currency',
+          currency: 'BRL'
+        })
+
+        const x = chart.getDatasetMeta(0).data[0].x
+        const y = chart.getDatasetMeta(0).data[0].y
+
+        ctx.save()
+
+        ctx.font = 'bold 16px sans-serif'
+        ctx.fillStyle = '#374151'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+
+        ctx.fillText(texto, x, y)
+
+      }
+    }
+
+    Chart.register(centerTextPlugin)
+
     this.chart = new Chart(this.canvas.nativeElement, {
       type: 'doughnut',
 
@@ -78,7 +111,7 @@ export class CategoriasWidgetComponent implements AfterViewInit {
 
       options: {
 
-        cutout: '60%',
+        cutout: '65%',
 
         responsive: true,
         maintainAspectRatio: false,
@@ -118,7 +151,6 @@ export class CategoriasWidgetComponent implements AfterViewInit {
             }
 
           },
-
           tooltip: {
 
             callbacks: {
@@ -127,12 +159,18 @@ export class CategoriasWidgetComponent implements AfterViewInit {
 
                 const valor = context.raw as number
 
+                const data = context.chart.data.datasets[0].data as number[]
+
+                const total = data.reduce((a, b) => a + b, 0)
+
+                const percentual = ((valor / total) * 100).toFixed(1)
+
                 const valorFormatado = valor.toLocaleString('pt-BR', {
                   style: 'currency',
                   currency: 'BRL'
                 })
 
-                return `${context.label}: ${valorFormatado}`
+                return `${context.label}: ${valorFormatado} (${percentual}%)`
 
               }
 
