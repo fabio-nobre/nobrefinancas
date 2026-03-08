@@ -1,30 +1,3 @@
-<div class="space-y-4">
-
-  <div *ngFor="let item of data" class="space-y-1">
-
-    <div class="flex justify-between text-sm">
-
-      <span class="capitalize text-gray-700">
-        {{ item.categoria }}
-      </span>
-
-      <span class="font-medium">
-        {{ item.valor | currency:'BRL' }}
-      </span>
-
-      <span class="text-xs text-gray-500">
-        {{ ((item.valor / total()) * 100) | number:'1.0-0' }}%
-      </span>
-
-    </div>
-
-    <div class="bg-gray-200 h-2 rounded">
-
-      <div class="bg-blue-500 h-2 rounded transition-all" [style.width.%]="calcularPercentual(item.valor)">
-      </div>
-
-    </div>
-
-  </div>
-
+<div class="h-[300px]">
+  <canvas id="categoriaChart"></canvas>
 </div>
