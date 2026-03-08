@@ -11,6 +11,10 @@ export class GastosCategoriaChartComponent {
 
   @Input() data: { categoria: string; valor: number }[] = []
 
+  total(): number {
+    return this.data.reduce((sum, item) => sum + item.valor, 0)
+  }
+
   calcularPercentual(valor: number): number {
 
     if (!this.data.length) return 0
@@ -20,5 +24,6 @@ export class GastosCategoriaChartComponent {
     return (valor / maior) * 100
 
   }
+
 
 }

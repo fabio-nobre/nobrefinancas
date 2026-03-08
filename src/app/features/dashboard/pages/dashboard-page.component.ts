@@ -34,6 +34,7 @@ export class DashboardPageComponent {
   saldo = this.facade.saldo
   receitas = this.facade.totalReceitas
   despesas = this.facade.totalDespesas
+  saldoPrevisto = this.facade.saldoPrevisto
 
   evolucaoMensal = this.facade.evolucaoMensal
   gastosPorCategoria = this.facade.gastosPorCategoria

@@ -12,6 +12,10 @@
         {{ item.valor | currency:'BRL' }}
       </span>
 
+      <span class="text-xs text-gray-500">
+        {{ ((item.valor / total()) * 100) | number:'1.0-0' }}%
+      </span>
+
     </div>
 
     <div class="bg-gray-200 h-2 rounded">

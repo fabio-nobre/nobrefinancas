@@ -6,7 +6,7 @@
 
   <!-- CARDS DE ESTATÍSTICAS -->
 
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
 
     <ui-stat-card titulo="Saldo" [valor]="saldo()">
     </ui-stat-card>
@@ -15,6 +15,9 @@
     </ui-stat-card>
 
     <ui-stat-card titulo="Despesas" [valor]="despesas()">
+    </ui-stat-card>
+
+    <ui-stat-card titulo="Saldo Previsto" [valor]="saldoPrevisto()">
     </ui-stat-card>
 
   </div>
@@ -43,5 +46,4 @@
     </ui-chart-card>
 
   </div>
-
 </div>
