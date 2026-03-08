@@ -1,24 +1,16 @@
-<div class="p-6 space-y-6">
+<h1 class="text-2xl font-semibold">
+  Dashboard Financeiro
+</h1>
 
-  <h1 class="text-2xl font-semibold">
-    Dashboard Financeiro
-  </h1>
+<app-saldo-cards [saldo]="saldo()" [receitas]="receitas()" [despesas]="despesas()" [saldoPrevisto]="saldoPrevisto()">
+</app-saldo-cards>
 
-  <app-saldo-cards [saldo]="saldo()" [receitas]="receitas()" [despesas]="despesas()" [saldoPrevisto]="saldoPrevisto()">
-  </app-saldo-cards>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-  <ui-chart-card titulo="Evolução mensal">
-    <app-evolucao-mensal-chart [data]="facade.evolucaoMensal()">
-    </app-evolucao-mensal-chart>
-  </ui-chart-card>
+  <app-evolucao-widget></app-evolucao-widget>
 
-  <ui-chart-card titulo="Gastos por categoria">
-    <app-gastos-categoria-chart [data]="facade.gastosPorCategoria()">
-    </app-gastos-categoria-chart>
-  </ui-chart-card>
+  <app-categorias-widget></app-categorias-widget>
 
-  <ui-chart-card titulo="Últimos lançamentos">
-    <app-ultimos-lancamentos [data]="ultimosLancamentos()">
-    </app-ultimos-lancamentos>
-  </ui-chart-card>
 </div>
+
+<app-ultimos-lancamentos-widget></app-ultimos-lancamentos-widget>

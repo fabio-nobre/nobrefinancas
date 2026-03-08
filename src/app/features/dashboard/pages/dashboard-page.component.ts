@@ -9,6 +9,10 @@ import { EvolucaoMensalChartComponent } from '../components/evolucao-mensal-char
 import { GastosCategoriaChartComponent } from '../components/gastos-categoria-chart/gastos-categoria-chart.component'
 import { UltimosLancamentosComponent } from '../components/ultimos-lancamentos/ultimos-lancamentos.component'
 
+import { EvolucaoWidgetComponent } from '../components/widgets/evolucao-widget/evolucao-widget.component'
+import { CategoriasWidgetComponent } from '../components/widgets/categorias-widget/categorias-widget.component'
+import { UltimosLancamentosWidgetComponent } from '../components/widgets/ultimos-lancamentos-widget/ultimos-lancamentos-widget.component'
+
 import { SaldoCardsComponent } from '../components/widgets/saldo-cards/saldo-cards.component'
 
 @Component({
@@ -18,15 +22,9 @@ import { SaldoCardsComponent } from '../components/widgets/saldo-cards/saldo-car
   imports: [
     CommonModule,
     SaldoCardsComponent,
-
-    // UI
-    ChartCardComponent,
-
-    // Charts
-    EvolucaoMensalChartComponent,
-    GastosCategoriaChartComponent,
-
-    UltimosLancamentosComponent
+    EvolucaoWidgetComponent,
+    CategoriasWidgetComponent,
+    UltimosLancamentosWidgetComponent
   ],
 
   templateUrl: './dashboard-page.component.html'
