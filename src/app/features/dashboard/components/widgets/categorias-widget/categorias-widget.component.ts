@@ -8,9 +8,14 @@ import {
 
 import { CommonModule } from '@angular/common'
 import { Chart } from 'chart.js/auto'
+import ChartDataLabels from 'chartjs-plugin-datalabels'
 
 import { DashboardFacade } from '../../facades/dashboard.facade'
 import { ChartCardComponent } from '@/app/shared/ui/chart-card/chart-card.component'
+
+Chart.register(
+  ChartDataLabels
+)
 
 @Component({
   selector: 'app-categorias-widget',
@@ -73,9 +78,10 @@ export class CategoriasWidgetComponent implements AfterViewInit {
 
       options: {
 
+        cutout: '60%',
+
         responsive: true,
         maintainAspectRatio: false,
-
         plugins: {
 
           legend: {
@@ -86,6 +92,50 @@ export class CategoriasWidgetComponent implements AfterViewInit {
               boxWidth: 12,
               padding: 15,
               usePointStyle: true
+            }
+
+          },
+
+          datalabels: {
+
+            color: '#fff',
+
+            font: {
+              weight: 'bold',
+              size: 12
+            },
+
+            formatter: (value: number, ctx) => {
+
+              const data = ctx.chart.data.datasets[0].data as number[]
+
+              const total = data.reduce((a, b) => a + b, 0)
+
+              const pct = (value / total) * 100
+
+              return pct.toFixed(0) + '%'
+
+            }
+
+          },
+
+          tooltip: {
+
+            callbacks: {
+
+              label: (context) => {
+
+                const valor = context.raw as number
+
+                const valorFormatado = valor.toLocaleString('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL'
+                })
+
+                return `${context.label}: ${valorFormatado}`
+
+              }
+
             }
 
           }
