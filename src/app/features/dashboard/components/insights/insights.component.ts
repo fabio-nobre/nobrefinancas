@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
 
-import { DashboardFacade } from '../facades/dashboard.facade'
+import { DashboardFacade } from '../../../../application/financeiro/facades/dashboard.facade'
 
 
 @Component({

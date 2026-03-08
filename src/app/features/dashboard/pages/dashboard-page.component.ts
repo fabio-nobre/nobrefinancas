@@ -4,11 +4,11 @@ import { CommonModule } from '@angular/common'
 import { FinanceiroFacade } from '@/app/application/financeiro/financeiro.facade'
 
 
-import { EvolucaoWidgetComponent } from '../components/widgets/evolucao-widget/evolucao-widget.component'
-import { CategoriasWidgetComponent } from '../components/widgets/categorias-widget/categorias-widget.component'
-import { UltimosLancamentosWidgetComponent } from '../components/widgets/ultimos-lancamentos-widget/ultimos-lancamentos-widget.component'
+import { EvolucaoWidgetComponent } from '../widgets/evolucao-widget/evolucao-widget.component'
+import { CategoriasWidgetComponent } from '../widgets/categorias-widget/categorias-widget.component'
+import { UltimosLancamentosWidgetComponent } from '../widgets/ultimos-lancamentos-widget/ultimos-lancamentos-widget.component'
 
-import { SaldoCardsComponent } from '../components/widgets/saldo-cards/saldo-cards.component'
+import { SaldoCardsComponent } from '../widgets/saldo-cards/saldo-cards.component'
 
 import { InsightsComponent } from '../components/insights/insights.component'
 

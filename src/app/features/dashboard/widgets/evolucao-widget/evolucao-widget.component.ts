@@ -2,7 +2,7 @@ import { Component, inject, AfterViewInit, ViewChild, ElementRef } from '@angula
 import { CommonModule } from '@angular/common'
 import { Chart } from 'chart.js/auto'
 
-import { DashboardFacade } from '../../facades/dashboard.facade'
+import { DashboardFacade } from '../../../../application/financeiro/facades/dashboard.facade'
 import { ChartCardComponent } from '@/app/shared/ui/chart-card/chart-card.component'
 
 @Component({
