@@ -150,4 +150,27 @@ export class FinanceAnalyticsEngine {
 
   }
 
+  static dadosGraficoEvolucao(lancamentos: Lancamento[]) {
+
+    const evolucao = this.calcularEvolucaoMensal(lancamentos)
+
+    return {
+      labels: evolucao.map(m => m.mes),
+      receitas: evolucao.map(m => m.receitas),
+      despesas: evolucao.map(m => m.despesas)
+    }
+
+  }
+
+  static dadosGraficoCategorias(lancamentos: Lancamento[]) {
+
+    const categorias = this.gastosPorCategoria(lancamentos)
+
+    return {
+      labels: categorias.map(c => c.categoria),
+      valores: categorias.map(c => c.valor)
+    }
+
+  }
+
 }

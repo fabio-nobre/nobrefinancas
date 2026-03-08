@@ -117,6 +117,12 @@ export class FinanceiroStore {
     )
   )
 
+  dadosGraficoEvolucao = computed(() =>
+    FinanceAnalyticsEngine.dadosGraficoEvolucao(
+      this.state().lancamentos
+    )
+  )
+
   // ACTIONS
 
   adicionarLancamento(lancamento: Lancamento) {
@@ -149,5 +155,7 @@ export class FinanceiroStore {
     }))
 
   }
+
+
 
 }

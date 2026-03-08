@@ -1,14 +1,17 @@
-<div class="bg-white rounded-lg shadow-sm border p-4">
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
 
-  <div class="text-sm text-gray-500 mb-1">
+  <div class="text-sm text-gray-500">
     {{ titulo }}
   </div>
 
-  <div class="text-2xl font-semibold" [ngClass]="{
-  'text-green-600': valor > 0,
-  'text-red-500': valor < 0
- }">
+  <div class="text-2xl font-semibold mt-1" [ngClass]="{
+      'text-green-600': titulo === 'Receitas',
+      'text-red-500': titulo === 'Despesas',
+      'text-gray-900': titulo === 'Saldo' || titulo === 'Saldo Previsto'
+    }">
+
     {{ valor | currency:'BRL' }}
+
   </div>
 
 </div>

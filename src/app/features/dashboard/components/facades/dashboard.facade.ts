@@ -25,4 +25,6 @@ export class DashboardFacade {
   mediaMensalDespesas = this.financeiro.mediaMensalDespesas
   previsaoSaldoMes = this.financeiro.previsaoSaldoMes
 
+  dadosGraficoEvolucao = this.financeiro.dadosGraficoEvolucao
+
 }
