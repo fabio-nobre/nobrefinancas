@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core'
 
-import { FinanceiroStore } from '@/app/application/financeiro/stores/financeiro.store'
+import { FinanceiroStore } from '@/app/application/stores/financeiro.store'
 import { Lancamento } from '@domain'
 
 @Injectable({ providedIn: 'root' })

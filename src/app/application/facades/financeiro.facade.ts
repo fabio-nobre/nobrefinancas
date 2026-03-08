@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core'
-import { FinanceiroStore } from './stores/financeiro.store'
+import { FinanceiroStore } from '../stores/financeiro.store'
 
 @Injectable({ providedIn: 'root' })
 export class FinanceiroFacade {

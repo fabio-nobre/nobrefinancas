@@ -2,11 +2,17 @@
 
   <!-- CARDS -->
 
-  <app-saldo-cards [saldo]="saldo()" [receitas]="receitas()" [despesas]="despesas()" [saldoPrevisto]="saldoPrevisto()">
-  </app-saldo-cards>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
 
-  <app-insights></app-insights>
-  <app-comparacao-mensal></app-comparacao-mensal>
+    <app-saldo-card></app-saldo-card>
+
+    <app-receitas-card></app-receitas-card>
+
+    <app-despesas-card></app-despesas-card>
+
+    <app-saldo-previsto-card></app-saldo-previsto-card>
+
+  </div>
 
   <!-- GRÁFICOS -->
 

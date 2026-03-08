@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { LancamentosFacade } from '../lancamentos.facade'
+import { LancamentosFacade } from '../../../application/facades/lancamentos.facade'
 import { Lancamento } from '@domain'
 
 @Component({

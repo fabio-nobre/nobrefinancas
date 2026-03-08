@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core'
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { FinanceiroStore } from '@/app/application/financeiro/stores/financeiro.store'
+import { FinanceiroStore } from '@/app/application/stores/financeiro.store'
 import { Lancamento } from '@domain'
 
 @Component({

@@ -1,18 +1,17 @@
 import { Component, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
 
-import { FinanceiroFacade } from '@/app/application/financeiro/financeiro.facade'
+import { FinanceiroFacade } from '@/app/application/facades/financeiro.facade'
 
 
 import { EvolucaoWidgetComponent } from '../widgets/evolucao-widget/evolucao-widget.component'
 import { CategoriasWidgetComponent } from '../widgets/categorias-widget/categorias-widget.component'
 import { UltimosLancamentosWidgetComponent } from '../widgets/ultimos-lancamentos-widget/ultimos-lancamentos-widget.component'
 
-import { SaldoCardsComponent } from '../widgets/saldo-cards/saldo-cards.component'
-
-import { InsightsComponent } from '../components/insights/insights.component'
-
-import { ComparacaoMensalWidget } from '../widgets/comparacao-mensal/comparacao-mensal.widget'
+import { SaldoCardComponent } from '../cards/saldo-card/saldo-card.component'
+import { ReceitasCardComponent } from '../cards/receitas-card/receitas-card.component'
+import { DespesasCardComponent } from '../cards/despesas-card/despesas-card.component'
+import { SaldoPrevistoCardComponent } from '../cards/saldo-previsto-card/saldo-previsto-card.component'
 
 @Component({
   selector: 'app-dashboard-page',
@@ -20,12 +19,14 @@ import { ComparacaoMensalWidget } from '../widgets/comparacao-mensal/comparacao-
 
   imports: [
     CommonModule,
-    SaldoCardsComponent,
     EvolucaoWidgetComponent,
     CategoriasWidgetComponent,
     UltimosLancamentosWidgetComponent,
-    InsightsComponent,
-    ComparacaoMensalWidget
+
+    SaldoCardComponent,
+    ReceitasCardComponent,
+    DespesasCardComponent,
+    SaldoPrevistoCardComponent
   ],
 
   templateUrl: './dashboard-page.component.html'

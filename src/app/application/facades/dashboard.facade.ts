@@ -1,6 +1,7 @@
 import { Injectable, inject, computed } from '@angular/core'
-import { FinanceiroStore } from '@/app/application/financeiro/stores/financeiro.store'
-import { FinanceAnalyticsEngine } from '@/app/domain/financeiro/engines/finance-analytics.engine'
+import { FinanceiroStore } from '@/app/application/stores/financeiro.store'
+import { FinanceAnalyticsEngine } from '@/app/application/engines/finance-analytics.engine'
+import { FinancialForecastEngine } from '../engines/financial-forecast.engine'
 
 @Injectable({ providedIn: 'root' })
 export class DashboardFacade {
@@ -17,7 +18,6 @@ export class DashboardFacade {
   // Indicadores principais
   // =============================
 
-  saldo = this.financeiro.saldo
   totalReceitas = this.financeiro.totalReceitas
   totalDespesas = this.financeiro.totalDespesas
   saldoPrevisto = this.financeiro.saldoPrevisto
@@ -40,6 +40,25 @@ export class DashboardFacade {
   previsaoSaldoMes = this.financeiro.previsaoSaldoMes
 
   dadosGraficoEvolucao = this.financeiro.dadosGraficoEvolucao
+
+
+  receitas = computed(() =>
+    this.financeiro
+      .lancamentos()
+      .filter(l => l.tipo === 'RECEITA')
+      .reduce((s, l) => s + l.valor, 0)
+  )
+
+  despesas = computed(() =>
+    this.financeiro
+      .lancamentos()
+      .filter(l => l.tipo === 'DESPESA')
+      .reduce((s, l) => s + l.valor, 0)
+  )
+
+  saldo = computed(() =>
+    this.receitas() - this.despesas()
+  )
 
   // =============================
   // Insights financeiros
@@ -74,6 +93,19 @@ export class DashboardFacade {
     const lancamentos = this.financeiro.lancamentos()
 
     return FinanceAnalyticsEngine.compararMesAtualComAnterior(lancamentos)
+
+  })
+
+  previsaoFinanceira = computed(() => {
+
+    const lancamentos = this.financeiro.lancamentos()
+
+    const saldoAtual = this.financeiro.saldo()
+
+    return FinancialForecastEngine.calcularPrevisaoMensal(
+      lancamentos,
+      saldoAtual
+    )
 
   })
 

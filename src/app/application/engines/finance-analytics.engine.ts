@@ -1,6 +1,6 @@
-import { Lancamento } from '../entities/lancamento/lancamento.entity'
-import { TipoLancamento } from '../enums/tipo-lancamento.enum'
-import { ComparacaoMensal } from '../value-objects/comparacao-mensal'
+import { Lancamento } from '../../domain/financeiro/entities/lancamento/lancamento.entity'
+import { TipoLancamento } from '../../domain/financeiro/enums/tipo-lancamento.enum'
+import { ComparacaoMensal } from '../../domain/financeiro/value-objects/comparacao-mensal'
 
 export interface EvolucaoMensal {
   mes: string
