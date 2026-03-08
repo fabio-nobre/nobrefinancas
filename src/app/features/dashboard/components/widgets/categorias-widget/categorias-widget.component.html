@@ -1,6 +1,13 @@
 <ui-chart-card titulo="Gastos por categoria">
 
-  <app-gastos-categoria-chart [data]="categorias()">
-  </app-gastos-categoria-chart>
+  <div class="h-[300px] flex items-center justify-center">
+
+    <div class="w-[240px]">
+
+      <canvas #chartCanvas></canvas>
+
+    </div>
+
+  </div>
 
 </ui-chart-card>

@@ -5,9 +5,6 @@ import { FinanceiroFacade } from '@/app/application/financeiro/financeiro.facade
 
 import { ChartCardComponent } from '@/app/shared/ui/chart-card/chart-card.component'
 
-import { EvolucaoMensalChartComponent } from '../components/evolucao-mensal-chart/evolucao-mensal-chart.component'
-import { GastosCategoriaChartComponent } from '../components/gastos-categoria-chart/gastos-categoria-chart.component'
-import { UltimosLancamentosComponent } from '../components/ultimos-lancamentos/ultimos-lancamentos.component'
 
 import { EvolucaoWidgetComponent } from '../components/widgets/evolucao-widget/evolucao-widget.component'
 import { CategoriasWidgetComponent } from '../components/widgets/categorias-widget/categorias-widget.component'

@@ -5,20 +5,10 @@ import { CommonModule } from '@angular/common'
   selector: 'ui-chart-card',
   standalone: true,
   imports: [CommonModule],
-  template: `
-<div class="bg-white rounded-xl shadow-sm p-6">
-
-<div class="text-sm font-semibold text-slate-700 mb-4">
-{{ titulo }}
-</div>
-
-<ng-content></ng-content>
-
-</div>
-`
+  templateUrl: './chart-card.component.html'
 })
 export class ChartCardComponent {
 
-  @Input() titulo!: string
+  @Input() titulo: string = ''
 
 }
