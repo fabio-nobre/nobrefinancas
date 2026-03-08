@@ -1,5 +1,6 @@
 import { Injectable, inject, computed } from '@angular/core'
 import { FinanceiroStore } from '@/app/application/financeiro/stores/financeiro.store'
+import { FinanceAnalyticsEngine } from '@/app/domain/financeiro/engines/finance-analytics.engine'
 
 @Injectable({ providedIn: 'root' })
 export class DashboardFacade {
@@ -65,6 +66,14 @@ export class DashboardFacade {
     }
 
     return `Atenção: saldo previsto negativo de ${saldo.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}`
+
+  })
+
+  comparacaoMensal = computed(() => {
+
+    const lancamentos = this.financeiro.lancamentos()
+
+    return FinanceAnalyticsEngine.compararMesAtualComAnterior(lancamentos)
 
   })
 

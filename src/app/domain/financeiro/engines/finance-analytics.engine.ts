@@ -1,5 +1,6 @@
 import { Lancamento } from '../entities/lancamento/lancamento.entity'
 import { TipoLancamento } from '../enums/tipo-lancamento.enum'
+import { ComparacaoMensal } from '../value-objects/comparacao-mensal'
 
 export interface EvolucaoMensal {
   mes: string
@@ -168,6 +169,60 @@ export class FinanceAnalyticsEngine {
       atual.valor > maior.valor ? atual : maior
     )
 
+  }
+
+  static compararMesAtualComAnterior(lancamentos: Lancamento[]): ComparacaoMensal {
+
+    const hoje = new Date()
+
+    const mesAtual = hoje.getMonth()
+    const anoAtual = hoje.getFullYear()
+
+    const mesAnterior = mesAtual === 0 ? 11 : mesAtual - 1
+    const anoAnterior = mesAtual === 0 ? anoAtual - 1 : anoAtual
+
+    const atual = lancamentos.filter(l => {
+      const d = new Date(l.data)
+      return d.getMonth() === mesAtual && d.getFullYear() === anoAtual
+    })
+
+    const anterior = lancamentos.filter(l => {
+      const d = new Date(l.data)
+      return d.getMonth() === mesAnterior && d.getFullYear() === anoAnterior
+    })
+
+    const soma = (lista: Lancamento[], tipo: string) =>
+      lista
+        .filter(l => l.tipo === tipo)
+        .reduce((t, l) => t + l.valor, 0)
+
+    const receitasAtual = soma(atual, 'RECEITA')
+    const receitasAnterior = soma(anterior, 'RECEITA')
+
+    const despesasAtual = soma(atual, 'DESPESA')
+    const despesasAnterior = soma(anterior, 'DESPESA')
+
+    const saldoAtual = receitasAtual - despesasAtual
+    const saldoAnterior = receitasAnterior - despesasAnterior
+
+    const variacao = (atual: number, anterior: number) =>
+      anterior === 0 ? 0 : ((atual - anterior) / anterior) * 100
+
+    return {
+
+      receitasAtual,
+      receitasAnterior,
+
+      despesasAtual,
+      despesasAnterior,
+
+      saldoAtual,
+      saldoAnterior,
+
+      variacaoReceitas: variacao(receitasAtual, receitasAnterior),
+      variacaoDespesas: variacao(despesasAtual, despesasAnterior),
+      variacaoSaldo: variacao(saldoAtual, saldoAnterior)
+    }
   }
 
 }

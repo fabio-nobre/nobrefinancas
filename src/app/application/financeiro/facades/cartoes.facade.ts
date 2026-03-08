@@ -12,5 +12,4 @@ export class CartoesFacade {
   adicionar(cartao: Cartao) {
     this.store.adicionar(cartao)
   }
-
 }

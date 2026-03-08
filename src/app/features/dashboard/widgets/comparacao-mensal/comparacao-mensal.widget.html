@@ -1,0 +1,61 @@
+<div class="bg-zinc-900 rounded-xl p-4 shadow">
+
+  <h3 class="text-lg font-semibold mb-4">
+    Comparação mensal
+  </h3>
+
+  <div class="grid grid-cols-3 gap-6">
+
+    <!-- RECEITAS -->
+
+    <div>
+
+      <p class="text-sm text-zinc-400">Receitas</p>
+
+      <p class="text-xl font-bold text-green-400">
+        {{ comparacao().receitasAtual | currency:'BRL' }}
+      </p>
+
+      <p [class.text-green-400]="comparacao().variacaoReceitas > 0"
+        [class.text-red-400]="comparacao().variacaoReceitas < 0">
+        {{ comparacao().variacaoReceitas | number:'1.0-0' }}%
+      </p>
+
+    </div>
+
+    <!-- DESPESAS -->
+
+    <div>
+
+      <p class="text-sm text-zinc-400">Despesas</p>
+
+      <p class="text-xl font-bold text-red-400">
+        {{ comparacao().despesasAtual | currency:'BRL' }}
+      </p>
+
+      <p [class.text-red-400]="comparacao().variacaoDespesas > 0"
+        [class.text-green-400]="comparacao().variacaoDespesas < 0">
+        {{ comparacao().variacaoDespesas | number:'1.0-0' }}%
+      </p>
+
+    </div>
+
+    <!-- SALDO -->
+
+    <div>
+
+      <p class="text-sm text-zinc-400">Saldo</p>
+
+      <p class="text-xl font-bold text-blue-400">
+        {{ comparacao().saldoAtual | currency:'BRL' }}
+      </p>
+
+      <p [class.text-green-400]="comparacao().variacaoSaldo > 0" [class.text-red-400]="comparacao().variacaoSaldo < 0">
+        {{ comparacao().variacaoSaldo | number:'1.0-0' }}%
+      </p>
+
+    </div>
+
+  </div>
+
+</div>

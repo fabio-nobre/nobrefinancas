@@ -12,6 +12,8 @@ import { SaldoCardsComponent } from '../widgets/saldo-cards/saldo-cards.componen
 
 import { InsightsComponent } from '../components/insights/insights.component'
 
+import { ComparacaoMensalWidget } from '../widgets/comparacao-mensal/comparacao-mensal.widget'
+
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
@@ -22,7 +24,8 @@ import { InsightsComponent } from '../components/insights/insights.component'
     EvolucaoWidgetComponent,
     CategoriasWidgetComponent,
     UltimosLancamentosWidgetComponent,
-    InsightsComponent
+    InsightsComponent,
+    ComparacaoMensalWidget
   ],
 
   templateUrl: './dashboard-page.component.html'
