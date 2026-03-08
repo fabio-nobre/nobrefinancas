@@ -8,6 +8,7 @@ import { ChartCardComponent } from '@/app/shared/ui/chart-card/chart-card.compon
 
 import { EvolucaoMensalChartComponent } from '../components/evolucao-mensal-chart/evolucao-mensal-chart.component'
 import { GastosCategoriaChartComponent } from '../components/gastos-categoria-chart/gastos-categoria-chart.component'
+import { UltimosLancamentosComponent } from '../components/ultimos-lancamentos/ultimos-lancamentos.component'
 
 @Component({
   selector: 'app-dashboard-page',
@@ -22,7 +23,9 @@ import { GastosCategoriaChartComponent } from '../components/gastos-categoria-ch
 
     // Charts
     EvolucaoMensalChartComponent,
-    GastosCategoriaChartComponent
+    GastosCategoriaChartComponent,
+
+    UltimosLancamentosComponent
   ],
 
   templateUrl: './dashboard-page.component.html'
@@ -38,5 +41,6 @@ export class DashboardPageComponent {
 
   evolucaoMensal = this.facade.evolucaoMensal
   gastosPorCategoria = this.facade.gastosPorCategoria
+  ultimosLancamentos = this.facade.ultimosLancamentos
 
 }
