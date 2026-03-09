@@ -1,10 +1,11 @@
 export type InsightTipo =
-  | 'positivo'
-  | 'alerta'
-  | 'neutro'
+  | 'info'
+  | 'warning'
+  | 'positive'
 
 export interface InsightFinanceiro {
 
   tipo: InsightTipo
   mensagem: string
+
 }

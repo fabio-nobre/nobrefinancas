@@ -17,4 +17,5 @@ export interface ComparacaoMensal {
     despesas: number
     saldo: number
   }
+
 }

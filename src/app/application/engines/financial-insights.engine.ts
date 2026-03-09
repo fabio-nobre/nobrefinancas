@@ -1,4 +1,5 @@
 import { Lancamento } from "@/app/domain/financeiro"
+import { InsightFinanceiro } from '../models/analytics/insight.model'
 
 export interface FinancialInsight {
 
@@ -9,7 +10,7 @@ export interface FinancialInsight {
 
 export class FinancialInsightsEngine {
 
-  static gerarInsights(lancamentos: Lancamento[]): FinancialInsight[] {
+  static gerarInsights(lancamentos: Lancamento[]): InsightFinanceiro[] {
 
     if (!lancamentos?.length) return []
 
