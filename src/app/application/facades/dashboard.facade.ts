@@ -21,7 +21,6 @@ export class DashboardFacade {
 
   totalReceitas = this.financeiro.totalReceitas
   totalDespesas = this.financeiro.totalDespesas
-  saldoPrevisto = this.financeiro.saldoPrevisto
 
   // =============================
   // Listas
@@ -115,6 +114,46 @@ export class DashboardFacade {
     const lancamentos = this.financeiro.lancamentos()
 
     return FinancialInsightsEngine.gerarInsights(lancamentos)
+
+  })
+
+  saldoPrevisto = computed(() => {
+
+    const lancamentos = this.financeiro.lancamentos()
+
+    const receitas = lancamentos
+      .filter(l => l.tipo === 'RECEITA')
+      .reduce((s, l) => s + l.valor, 0)
+
+    const despesas = lancamentos
+      .filter(l => l.tipo === 'DESPESA')
+      .reduce((s, l) => s + l.valor, 0)
+
+    return receitas - despesas
+
+  })
+
+  evolucaoComPrevisao = computed(() => {
+
+    const evolucao = this.evolucaoMensal()
+
+    if (!evolucao?.length) return []
+
+    let saldoAcumulado = 0
+
+    return evolucao.map(m => {
+
+      const saldo = m.receitas - m.despesas
+
+      saldoAcumulado += saldo
+
+      return {
+        ...m,
+        saldo,
+        saldoPrevisto: saldoAcumulado
+      }
+
+    })
 
   })
 

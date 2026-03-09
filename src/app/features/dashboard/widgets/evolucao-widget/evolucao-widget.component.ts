@@ -15,27 +15,23 @@ export class EvolucaoWidgetComponent implements AfterViewInit {
 
   private facade = inject(DashboardFacade)
 
-  evolucao = this.facade.evolucaoMensal
+  evolucao = this.facade.evolucaoComPrevisao
 
   @ViewChild('chartCanvas') canvas!: ElementRef<HTMLCanvasElement>
 
   private chart?: Chart
 
-
   ngAfterViewInit(): void {
-
-    setTimeout(() => {
-      this.criarGrafico()
-    })
-
-  }
-
-
-  private criarGrafico() {
 
     const dados = this.evolucao()
 
     if (!dados?.length) return
+
+    this.renderizarGrafico(dados)
+
+  }
+
+  private renderizarGrafico(dados: any[]) {
 
     if (this.chart) {
       this.chart.destroy()
@@ -55,17 +51,17 @@ export class EvolucaoWidgetComponent implements AfterViewInit {
             label: 'Receitas',
             data: dados.map(m => m.receitas),
             borderColor: '#16a34a',
-            backgroundColor: 'rgba(22,163,74,0.1)',
-            tension: 0.35,
-            pointRadius: 3,
-            fill: true
+            backgroundColor: 'rgba(22,163,74,0.15)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 3
           },
 
           {
             label: 'Despesas',
             data: dados.map(m => m.despesas),
             borderColor: '#dc2626',
-            tension: 0.35,
+            tension: 0.4,
             pointRadius: 3
           },
 
@@ -73,10 +69,17 @@ export class EvolucaoWidgetComponent implements AfterViewInit {
             label: 'Saldo',
             data: dados.map(m => m.receitas - m.despesas),
             borderColor: '#2563eb',
-            tension: 0.35,
-            pointRadius: 3,
-            borderDash: [5, 5],
-            borderWidth: 3
+            borderDash: [6, 4],
+            tension: 0.4,
+            pointRadius: 3
+          },
+          {
+            label: 'Saldo Previsto',
+            data: dados.map(m => m.saldoPrevisto),
+            borderColor: '#9333ea',
+            borderDash: [8, 6],
+            tension: 0.4,
+            pointRadius: 0
           }
 
         ]
@@ -88,12 +91,6 @@ export class EvolucaoWidgetComponent implements AfterViewInit {
         responsive: true,
         maintainAspectRatio: false,
 
-        layout: {
-          padding: {
-            left: 20
-          }
-        },
-
         interaction: {
           mode: 'index',
           intersect: false
@@ -102,7 +99,6 @@ export class EvolucaoWidgetComponent implements AfterViewInit {
         plugins: {
 
           legend: {
-            display: true,
             position: 'top'
           },
 
@@ -126,24 +122,33 @@ export class EvolucaoWidgetComponent implements AfterViewInit {
         scales: {
 
           y: {
+
             ticks: {
-              padding: 10,
+
               callback: (value: string | number) => {
+
                 const v = Number(value)
-                return 'R$ ' + v.toLocaleString('pt-BR')
+
+                if (v >= 1000) {
+                  return 'R$ ' + (v / 1000) + 'k'
+                }
+
+                return 'R$ ' + v
+
               }
+
             },
+
             grid: {
               color: 'rgba(0,0,0,0.05)'
             }
+
           },
 
           x: {
-
             grid: {
               display: false
             }
-
           }
 
         }
