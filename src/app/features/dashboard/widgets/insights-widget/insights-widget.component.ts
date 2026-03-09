@@ -1,17 +1,17 @@
 import { Component, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
-
 import { DashboardFacade } from '../../../../application/facades/dashboard.facade'
 
-
 @Component({
-  selector: 'app-insights',
+  selector: 'app-insights-widget',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './insights.component.html'
+  templateUrl: './insights-widget.component.html'
 })
-export class InsightsComponent {
+export class InsightsWidgetComponent {
 
-  facade = inject(DashboardFacade)
+  private facade = inject(DashboardFacade)
+
+  insights = this.facade.insights
 
 }

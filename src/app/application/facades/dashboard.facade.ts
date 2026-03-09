@@ -2,6 +2,7 @@ import { Injectable, inject, computed } from '@angular/core'
 import { FinanceiroStore } from '@/app/application/stores/financeiro.store'
 import { FinanceAnalyticsEngine } from '@/app/application/engines/finance-analytics.engine'
 import { FinancialForecastEngine } from '../engines/financial-forecast.engine'
+import { FinancialInsightsEngine } from '../engines/financial-insights.engine'
 
 @Injectable({ providedIn: 'root' })
 export class DashboardFacade {
@@ -106,6 +107,14 @@ export class DashboardFacade {
       lancamentos,
       saldoAtual
     )
+
+  })
+
+  insights = computed(() => {
+
+    const lancamentos = this.financeiro.lancamentos()
+
+    return FinancialInsightsEngine.gerarInsights(lancamentos)
 
   })
 

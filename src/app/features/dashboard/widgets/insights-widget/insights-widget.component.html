@@ -1,0 +1,13 @@
+<div class="bg-white rounded-xl shadow p-4">
+
+  <h3 class="font-semibold mb-3">
+    Insights Financeiros
+  </h3>
+
+  <div *ngFor="let insight of insights()" class="text-sm mb-2">
+
+    {{ insight.mensagem }}
+
+  </div>
+
+</div>

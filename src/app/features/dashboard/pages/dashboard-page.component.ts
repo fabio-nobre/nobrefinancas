@@ -13,6 +13,8 @@ import { ReceitasCardComponent } from '../cards/receitas-card/receitas-card.comp
 import { DespesasCardComponent } from '../cards/despesas-card/despesas-card.component'
 import { SaldoPrevistoCardComponent } from '../cards/saldo-previsto-card/saldo-previsto-card.component'
 
+import { InsightsWidgetComponent } from '../widgets/insights-widget/insights-widget.component'
+
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
@@ -22,6 +24,7 @@ import { SaldoPrevistoCardComponent } from '../cards/saldo-previsto-card/saldo-p
     EvolucaoWidgetComponent,
     CategoriasWidgetComponent,
     UltimosLancamentosWidgetComponent,
+    InsightsWidgetComponent,
 
     SaldoCardComponent,
     ReceitasCardComponent,
