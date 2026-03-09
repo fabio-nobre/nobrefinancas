@@ -67,6 +67,16 @@ export class EvolucaoWidgetComponent implements AfterViewInit {
             borderColor: '#dc2626',
             tension: 0.35,
             pointRadius: 3
+          },
+
+          {
+            label: 'Saldo',
+            data: dados.map(m => m.receitas - m.despesas),
+            borderColor: '#2563eb',
+            tension: 0.35,
+            pointRadius: 3,
+            borderDash: [5, 5],
+            borderWidth: 3
           }
 
         ]
