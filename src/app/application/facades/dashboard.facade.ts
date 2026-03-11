@@ -161,6 +161,10 @@ export class DashboardFacade {
     this.intelligence().anomaly
   )
 
+  recommendationFinanceira = computed(() =>
+    this.intelligence().recommendation
+  )
+
   intelligence = computed(() =>
 
     FinancialIntelligencePipeline.processar(

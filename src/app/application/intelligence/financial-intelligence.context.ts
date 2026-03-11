@@ -22,6 +22,9 @@ import { FinancialPattern }
 import { FinancialAnomaly }
   from '../models/anomaly/financial-anomaly.model'
 
+import { FinancialRecommendation }
+  from '../models/recommendation/financial-recommendation.model'
+
 export interface FinancialIntelligenceContext {
 
   analytics: FinancialAnalyticsResult
@@ -39,5 +42,7 @@ export interface FinancialIntelligenceContext {
   pattern: FinancialPattern
 
   anomaly: FinancialAnomaly
+
+  recommendation: FinancialRecommendation[]
 
 }
