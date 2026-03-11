@@ -34,6 +34,9 @@ import { FinancialNarrative }
 import { FinancialExplanation }
   from '../models/explainability/financial-explanation.model'
 
+import { BudgetStatus }
+  from '../models/budget/budget-status.model'
+
 export interface FinancialIntelligenceContext {
 
   analytics: FinancialAnalyticsResult
@@ -59,5 +62,7 @@ export interface FinancialIntelligenceContext {
   narrative: FinancialNarrative[]
 
   explainability: FinancialExplanation[]
+
+  budgets: BudgetStatus[]
 
 }

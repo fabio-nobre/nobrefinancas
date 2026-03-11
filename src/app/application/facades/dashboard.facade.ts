@@ -177,6 +177,10 @@ export class DashboardFacade {
     this.intelligence().explainability
   )
 
+  budgets = computed(() =>
+    this.intelligence().budgets
+  )
+
   intelligence = computed(() =>
 
     FinancialIntelligencePipeline.processar(

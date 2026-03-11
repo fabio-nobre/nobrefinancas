@@ -26,6 +26,7 @@ import { FinancialRecommendationEngine } from '../engines/recommendation/financi
 import { FinancialGoalEngine } from '../engines/goal/financial-goal.engine'
 import { FinancialNarrativeEngine } from '../engines/narrative/financial-narrative.engine'
 import { FinancialExplainabilityEngine } from '../engines/explainability/financial-explainability.engine'
+import { FinancialBudgetEngine } from '../engines/budget/financial-budget.engine'
 
 export class FinancialIntelligencePipeline {
 
@@ -92,6 +93,12 @@ export class FinancialIntelligencePipeline {
         anomaly
       )
 
+    const budgets =
+      FinancialBudgetEngine.calcular(
+        analytics,
+        []
+      )
+
     return {
 
       analytics,
@@ -105,7 +112,8 @@ export class FinancialIntelligencePipeline {
       recommendation,
       goals,
       narrative,
-      explainability
+      explainability,
+      budgets
 
     }
 
