@@ -6,7 +6,8 @@ import { FinancialInsightsEngine } from '../engines/insights/financial-insights.
 import { FinancialScoreEngine } from '../engines/score/financial-score.engine'
 import { FinancialTrendEngine } from '../engines/trend/financial-trend.engine'
 import { FinancialProjectionEngine } from '../engines/projection/financial-projection.engine'
-import { FinancialRiskEngine } from '../engines/risk/risk/financial-risk.engine'
+import { FinancialRiskEngine } from '../engines/risk/financial-risk.engine'
+import { FinancialIntelligencePipeline } from '../intelligence/financial-intelligence.pipeline'
 
 @Injectable({ providedIn: 'root' })
 export class DashboardFacade {
@@ -22,11 +23,8 @@ export class DashboardFacade {
   // =============================
   // Analytics central
   // =============================
-
   analytics = computed(() =>
-    FinanceAnalyticsEngine.calcular(
-      this.financeiro.lancamentos()
-    )
+    this.intelligence().analytics
   )
 
   // =============================
@@ -96,11 +94,7 @@ export class DashboardFacade {
   )
 
   scoreFinanceiro = computed(() =>
-
-    FinancialScoreEngine.calcular(
-      this.analytics()
-    )
-
+    this.intelligence().score
   )
 
   // =============================
@@ -136,9 +130,7 @@ export class DashboardFacade {
   )
 
   insights = computed(() =>
-    FinancialInsightsEngine.gerarInsights(
-      this.analytics()
-    )
+    this.intelligence().insights
   )
 
   saldoAtual = computed(() =>
@@ -150,21 +142,23 @@ export class DashboardFacade {
   )
 
   trendFinanceiro = computed(() =>
-    FinancialTrendEngine.analisar(
-      this.analytics()
-    )
+    this.intelligence().trend
   )
 
   riskFinanceiro = computed(() =>
-    FinancialRiskEngine.analisar(
-      this.analytics()
-    )
+    this.intelligence().risk
   )
 
   projectionFinanceira = computed(() =>
-    FinancialProjectionEngine.calcular(
-      this.analytics()
+    this.intelligence().projection
+  )
+
+  intelligence = computed(() =>
+
+    FinancialIntelligencePipeline.processar(
+      this.financeiro.lancamentos()
     )
+
   )
 
   evolucaoComPrevisao = computed(() => {
