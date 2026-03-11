@@ -25,6 +25,7 @@ import { FinancialAnomalyEngine } from '../engines/anomaly/financial-anomaly.eng
 import { FinancialRecommendationEngine } from '../engines/recommendation/financial-recommendation.engine'
 import { FinancialGoalEngine } from '../engines/goal/financial-goal.engine'
 import { FinancialNarrativeEngine } from '../engines/narrative/financial-narrative.engine'
+import { FinancialExplainabilityEngine } from '../engines/explainability/financial-explainability.engine'
 
 export class FinancialIntelligencePipeline {
 
@@ -83,6 +84,14 @@ export class FinancialIntelligencePipeline {
         recommendation
       )
 
+    const explainability =
+      FinancialExplainabilityEngine.explicar(
+        analytics,
+        score,
+        trend,
+        anomaly
+      )
+
     return {
 
       analytics,
@@ -95,7 +104,8 @@ export class FinancialIntelligencePipeline {
       anomaly,
       recommendation,
       goals,
-      narrative
+      narrative,
+      explainability
 
     }
 

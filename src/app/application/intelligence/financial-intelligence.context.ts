@@ -31,6 +31,9 @@ import { FinancialGoalResult }
 import { FinancialNarrative }
   from '../models/narrative/financial-narrative.model'
 
+import { FinancialExplanation }
+  from '../models/explainability/financial-explanation.model'
+
 export interface FinancialIntelligenceContext {
 
   analytics: FinancialAnalyticsResult
@@ -54,5 +57,7 @@ export interface FinancialIntelligenceContext {
   goals: FinancialGoalResult[]
 
   narrative: FinancialNarrative[]
+
+  explainability: FinancialExplanation[]
 
 }
