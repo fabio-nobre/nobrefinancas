@@ -19,33 +19,140 @@ export class FinanceAnalyticsEngine {
 
   static calcular(lancamentos: Lancamento[]): FinancialAnalyticsResult {
 
-    const resumo = this.resumoDoMes(lancamentos)
+    const hoje = new Date()
 
-    const evolucaoMensal = this.calcularEvolucaoMensal(lancamentos)
+    const mapaMes = new Map<string, EvolucaoMensal>()
+    const mapaCategoria = new Map<string, number>()
 
-    const categorias = this.gastosPorCategoria(lancamentos)
+    let totalReceitas = 0
+    let totalDespesas = 0
 
-    const maiorCategoria = this.maiorCategoriaGasto(categorias)
+    for (const l of lancamentos) {
 
-    const comparacaoMensal = this.compararMesAtualComAnterior(lancamentos)
+      const data = new Date(l.data)
 
-    const mediaMensalDespesas = this.mediaMensalDespesas(lancamentos)
+      const mes = data.getMonth()
+      const ano = data.getFullYear()
 
-    const graficoEvolucao = this.dadosGraficoEvolucao(lancamentos)
+      const chaveMes = `${ano}-${mes}`
 
-    const graficoCategorias = this.dadosGraficoCategorias(lancamentos)
+      // =============================
+      // Evolução mensal
+      // =============================
+
+      if (!mapaMes.has(chaveMes)) {
+
+        mapaMes.set(chaveMes, {
+          mes: `${mes + 1}/${ano}`,
+          receitas: 0,
+          despesas: 0,
+          saldo: 0
+        })
+
+      }
+
+      const itemMes = mapaMes.get(chaveMes)!
+
+      // =============================
+      // Receitas / despesas
+      // =============================
+
+      if (l.tipo === TipoLancamento.RECEITA) {
+
+        itemMes.receitas += l.valor
+        totalReceitas += l.valor
+
+      }
+
+      if (l.tipo === TipoLancamento.DESPESA) {
+
+        itemMes.despesas += l.valor
+        totalDespesas += l.valor
+
+        const categoria = l.categoriaId ?? 'outros'
+
+        mapaCategoria.set(
+          categoria,
+          (mapaCategoria.get(categoria) ?? 0) + l.valor
+        )
+
+      }
+
+    }
+
+    const evolucaoMensal = Array
+      .from(mapaMes.values())
+      .map(m => ({
+        ...m,
+        saldo: m.receitas - m.despesas
+      }))
+
+    const categorias = Array
+      .from(mapaCategoria.entries())
+      .map(([categoria, valor]) => ({
+        categoria,
+        valor
+      }))
+      .sort((a, b) => b.valor - a.valor)
+
+    const maiorCategoria =
+      categorias.length > 0
+        ? categorias.reduce((maior, atual) =>
+          atual.valor > maior.valor ? atual : maior
+        )
+        : null
+
+    const resumo = {
+
+      receitas: totalReceitas,
+      despesas: totalDespesas,
+      saldo: totalReceitas - totalDespesas
+
+    }
+
+    const mediaMensalDespesas =
+      evolucaoMensal.length > 0
+        ? evolucaoMensal
+          .reduce((t, m) => t + m.despesas, 0) /
+        evolucaoMensal.length
+        : 0
+
+    const graficoEvolucao = {
+
+      labels: evolucaoMensal.map(m => m.mes),
+      receitas: evolucaoMensal.map(m => m.receitas),
+      despesas: evolucaoMensal.map(m => m.despesas)
+
+    }
+
+    const graficoCategorias = {
+
+      labels: categorias.map(c => c.categoria),
+      valores: categorias.map(c => c.valor)
+
+    }
+
+    const comparacaoMensal =
+      this.compararMesAtualComAnterior(lancamentos)
 
     return {
 
       lancamentos,
 
       resumo,
+
       evolucaoMensal,
+
       categorias,
+
       maiorCategoria,
+
       comparacaoMensal,
+
       mediaMensalDespesas,
+
       graficoEvolucao,
+
       graficoCategorias
 
     }
