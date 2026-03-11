@@ -4,6 +4,9 @@ import { FinanceAnalyticsEngine } from '@/app/application/engines/analytics/fina
 import { FinancialForecastEngine } from '../engines/forecast/financial-forecast.engine'
 import { FinancialInsightsEngine } from '../engines/insights/financial-insights.engine'
 import { FinancialScoreEngine } from '../engines/score/financial-score.engine'
+import { FinancialTrendEngine } from '../engines/trend/financial-trend.engine'
+import { FinancialProjectionEngine } from '../engines/projection/financial-projection.engine'
+import { FinancialRiskEngine } from '../engines/risk/risk/financial-risk.engine'
 
 @Injectable({ providedIn: 'root' })
 export class DashboardFacade {
@@ -144,6 +147,24 @@ export class DashboardFacade {
 
   saldoPrevisto = computed(() =>
     this.previsaoFinanceira().saldoPrevisto
+  )
+
+  trendFinanceiro = computed(() =>
+    FinancialTrendEngine.analisar(
+      this.analytics()
+    )
+  )
+
+  riskFinanceiro = computed(() =>
+    FinancialRiskEngine.analisar(
+      this.analytics()
+    )
+  )
+
+  projectionFinanceira = computed(() =>
+    FinancialProjectionEngine.calcular(
+      this.analytics()
+    )
   )
 
   evolucaoComPrevisao = computed(() => {
