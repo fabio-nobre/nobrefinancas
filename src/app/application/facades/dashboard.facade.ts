@@ -181,6 +181,10 @@ export class DashboardFacade {
     this.intelligence().budgets
   )
 
+  recurring = computed(() =>
+    this.intelligence().recurring
+  )
+
   intelligence = computed(() =>
 
     FinancialIntelligencePipeline.processar(

@@ -36,6 +36,7 @@ import { FinancialExplanation }
 
 import { BudgetStatus }
   from '../models/budget/budget-status.model'
+import { RecurringTransaction } from '../models/recurring/recurring-transaction.model'
 
 export interface FinancialIntelligenceContext {
 
@@ -64,5 +65,7 @@ export interface FinancialIntelligenceContext {
   explainability: FinancialExplanation[]
 
   budgets: BudgetStatus[]
+
+  recurring: RecurringTransaction[]
 
 }

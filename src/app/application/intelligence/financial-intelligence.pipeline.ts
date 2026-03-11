@@ -27,6 +27,7 @@ import { FinancialGoalEngine } from '../engines/goal/financial-goal.engine'
 import { FinancialNarrativeEngine } from '../engines/narrative/financial-narrative.engine'
 import { FinancialExplainabilityEngine } from '../engines/explainability/financial-explainability.engine'
 import { FinancialBudgetEngine } from '../engines/budget/financial-budget.engine'
+import { RecurringTransactionEngine } from '../engines/recurring/recurring-transaction.engine'
 
 export class FinancialIntelligencePipeline {
 
@@ -99,6 +100,11 @@ export class FinancialIntelligencePipeline {
         []
       )
 
+    const recurring =
+      RecurringTransactionEngine.detectar(
+        lancamentos
+      )
+
     return {
 
       analytics,
@@ -113,7 +119,8 @@ export class FinancialIntelligencePipeline {
       goals,
       narrative,
       explainability,
-      budgets
+      budgets,
+      recurring
 
     }
 
