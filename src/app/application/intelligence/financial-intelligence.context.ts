@@ -16,6 +16,9 @@ import { FinancialRisk }
 import { FinancialProjection }
   from '../engines/projection/financial-projection.engine'
 
+import { FinancialPattern }
+  from '../models/pattern/financial-pattern.model'
+
 export interface FinancialIntelligenceContext {
 
   analytics: FinancialAnalyticsResult
@@ -29,5 +32,7 @@ export interface FinancialIntelligenceContext {
   risk: FinancialRisk
 
   projection: FinancialProjection
+
+  pattern: FinancialPattern
 
 }

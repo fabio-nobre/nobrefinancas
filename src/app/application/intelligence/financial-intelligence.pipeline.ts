@@ -20,6 +20,7 @@ import { FinancialProjectionEngine }
 
 import { FinancialIntelligenceContext }
   from './financial-intelligence.context'
+import { FinancialPatternEngine } from '../engines/pattern/financial-pattern.engine'
 
 export class FinancialIntelligencePipeline {
 
@@ -51,6 +52,9 @@ export class FinancialIntelligencePipeline {
     const projection =
       FinancialProjectionEngine.calcular(analytics)
 
+    const pattern =
+      FinancialPatternEngine.analisar(analytics)
+
     return {
 
       analytics,
@@ -58,7 +62,8 @@ export class FinancialIntelligencePipeline {
       insights,
       trend,
       risk,
-      projection
+      projection,
+      pattern
 
     }
 
