@@ -28,6 +28,7 @@ import { FinancialNarrativeEngine } from '../engines/narrative/financial-narrati
 import { FinancialExplainabilityEngine } from '../engines/explainability/financial-explainability.engine'
 import { FinancialBudgetEngine } from '../engines/budget/financial-budget.engine'
 import { RecurringTransactionEngine } from '../engines/recurring/recurring-transaction.engine'
+import { FinancialTimelineEngine } from '../engines/timeline/financial-timeline.engine'
 
 export class FinancialIntelligencePipeline {
 
@@ -105,6 +106,12 @@ export class FinancialIntelligencePipeline {
         lancamentos
       )
 
+    const timeline =
+      FinancialTimelineEngine.gerar(
+        lancamentos,
+        analytics.resumo.saldo
+      )
+
     return {
 
       analytics,
@@ -120,7 +127,8 @@ export class FinancialIntelligencePipeline {
       narrative,
       explainability,
       budgets,
-      recurring
+      recurring,
+      timeline
 
     }
 

@@ -185,6 +185,10 @@ export class DashboardFacade {
     this.intelligence().recurring
   )
 
+  timeline = computed(() =>
+    this.intelligence().timeline
+  )
+
   intelligence = computed(() =>
 
     FinancialIntelligencePipeline.processar(
