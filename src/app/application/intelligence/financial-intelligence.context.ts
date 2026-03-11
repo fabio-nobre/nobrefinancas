@@ -25,6 +25,9 @@ import { FinancialAnomaly }
 import { FinancialRecommendation }
   from '../models/recommendation/financial-recommendation.model'
 
+import { FinancialGoalResult }
+  from '../models/goal/financial-goal-result.model'
+
 export interface FinancialIntelligenceContext {
 
   analytics: FinancialAnalyticsResult
@@ -44,5 +47,7 @@ export interface FinancialIntelligenceContext {
   anomaly: FinancialAnomaly
 
   recommendation: FinancialRecommendation[]
+
+  goals: FinancialGoalResult[]
 
 }

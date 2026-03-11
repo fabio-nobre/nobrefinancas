@@ -23,6 +23,7 @@ import { FinancialIntelligenceContext }
 import { FinancialPatternEngine } from '../engines/pattern/financial-pattern.engine'
 import { FinancialAnomalyEngine } from '../engines/anomaly/financial-anomaly.engine'
 import { FinancialRecommendationEngine } from '../engines/recommendation/financial-recommendation.engine'
+import { FinancialGoalEngine } from '../engines/goal/financial-goal.engine'
 
 export class FinancialIntelligencePipeline {
 
@@ -67,6 +68,12 @@ export class FinancialIntelligencePipeline {
         anomaly
       )
 
+    const goals =
+      FinancialGoalEngine.calcular(
+        analytics,
+        []
+      )
+
     return {
 
       analytics,
@@ -77,7 +84,8 @@ export class FinancialIntelligencePipeline {
       projection,
       pattern,
       anomaly,
-      recommendation
+      recommendation,
+      goals
 
     }
 
