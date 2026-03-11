@@ -3,6 +3,7 @@ import { FinanceiroStore } from '@/app/application/stores/financeiro.store'
 import { FinanceAnalyticsEngine } from '@/app/application/engines/analytics/finance-analytics.engine'
 import { FinancialForecastEngine } from '../engines/forecast/financial-forecast.engine'
 import { FinancialInsightsEngine } from '../engines/insights/financial-insights.engine'
+import { FinancialScoreEngine } from '../engines/score/financial-score.engine'
 
 @Injectable({ providedIn: 'root' })
 export class DashboardFacade {
@@ -89,6 +90,14 @@ export class DashboardFacade {
 
   saldo = computed(() =>
     this.analytics().resumo.saldo
+  )
+
+  scoreFinanceiro = computed(() =>
+
+    FinancialScoreEngine.calcular(
+      this.analytics()
+    )
+
   )
 
   // =============================
