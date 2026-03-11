@@ -157,6 +157,10 @@ export class DashboardFacade {
     this.intelligence().pattern
   )
 
+  anomalyFinanceira = computed(() =>
+    this.intelligence().anomaly
+  )
+
   intelligence = computed(() =>
 
     FinancialIntelligencePipeline.processar(

@@ -21,6 +21,7 @@ import { FinancialProjectionEngine }
 import { FinancialIntelligenceContext }
   from './financial-intelligence.context'
 import { FinancialPatternEngine } from '../engines/pattern/financial-pattern.engine'
+import { FinancialAnomalyEngine } from '../engines/anomaly/financial-anomaly.engine'
 
 export class FinancialIntelligencePipeline {
 
@@ -55,6 +56,9 @@ export class FinancialIntelligencePipeline {
     const pattern =
       FinancialPatternEngine.analisar(analytics)
 
+    const anomaly =
+      FinancialAnomalyEngine.analisar(analytics)
+
     return {
 
       analytics,
@@ -63,7 +67,8 @@ export class FinancialIntelligencePipeline {
       trend,
       risk,
       projection,
-      pattern
+      pattern,
+      anomaly
 
     }
 

@@ -19,6 +19,9 @@ import { FinancialProjection }
 import { FinancialPattern }
   from '../models/pattern/financial-pattern.model'
 
+import { FinancialAnomaly }
+  from '../models/anomaly/financial-anomaly.model'
+
 export interface FinancialIntelligenceContext {
 
   analytics: FinancialAnalyticsResult
@@ -34,5 +37,7 @@ export interface FinancialIntelligenceContext {
   projection: FinancialProjection
 
   pattern: FinancialPattern
+
+  anomaly: FinancialAnomaly
 
 }
