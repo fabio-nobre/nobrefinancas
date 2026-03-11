@@ -28,6 +28,9 @@ import { FinancialRecommendation }
 import { FinancialGoalResult }
   from '../models/goal/financial-goal-result.model'
 
+import { FinancialNarrative }
+  from '../models/narrative/financial-narrative.model'
+
 export interface FinancialIntelligenceContext {
 
   analytics: FinancialAnalyticsResult
@@ -49,5 +52,7 @@ export interface FinancialIntelligenceContext {
   recommendation: FinancialRecommendation[]
 
   goals: FinancialGoalResult[]
+
+  narrative: FinancialNarrative[]
 
 }

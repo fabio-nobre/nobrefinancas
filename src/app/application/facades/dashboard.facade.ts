@@ -169,6 +169,10 @@ export class DashboardFacade {
     this.intelligence().goals
   )
 
+  narrativaFinanceira = computed(() =>
+    this.intelligence().narrative
+  )
+
   intelligence = computed(() =>
 
     FinancialIntelligencePipeline.processar(

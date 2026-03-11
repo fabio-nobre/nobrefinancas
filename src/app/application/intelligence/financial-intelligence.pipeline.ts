@@ -24,6 +24,7 @@ import { FinancialPatternEngine } from '../engines/pattern/financial-pattern.eng
 import { FinancialAnomalyEngine } from '../engines/anomaly/financial-anomaly.engine'
 import { FinancialRecommendationEngine } from '../engines/recommendation/financial-recommendation.engine'
 import { FinancialGoalEngine } from '../engines/goal/financial-goal.engine'
+import { FinancialNarrativeEngine } from '../engines/narrative/financial-narrative.engine'
 
 export class FinancialIntelligencePipeline {
 
@@ -74,6 +75,14 @@ export class FinancialIntelligencePipeline {
         []
       )
 
+    const narrative =
+      FinancialNarrativeEngine.gerar(
+        analytics,
+        trend,
+        anomaly,
+        recommendation
+      )
+
     return {
 
       analytics,
@@ -85,7 +94,8 @@ export class FinancialIntelligencePipeline {
       pattern,
       anomaly,
       recommendation,
-      goals
+      goals,
+      narrative
 
     }
 
