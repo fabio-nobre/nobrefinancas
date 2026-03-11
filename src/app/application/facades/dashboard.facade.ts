@@ -19,13 +19,11 @@ export class DashboardFacade {
   // Analytics central
   // =============================
 
-  analytics = computed(() => {
-
-    const lancamentos = this.financeiro.lancamentos()
-
-    return FinanceAnalyticsEngine.calcular(lancamentos)
-
-  })
+  analytics = computed(() =>
+    FinanceAnalyticsEngine.calcular(
+      this.financeiro.lancamentos()
+    )
+  )
 
   // =============================
   // Indicadores principais
