@@ -8,7 +8,7 @@ import { Categoria } from '@domain'
 import { TipoLancamento } from '@/app/domain/financeiro/enums/tipo-lancamento.enum'
 import { gerarLancamentosMock } from '@/app/mocks/lancamentos.mock'
 
-import { FinanceAnalyticsEngine } from '@/app/application/engines/finance-analytics.engine'
+import { FinanceAnalyticsEngine } from '@/app/application/engines/analytics/finance-analytics.engine'
 
 export interface FinanceiroState {
 

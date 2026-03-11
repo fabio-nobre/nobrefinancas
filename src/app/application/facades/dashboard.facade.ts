@@ -1,8 +1,8 @@
 import { Injectable, inject, computed } from '@angular/core'
 import { FinanceiroStore } from '@/app/application/stores/financeiro.store'
-import { FinanceAnalyticsEngine } from '@/app/application/engines/finance-analytics.engine'
-import { FinancialForecastEngine } from '../engines/financial-forecast.engine'
-import { FinancialInsightsEngine } from '../engines/financial-insights.engine'
+import { FinanceAnalyticsEngine } from '@/app/application/engines/analytics/finance-analytics.engine'
+import { FinancialForecastEngine } from '../engines/forecast/financial-forecast.engine'
+import { FinancialInsightsEngine } from '../engines/insights/financial-insights.engine'
 
 @Injectable({ providedIn: 'root' })
 export class DashboardFacade {
@@ -16,11 +16,28 @@ export class DashboardFacade {
   lancamentos = this.financeiro.lancamentos
 
   // =============================
+  // Analytics central
+  // =============================
+
+  analytics = computed(() => {
+
+    const lancamentos = this.financeiro.lancamentos()
+
+    return FinanceAnalyticsEngine.calcular(lancamentos)
+
+  })
+
+  // =============================
   // Indicadores principais
   // =============================
 
-  totalReceitas = this.financeiro.totalReceitas
-  totalDespesas = this.financeiro.totalDespesas
+  totalReceitas = computed(() =>
+    this.analytics().resumo.receitas
+  )
+
+  totalDespesas = computed(() =>
+    this.analytics().resumo.despesas
+  )
 
   // =============================
   // Listas
@@ -32,32 +49,48 @@ export class DashboardFacade {
   // Analytics
   // =============================
 
-  evolucaoMensal = this.financeiro.evolucaoMensal
-  gastosPorCategoria = this.financeiro.gastosPorCategoria
+  evolucaoMensal = computed(() =>
+    this.analytics().evolucaoMensal
+  )
 
-  maiorCategoriaGasto = this.financeiro.maiorCategoriaGasto
-  mediaMensalDespesas = this.financeiro.mediaMensalDespesas
-  previsaoSaldoMes = this.financeiro.previsaoSaldoMes
+  gastosPorCategoria = computed(() =>
+    this.analytics().categorias
+  )
 
-  dadosGraficoEvolucao = this.financeiro.dadosGraficoEvolucao
+  maiorCategoriaGasto = computed(() =>
+    this.analytics().maiorCategoria
+  )
 
+  mediaMensalDespesas = computed(() =>
+    this.analytics().mediaMensalDespesas
+  )
+
+  previsaoFinanceira = computed(() => {
+
+    return FinancialForecastEngine.calcularPrevisaoMensal(
+      this.analytics()
+    )
+
+  })
+
+  previsaoSaldoMes = computed(() =>
+    this.previsaoFinanceira().saldoPrevisto
+  )
+
+  dadosGraficoEvolucao = computed(() =>
+    this.analytics().graficoEvolucao
+  )
 
   receitas = computed(() =>
-    this.financeiro
-      .lancamentos()
-      .filter(l => l.tipo === 'RECEITA')
-      .reduce((s, l) => s + l.valor, 0)
+    this.analytics().resumo.receitas
   )
 
   despesas = computed(() =>
-    this.financeiro
-      .lancamentos()
-      .filter(l => l.tipo === 'DESPESA')
-      .reduce((s, l) => s + l.valor, 0)
+    this.analytics().resumo.despesas
   )
 
   saldo = computed(() =>
-    this.receitas() - this.despesas()
+    this.analytics().resumo.saldo
   )
 
   // =============================
@@ -88,50 +121,23 @@ export class DashboardFacade {
 
   })
 
-  comparacaoMensal = computed(() => {
+  comparacaoMensal = computed(() =>
+    this.analytics().comparacaoMensal
+  )
 
-    const lancamentos = this.financeiro.lancamentos()
-
-    return FinanceAnalyticsEngine.compararMesAtualComAnterior(lancamentos)
-
-  })
-
-  previsaoFinanceira = computed(() => {
-
-    const lancamentos = this.financeiro.lancamentos()
-
-    const saldoAtual = this.financeiro.saldo()
-
-    return FinancialForecastEngine.calcularPrevisaoMensal(
-      lancamentos,
-      saldoAtual
+  insights = computed(() =>
+    FinancialInsightsEngine.gerarInsights(
+      this.analytics()
     )
+  )
 
-  })
+  saldoAtual = computed(() =>
+    this.analytics().resumo.saldo
+  )
 
-  insights = computed(() => {
-
-    const lancamentos = this.financeiro.lancamentos()
-
-    return FinancialInsightsEngine.gerarInsights(lancamentos)
-
-  })
-
-  saldoPrevisto = computed(() => {
-
-    const lancamentos = this.financeiro.lancamentos()
-
-    const receitas = lancamentos
-      .filter(l => l.tipo === 'RECEITA')
-      .reduce((s, l) => s + l.valor, 0)
-
-    const despesas = lancamentos
-      .filter(l => l.tipo === 'DESPESA')
-      .reduce((s, l) => s + l.valor, 0)
-
-    return receitas - despesas
-
-  })
+  saldoPrevisto = computed(() =>
+    this.previsaoFinanceira().saldoPrevisto
+  )
 
   evolucaoComPrevisao = computed(() => {
 

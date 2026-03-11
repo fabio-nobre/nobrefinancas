@@ -1,5 +1,5 @@
 import { ScoreFinanceiro } from
-  '../models/analytics/score.model'
+  '../../models/score/score.model'
 
 export class ScoreEngine {
 

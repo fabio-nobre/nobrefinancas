@@ -1,6 +1,7 @@
-import { Lancamento } from '../../domain/financeiro/entities/lancamento/lancamento.entity'
-import { TipoLancamento } from '../../domain/financeiro/enums/tipo-lancamento.enum'
-import { ComparacaoMensal } from '../../domain/financeiro/value-objects/comparacao-mensal'
+import { Lancamento } from '../../../domain/financeiro/entities/lancamento/lancamento.entity'
+import { TipoLancamento } from '../../../domain/financeiro/enums/tipo-lancamento.enum'
+import { ComparacaoMensal } from '../../../domain/financeiro/value-objects/comparacao-mensal'
+import { FinancialAnalyticsResult } from '../../models/analytics/financial-analytics-result.model'
 
 export interface EvolucaoMensal {
   mes: string
@@ -15,6 +16,41 @@ export interface CategoriaResumo {
 }
 
 export class FinanceAnalyticsEngine {
+
+  static calcular(lancamentos: Lancamento[]): FinancialAnalyticsResult {
+
+    const resumo = this.resumoDoMes(lancamentos)
+
+    const evolucaoMensal = this.calcularEvolucaoMensal(lancamentos)
+
+    const categorias = this.gastosPorCategoria(lancamentos)
+
+    const maiorCategoria = this.maiorCategoriaGasto(categorias)
+
+    const comparacaoMensal = this.compararMesAtualComAnterior(lancamentos)
+
+    const mediaMensalDespesas = this.mediaMensalDespesas(lancamentos)
+
+    const graficoEvolucao = this.dadosGraficoEvolucao(lancamentos)
+
+    const graficoCategorias = this.dadosGraficoCategorias(lancamentos)
+
+    return {
+
+      lancamentos,
+
+      resumo,
+      evolucaoMensal,
+      categorias,
+      maiorCategoria,
+      comparacaoMensal,
+      mediaMensalDespesas,
+      graficoEvolucao,
+      graficoCategorias
+
+    }
+
+  }
 
   static calcularEvolucaoMensal(lancamentos: Lancamento[]): EvolucaoMensal[] {
 
