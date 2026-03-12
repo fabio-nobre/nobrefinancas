@@ -8,6 +8,7 @@ import { FinancialTrendEngine } from '../engines/trend/financial-trend.engine'
 import { FinancialProjectionEngine } from '../engines/projection/financial-projection.engine'
 import { FinancialRiskEngine } from '../engines/risk/financial-risk.engine'
 import { FinancialIntelligencePipeline } from '../intelligence/financial-intelligence.pipeline'
+import { DashboardReadModelFactory } from '../read-models/dashboard-read-model.factory'
 
 @Injectable({ providedIn: 'root' })
 export class DashboardFacade {
@@ -187,6 +188,14 @@ export class DashboardFacade {
 
   timeline = computed(() =>
     this.intelligence().timeline
+  )
+
+  dashboard = computed(() =>
+
+    DashboardReadModelFactory.create(
+      this.intelligence()
+    )
+
   )
 
   intelligence = computed(() =>
