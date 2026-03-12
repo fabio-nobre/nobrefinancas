@@ -1,0 +1,49 @@
+<div class="card">
+
+  <h3 class="card-title">
+    Orçamento por categoria
+  </h3>
+
+  <div *ngIf="budgets.length === 0">
+    Nenhum orçamento configurado
+  </div>
+
+  <div class="budget-item" *ngFor="let b of budgets">
+
+    <div class="budget-header">
+
+      <span class="categoria">
+        {{ b.categoria }}
+      </span>
+
+      <span class="valor">
+        {{ b.gastoAtual | currency:'BRL' }}
+        /
+        {{ b.limite | currency:'BRL' }}
+      </span>
+
+    </div>
+
+    <div class="progress-bar">
+
+      <div class="progress" [style.width.%]="b.percentual" [class.alerta]="b.alerta === 'proximo'"
+        [class.estourado]="b.alerta === 'estourado'">
+      </div>
+
+    </div>
+
+    <div class="alerta">
+
+      <span *ngIf="b.alerta === 'proximo'">
+        ⚠️ próximo do limite
+      </span>
+
+      <span *ngIf="b.alerta === 'estourado'">
+        🔴 limite ultrapassado
+      </span>
+
+    </div>
+
+  </div>
+
+</div>

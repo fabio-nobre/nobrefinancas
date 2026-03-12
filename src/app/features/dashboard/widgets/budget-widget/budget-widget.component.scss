@@ -1,0 +1,46 @@
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.budget-item {
+  margin-bottom: 20px;
+}
+
+.budget-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.progress-bar {
+  height: 10px;
+  background: #eee;
+  border-radius: 6px;
+}
+
+.progress {
+  height: 10px;
+  background: #4caf50;
+  border-radius: 6px;
+}
+
+.progress.alerta {
+  background: #ff9800;
+}
+
+.progress.estourado {
+  background: #f44336;
+}
+
+.alerta {
+  font-size: 12px;
+  margin-top: 4px;
+}
