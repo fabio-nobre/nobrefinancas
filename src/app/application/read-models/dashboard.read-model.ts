@@ -1,17 +1,21 @@
 export interface DashboardReadModel {
 
-  saldoAtual: number
+  saldoTotal: number
 
-  receitas: number
+  receitasMes: number
 
-  despesas: number
+  despesasMes: number
 
-  scoreFinanceiro: number
+  saldoMes: number
 
-  maiorCategoria?: string
+  gastosPorCategoria: {
+    categoria: string
+    total: number
+  }[]
 
-  budgets: any[]
-
-  timeline: any[]
+  maiorCategoria?: {
+    categoria: string
+    valor: number
+  }
 
 }

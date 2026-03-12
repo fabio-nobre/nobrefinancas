@@ -5,21 +5,36 @@
   <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
 
     <app-saldo-card></app-saldo-card>
-
     <app-receitas-card></app-receitas-card>
-
     <app-despesas-card></app-despesas-card>
-
     <app-saldo-previsto-card></app-saldo-previsto-card>
+
+  </div>
+
+  <!-- FLUXO DE CAIXA -->
+
+  <div class="bg-white rounded-lg shadow p-4">
+    <h2 class="text-xl font-semibold mb-4 text-gray-700">
+      Fluxo de caixa
+    </h2>
+    <div *ngFor="let m of cashFlow()" class="flex justify-between py-2 border-b text-sm text-gray-600">
+
+      <span>{{ m.mes }}</span>
+
+      <span>{{ m.saldo | currency:'BRL' }}</span>
+
+    </div>
 
   </div>
 
   <!-- GRÁFICOS -->
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+
     <app-evolucao-widget></app-evolucao-widget>
     <app-categorias-widget></app-categorias-widget>
     <app-insights-widget class="col-span-12"></app-insights-widget>
+
   </div>
 
   <!-- LISTA -->

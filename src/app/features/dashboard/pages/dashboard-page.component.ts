@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
 
-import { FinanceiroFacade } from '@/app/application/facades/financeiro.facade'
-
+import { DashboardFacade } from '@/app/application/facades/dashboard.facade'
 
 import { EvolucaoWidgetComponent } from '../widgets/evolucao-widget/evolucao-widget.component'
 import { CategoriasWidgetComponent } from '../widgets/categorias-widget/categorias-widget.component'
@@ -36,7 +35,7 @@ import { InsightsWidgetComponent } from '../widgets/insights-widget/insights-wid
 })
 export class DashboardPageComponent {
 
-  facade = inject(FinanceiroFacade)
+  facade = inject(DashboardFacade)
 
   saldo = this.facade.saldo
   receitas = this.facade.totalReceitas
@@ -46,5 +45,7 @@ export class DashboardPageComponent {
   evolucaoMensal = this.facade.evolucaoMensal
   gastosPorCategoria = this.facade.gastosPorCategoria
   ultimosLancamentos = this.facade.ultimosLancamentos
+
+  cashFlow = this.facade.cashFlow
 
 }

@@ -1,37 +1,35 @@
-import { FinancialIntelligenceContext }
-  from '../intelligence/financial-intelligence.context'
 
+import { FinancialAnalyticsResult } from '../models/analytics/financial-analytics-result.model'
 import { DashboardReadModel }
   from './dashboard.read-model'
 
 export class DashboardReadModelFactory {
 
-  static create(
-    intelligence: FinancialIntelligenceContext
-  ): DashboardReadModel {
+  static create(analytics: FinancialAnalyticsResult): DashboardReadModel {
+
+    const resumo = analytics.resumo
 
     return {
 
-      saldoAtual:
-        intelligence.analytics.resumo.saldo,
+      saldoTotal: resumo.saldo,
 
-      receitas:
-        intelligence.analytics.resumo.receitas,
+      receitasMes: resumo.receitas,
 
-      despesas:
-        intelligence.analytics.resumo.despesas,
+      despesasMes: resumo.despesas,
 
-      scoreFinanceiro:
-        intelligence.score.score,
+      saldoMes: resumo.saldo,
 
-      maiorCategoria:
-        intelligence.analytics.maiorCategoria?.categoria,
+      gastosPorCategoria: analytics.categorias.map(c => ({
+        categoria: c.categoria,
+        total: c.valor
+      })),
 
-      budgets:
-        intelligence.budgets,
-
-      timeline:
-        intelligence.timeline
+      maiorCategoria: analytics.maiorCategoria
+        ? {
+          categoria: analytics.maiorCategoria.categoria,
+          valor: analytics.maiorCategoria.valor
+        }
+        : undefined
 
     }
 

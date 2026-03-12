@@ -1,4 +1,4 @@
-import { Injectable, inject, computed } from '@angular/core'
+import { Injectable, inject, computed, signal } from '@angular/core'
 import { FinanceiroStore } from '@/app/application/stores/financeiro.store'
 import { FinanceAnalyticsEngine } from '@/app/application/engines/analytics/finance-analytics.engine'
 import { FinancialForecastEngine } from '../engines/forecast/financial-forecast.engine'
@@ -9,6 +9,9 @@ import { FinancialProjectionEngine } from '../engines/projection/financial-proje
 import { FinancialRiskEngine } from '../engines/risk/financial-risk.engine'
 import { FinancialIntelligencePipeline } from '../intelligence/financial-intelligence.pipeline'
 import { DashboardReadModelFactory } from '../read-models/dashboard-read-model.factory'
+import { ObterDashboardHandler } from '../handlers/obter-dashboard.handler'
+import { DashboardReadModel } from '../read-models/dashboard.read-model'
+import { CashFlowEngine } from '../engines/analytics/cash-flow.engine'
 
 @Injectable({ providedIn: 'root' })
 export class DashboardFacade {
@@ -26,6 +29,16 @@ export class DashboardFacade {
   // =============================
   analytics = computed(() =>
     this.intelligence().analytics
+  )
+
+  cashFlow = computed(() =>
+    CashFlowEngine.calcular(
+      this.financeiro.lancamentos()
+    )
+  )
+
+  dashboard = computed(() =>
+    DashboardReadModelFactory.create(this.analytics())
   )
 
   // =============================
@@ -190,13 +203,7 @@ export class DashboardFacade {
     this.intelligence().timeline
   )
 
-  dashboard = computed(() =>
 
-    DashboardReadModelFactory.create(
-      this.intelligence()
-    )
-
-  )
 
   intelligence = computed(() =>
 
