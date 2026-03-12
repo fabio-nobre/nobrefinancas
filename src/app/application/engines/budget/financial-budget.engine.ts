@@ -1,71 +1,44 @@
-import { FinancialAnalyticsResult }
-  from '../../models/analytics/financial-analytics-result.model'
-
-import { FinancialBudget }
-  from '../../models/budget/financial-budget.model'
-
-import { BudgetStatus }
-  from '../../models/budget/budget-status.model'
+import { Lancamento } from '@/app/domain/financeiro'
+import { Budget } from '@/app/domain/financeiro/models/budget.model'
+import { BudgetStatus } from '../../models/budget/budget-status.model'
 
 export class FinancialBudgetEngine {
 
   static calcular(
-
-    analytics: FinancialAnalyticsResult,
-    budgets: FinancialBudget[]
-
+    lancamentos: Lancamento[],
+    budgets: Budget[]
   ): BudgetStatus[] {
 
-    const resultado: BudgetStatus[] = []
+    return budgets.map(budget => {
 
-    for (const budget of budgets) {
-
-      const categoria =
-        analytics.categorias.find(
-          c => c.categoria === budget.categoriaId
-        )
-
-      const gasto = categoria?.valor ?? 0
-
-      const restante =
-        budget.limiteMensal - gasto
+      const gastoAtual =
+        lancamentos
+          .filter(l => l.tipo === 'DESPESA')
+          .filter(l => l.categoriaId === budget.categoria)
+          .reduce((total, l) => total + l.valor, 0)
 
       const percentual =
-        budget.limiteMensal > 0
-          ? gasto / budget.limiteMensal
-          : 0
+        budget.limiteMensal === 0
+          ? 0
+          : (gastoAtual / budget.limiteMensal) * 100
 
-      let status: BudgetStatus['status'] = 'ok'
+      let alerta: 'ok' | 'proximo' | 'estourado' = 'ok'
 
-      if (percentual > 1) {
-
-        status = 'estourado'
-
-      } else if (percentual > 0.8) {
-
-        status = 'alerta'
-
+      if (percentual >= 100) {
+        alerta = 'estourado'
+      } else if (percentual >= 80) {
+        alerta = 'proximo'
       }
 
-      resultado.push({
-
-        categoriaId: budget.categoriaId,
-
+      return {
+        categoria: budget.categoria,
+        gastoAtual,
         limite: budget.limiteMensal,
+        percentual,
+        alerta
+      }
 
-        gastoAtual: gasto,
-
-        restante,
-
-        percentualUsado: percentual,
-
-        status
-
-      })
-
-    }
-
-    return resultado
+    })
 
   }
 

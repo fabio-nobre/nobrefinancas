@@ -1,15 +1,7 @@
 export interface BudgetStatus {
-
-  categoriaId: string
-
-  limite: number
-
+  categoria: string
   gastoAtual: number
-
-  restante: number
-
-  percentualUsado: number
-
-  status: 'ok' | 'alerta' | 'estourado'
-
+  limite: number
+  percentual: number
+  alerta: 'ok' | 'proximo' | 'estourado'
 }

@@ -91,11 +91,11 @@ export class CategoriasWidgetComponent implements AfterViewInit {
 
       data: {
 
-        labels: dados.map(c => c.categoria),
+        labels: dados.map((c: any) => c.categoria),
 
         datasets: [
           {
-            data: dados.map(c => c.valor),
+            data: dados.map((c: any) => c.valor),
 
             backgroundColor: [
               '#2563eb',

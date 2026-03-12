@@ -26,14 +26,19 @@ import { FinancialRecommendationEngine } from '../engines/recommendation/financi
 import { FinancialGoalEngine } from '../engines/goal/financial-goal.engine'
 import { FinancialNarrativeEngine } from '../engines/narrative/financial-narrative.engine'
 import { FinancialExplainabilityEngine } from '../engines/explainability/financial-explainability.engine'
-import { FinancialBudgetEngine } from '../engines/budget/financial-budget.engine'
 import { RecurringTransactionEngine } from '../engines/recurring/recurring-transaction.engine'
 import { FinancialTimelineEngine } from '../engines/timeline/financial-timeline.engine'
+import { FinancialBudgetEngine }
+  from '../engines/budget/financial-budget.engine'
+
+import { Budget }
+  from '@/app/domain/financeiro/models/budget.model'
 
 export class FinancialIntelligencePipeline {
 
   static processar(
-    lancamentos: Lancamento[]
+    lancamentos: Lancamento[],
+    budgetsConfig: Budget[]
   ): FinancialIntelligenceContext {
 
     // etapa 1
@@ -97,8 +102,8 @@ export class FinancialIntelligencePipeline {
 
     const budgets =
       FinancialBudgetEngine.calcular(
-        analytics,
-        []
+        lancamentos,
+        budgetsConfig
       )
 
     const recurring =
@@ -111,6 +116,7 @@ export class FinancialIntelligencePipeline {
         lancamentos,
         analytics.resumo.saldo
       )
+
 
     return {
 
