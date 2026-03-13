@@ -4,10 +4,12 @@
     Orçamento por categoria
   </h3>
 
+  <!-- Quando não houver budgets -->
   <div *ngIf="budgets.length === 0">
     Nenhum orçamento configurado
   </div>
 
+  <!-- Lista de budgets -->
   <div class="budget-item" *ngFor="let b of budgets">
 
     <div class="budget-header">
@@ -24,6 +26,7 @@
 
     </div>
 
+    <!-- Barra de progresso -->
     <div class="progress-bar">
 
       <div class="progress" [style.width.%]="b.percentual" [class.alerta]="b.alerta === 'proximo'"
@@ -32,6 +35,21 @@
 
     </div>
 
+    <!-- Percentual -->
+    <div class="percentual">
+      {{ b.percentual | number:'1.0-0' }}%
+      utilizado
+    </div>
+
+    <!-- Projeção -->
+    <div class="projecao" *ngIf="b.riscoEstouro">
+
+      📈 projeção até fim do mês:
+      {{ b.projecao | currency:'BRL' }}
+
+    </div>
+
+    <!-- Alertas -->
     <div class="alerta">
 
       <span *ngIf="b.alerta === 'proximo'">
@@ -40,6 +58,10 @@
 
       <span *ngIf="b.alerta === 'estourado'">
         🔴 limite ultrapassado
+      </span>
+
+      <span *ngIf="b.riscoEstouro">
+        ⚠️ risco de estouro
       </span>
 
     </div>

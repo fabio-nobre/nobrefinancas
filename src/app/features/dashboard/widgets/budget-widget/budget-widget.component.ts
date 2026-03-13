@@ -8,7 +8,8 @@ import { BudgetStatus } from '@/app/application/models/budget/budget-status.mode
   selector: 'app-budget-widget',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './budget-widget.component.html'
+  templateUrl: './budget-widget.component.html',
+  styleUrls: ['./budget-widget.component.scss']
 })
 export class BudgetWidgetComponent {
 

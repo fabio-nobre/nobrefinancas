@@ -207,10 +207,17 @@ export class DashboardFacade {
     this.intelligence.timeline
   )
 
+
+  private budgetsConfig = [
+    { categoria: 'Alimentação', limiteMensal: 800 },
+    { categoria: 'Transporte', limiteMensal: 300 },
+    { categoria: 'Lazer', limiteMensal: 200 }
+  ]
+
   intelligence =
     FinancialIntelligencePipeline.processar(
       this.lancamentos(),
-      []
+      this.budgetsConfig
     )
 
   evolucaoComPrevisao = computed(() => {
