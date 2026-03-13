@@ -38,6 +38,7 @@ import { BudgetStatus }
   from '../models/budget/budget-status.model'
 import { RecurringTransaction } from '../models/recurring/recurring-transaction.model'
 import { FinancialTimelineEvent } from '../models/timeline/financial-timeline-event.model'
+import { BudgetSuggestion } from '../models/budget/budget-suggestion.model'
 
 export interface FinancialIntelligenceContext {
 
@@ -70,5 +71,7 @@ export interface FinancialIntelligenceContext {
   recurring: RecurringTransaction[]
 
   timeline: FinancialTimelineEvent[]
+
+  budgetSuggestions: BudgetSuggestion[]
 
 }

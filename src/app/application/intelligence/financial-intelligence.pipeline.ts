@@ -33,6 +33,7 @@ import { FinancialBudgetEngine }
 
 import { Budget }
   from '@/app/domain/financeiro/models/budget.model'
+import { FinancialBudgetSuggestionEngine } from '../engines/budget/financial-budget-suggestion.engine'
 
 export class FinancialIntelligencePipeline {
 
@@ -117,6 +118,11 @@ export class FinancialIntelligencePipeline {
         analytics.resumo.saldo
       )
 
+    const budgetSuggestions =
+      FinancialBudgetSuggestionEngine.calcular(
+        lancamentos
+      )
+
 
     return {
 
@@ -134,7 +140,8 @@ export class FinancialIntelligencePipeline {
       explainability,
       budgets,
       recurring,
-      timeline
+      timeline,
+      budgetSuggestions
 
     }
 

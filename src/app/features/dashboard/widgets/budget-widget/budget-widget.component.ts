@@ -16,7 +16,6 @@ export class BudgetWidgetComponent {
   private facade = inject(DashboardFacade)
 
   get budgets(): BudgetStatus[] {
-    return this.facade.intelligence?.budgets ?? []
+    return this.facade.intelligence()?.budgets ?? []
   }
-
 }

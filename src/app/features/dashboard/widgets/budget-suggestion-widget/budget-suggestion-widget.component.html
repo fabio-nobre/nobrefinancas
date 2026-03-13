@@ -1,0 +1,19 @@
+<div class="bg-white rounded-lg shadow p-4">
+
+  <h3 class="text-lg font-semibold mb-4 text-gray-700">
+    💡 Sugestão de orçamento
+  </h3>
+
+  <div *ngFor="let s of suggestions" class="flex justify-between items-center py-2 border-b text-sm text-gray-600">
+
+    <span class="font-medium text-gray-700">
+      {{ s.categoria }}
+    </span>
+
+    <span class="font-semibold text-green-600">
+      {{ s.sugestaoOrcamento | currency:'BRL' }}
+    </span>
+
+  </div>
+
+</div>

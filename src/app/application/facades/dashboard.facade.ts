@@ -32,7 +32,7 @@ export class DashboardFacade {
   // Analytics central
   // =============================
   analytics = computed(() =>
-    this.intelligence.analytics
+    this.intelligence().analytics
   )
 
   cashFlow = computed(() =>
@@ -112,7 +112,7 @@ export class DashboardFacade {
   )
 
   scoreFinanceiro = computed(() =>
-    this.intelligence.score
+    this.intelligence().score
   )
 
   // =============================
@@ -148,7 +148,7 @@ export class DashboardFacade {
   )
 
   insights = computed(() =>
-    this.intelligence.insights
+    this.intelligence().insights
   )
 
   saldoAtual = computed(() =>
@@ -160,51 +160,51 @@ export class DashboardFacade {
   )
 
   trendFinanceiro = computed(() =>
-    this.intelligence.trend
+    this.intelligence().trend
   )
 
   riskFinanceiro = computed(() =>
-    this.intelligence.risk
+    this.intelligence().risk
   )
 
   projectionFinanceira = computed(() =>
-    this.intelligence.projection
+    this.intelligence().projection
   )
 
   patternFinanceiro = computed(() =>
-    this.intelligence.pattern
+    this.intelligence().pattern
   )
 
   anomalyFinanceira = computed(() =>
-    this.intelligence.anomaly
+    this.intelligence().anomaly
   )
 
   recommendationFinanceira = computed(() =>
-    this.intelligence.recommendation
+    this.intelligence().recommendation
   )
 
   goalsFinanceiros = computed(() =>
-    this.intelligence.goals
+    this.intelligence().goals
   )
 
   narrativaFinanceira = computed(() =>
-    this.intelligence.narrative
+    this.intelligence().narrative
   )
 
   explainabilityFinanceira = computed(() =>
-    this.intelligence.explainability
+    this.intelligence().explainability
   )
 
   budgets = computed(() =>
-    this.intelligence.budgets
+    this.intelligence().budgets
   )
 
   recurring = computed(() =>
-    this.intelligence.recurring
+    this.intelligence().recurring
   )
 
   timeline = computed(() =>
-    this.intelligence.timeline
+    this.intelligence().timeline
   )
 
 
@@ -214,11 +214,17 @@ export class DashboardFacade {
     { categoria: 'Lazer', limiteMensal: 200 }
   ]
 
-  intelligence =
+  intelligence = computed(() =>
     FinancialIntelligencePipeline.processar(
       this.lancamentos(),
       this.budgetsConfig
     )
+  )
+
+  budgetSuggestions = computed(() =>
+    this.intelligence().budgetSuggestions
+  )
+
 
   evolucaoComPrevisao = computed(() => {
 
