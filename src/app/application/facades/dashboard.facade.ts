@@ -63,6 +63,31 @@ export class DashboardFacade {
 
   ultimosLancamentos = this.financeiro.ultimosLancamentos
 
+  lancamentosAgrupados = computed(() => {
+
+    const lista = this.ultimosLancamentos()
+
+    const grupos: Record<string, any[]> = {}
+
+    for (const l of lista) {
+
+      const categoria = l.categoriaId ?? 'Outros'
+
+      if (!grupos[categoria]) {
+        grupos[categoria] = []
+      }
+
+      grupos[categoria].push(l)
+
+    }
+
+    return Object.entries(grupos).map(([categoria, lancamentos]) => ({
+      categoria,
+      lancamentos
+    }))
+
+  })
+
   // =============================
   // Analytics
   // =============================

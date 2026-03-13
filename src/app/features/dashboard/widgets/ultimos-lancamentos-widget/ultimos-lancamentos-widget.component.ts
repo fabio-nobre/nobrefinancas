@@ -16,5 +16,6 @@ export class UltimosLancamentosWidgetComponent {
   private facade = inject(DashboardFacade)
 
   lancamentos = this.facade.ultimosLancamentos
+  lancamentosAgrupados = this.facade.lancamentosAgrupados
 
 }
