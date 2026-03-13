@@ -275,4 +275,50 @@ export class DashboardFacade {
 
   })
 
+  alertsFinanceiros = computed(() => {
+
+    const alerts: any[] = []
+
+    const anomaly = this.anomalyFinanceira()
+
+    if (anomaly) {
+
+      alerts.push({
+        tipo: 'ANOMALIA',
+        severidade: 'ALERTA',
+        mensagem: `Foi detectado um gasto incomum este mês`
+      })
+
+    }
+
+    const budgets = this.budgets()
+
+    for (const b of budgets) {
+
+      if (b.alerta === 'proximo') {
+
+        alerts.push({
+          tipo: 'ORCAMENTO',
+          severidade: 'ALERTA',
+          mensagem: `${b.categoria} já consumiu ${Math.round(b.percentual)}% do orçamento`
+        })
+
+      }
+
+      if (b.alerta === 'estourado') {
+
+        alerts.push({
+          tipo: 'ORCAMENTO',
+          severidade: 'CRITICO',
+          mensagem: `${b.categoria} ultrapassou o limite do orçamento`
+        })
+
+      }
+
+    }
+
+    return alerts
+
+  })
+
 }
