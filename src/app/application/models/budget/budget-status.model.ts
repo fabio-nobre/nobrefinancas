@@ -14,4 +14,6 @@ export interface BudgetStatus {
 
   riscoEstouro: boolean
 
+  diasRestantesOrcamento: number | null
+
 }

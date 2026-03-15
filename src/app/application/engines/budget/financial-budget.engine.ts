@@ -24,24 +24,43 @@ export class FinancialBudgetEngine {
 
     return budgets.map(budget => {
 
+      const hoje = new Date().getDate()
+
       const lancamentosCategoria =
         lancamentos
           .filter(l => l.tipo === 'DESPESA')
-          .filter(l => l.categoriaId === budget.categoria)
+          .filter(l =>
+            l.categoriaId?.toLowerCase() ===
+            budget.categoria.toLowerCase()
+          )
 
       const gastoAtual =
         lancamentosCategoria
           .reduce((total, l) => total + l.valor, 0)
 
-      const percentual =
+      const percentualBruto =
         budget.limiteMensal === 0
           ? 0
           : (gastoAtual / budget.limiteMensal) * 100
+
+      const percentual = Math.min(percentualBruto, 100)
 
       const gastoMedioDiario =
         diaAtual === 0
           ? 0
           : gastoAtual / diaAtual
+
+      let diasRestantesOrcamento: number | null = null
+
+
+      if (gastoMedioDiario > 0) {
+
+        const restante = budget.limiteMensal - gastoAtual
+
+        diasRestantesOrcamento =
+          Math.floor(restante / gastoMedioDiario)
+
+      }
 
       const projecao =
         gastoAtual + (gastoMedioDiario * diasRestantes)
@@ -61,6 +80,8 @@ export class FinancialBudgetEngine {
 
       }
 
+
+
       return {
 
         categoria: budget.categoria,
@@ -75,7 +96,9 @@ export class FinancialBudgetEngine {
 
         projecao: projecao,
 
-        riscoEstouro
+        riscoEstouro,
+
+        diasRestantesOrcamento
 
       }
 

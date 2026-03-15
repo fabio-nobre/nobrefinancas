@@ -48,6 +48,13 @@
       {{ b.projecao | currency:'BRL' }}
 
     </div>
+    <div *ngIf="b.diasRestantesOrcamento !== null && b.percentual > 50" class="text-xs text-orange-600 mt-1">
+
+      ⚠️ orçamento acaba em
+      {{ b.diasRestantesOrcamento }}
+      dias
+
+    </div>
 
     <!-- alertas -->
     <div class="text-xs mt-1">
