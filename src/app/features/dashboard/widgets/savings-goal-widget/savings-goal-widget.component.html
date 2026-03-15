@@ -38,4 +38,11 @@
 
   </div>
 
+  <div *ngIf="status()" class="text-xs mt-3 font-medium" [class.text-green-600]="status()?.tipo === 'SUCESSO'"
+    [class.text-yellow-600]="status()?.tipo === 'ATENCAO'" [class.text-red-600]="status()?.tipo === 'RISCO'">
+
+    {{ status()?.mensagem }}
+
+  </div>
+
 </div>

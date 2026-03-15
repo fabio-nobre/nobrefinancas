@@ -350,4 +350,37 @@ export class DashboardFacade {
 
   })
 
+  statusMetaEconomia = computed(() => {
+
+    const meta = this.metaEconomiaMensal()
+
+    if (!meta) return null
+
+    const { metaMensal, previsao } = meta
+
+    if (previsao >= metaMensal) {
+
+      return {
+        tipo: 'SUCESSO',
+        mensagem: 'No caminho para atingir a meta'
+      }
+
+    }
+
+    if (previsao >= metaMensal * 0.7) {
+
+      return {
+        tipo: 'ATENCAO',
+        mensagem: 'Atenção: abaixo da meta'
+      }
+
+    }
+
+    return {
+      tipo: 'RISCO',
+      mensagem: 'Meta em risco'
+    }
+
+  })
+
 }

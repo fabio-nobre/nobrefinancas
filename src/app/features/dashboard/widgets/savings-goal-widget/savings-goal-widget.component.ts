@@ -13,5 +13,7 @@ export class SavingsGoalWidgetComponent {
   private facade = inject(DashboardFacade)
 
   meta = this.facade.metaEconomiaMensal
+  status = this.facade.statusMetaEconomia
+
 
 }
