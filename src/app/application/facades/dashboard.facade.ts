@@ -327,18 +327,24 @@ export class DashboardFacade {
     const receitas = this.receitas()
     const despesas = this.despesas()
 
-    const economia = receitas - despesas
+    const economiaAtual = receitas - despesas
 
     const percentual =
       this.metaEconomia === 0
         ? 0
-        : (economia / this.metaEconomia) * 100
+        : (economiaAtual / this.metaEconomia) * 100
+
+    const previsao = this.saldoPrevisto() ?? economiaAtual
 
     return {
 
       metaMensal: this.metaEconomia,
-      economiaAtual: economia,
-      percentual
+
+      economiaAtual,
+
+      percentual,
+
+      previsao
 
     }
 
