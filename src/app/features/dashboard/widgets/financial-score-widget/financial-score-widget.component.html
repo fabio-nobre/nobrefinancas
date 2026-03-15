@@ -1,0 +1,35 @@
+<div class="bg-white rounded-xl shadow p-5 col-span-12 md:col-span-3">
+
+  <h3 class="text-sm text-gray-500 mb-2">
+    Score financeiro do mês
+  </h3>
+
+  <div class="flex items-center gap-4">
+
+    <div class="text-4xl font-bold text-indigo-600">
+      {{ score().score }}
+    </div>
+
+    <div class="text-sm text-gray-500">
+      {{ score().classificacao }}
+    </div>
+
+  </div>
+
+  <div class="mt-4 space-y-2 text-xs">
+
+    <div>
+      Poupança: {{ score().metricas.taxaPoupanca }}%
+    </div>
+
+    <div>
+      Controle despesas: {{ score().metricas.controleDespesas }}%
+    </div>
+
+    <div>
+      Estabilidade: {{ score().metricas.estabilidade }}%
+    </div>
+
+  </div>
+
+</div>

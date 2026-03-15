@@ -28,11 +28,8 @@ import { FinancialNarrativeEngine } from '../engines/narrative/financial-narrati
 import { FinancialExplainabilityEngine } from '../engines/explainability/financial-explainability.engine'
 import { RecurringTransactionEngine } from '../engines/recurring/recurring-transaction.engine'
 import { FinancialTimelineEngine } from '../engines/timeline/financial-timeline.engine'
-import { FinancialBudgetEngine }
-  from '../engines/budget/financial-budget.engine'
-
-import { Budget }
-  from '@/app/domain/financeiro/models/budget.model'
+import { FinancialBudgetEngine } from '../engines/budget/financial-budget.engine'
+import { Budget } from '@/app/domain/financeiro/models/budget.model'
 import { FinancialBudgetSuggestionEngine } from '../engines/budget/financial-budget-suggestion.engine'
 
 export class FinancialIntelligencePipeline {
@@ -47,8 +44,23 @@ export class FinancialIntelligencePipeline {
       FinanceAnalyticsEngine.calcular(lancamentos)
 
     // etapa 2
+    const budgets =
+      FinancialBudgetEngine.calcular(
+        lancamentos,
+        budgetsConfig
+      )
+
+    const recurring =
+      RecurringTransactionEngine.detectar(
+        lancamentos
+      )
+
     const score =
-      FinancialScoreEngine.calcular(analytics)
+      FinancialScoreEngine.calcular({
+        analytics,
+        budgets,
+        recurring
+      })
 
     // etapa 3
     const insights =
@@ -101,16 +113,6 @@ export class FinancialIntelligencePipeline {
         anomaly
       )
 
-    const budgets =
-      FinancialBudgetEngine.calcular(
-        lancamentos,
-        budgetsConfig
-      )
-
-    const recurring =
-      RecurringTransactionEngine.detectar(
-        lancamentos
-      )
 
     const timeline =
       FinancialTimelineEngine.gerar(

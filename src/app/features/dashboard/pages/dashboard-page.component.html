@@ -1,6 +1,6 @@
 <div class="space-y-6">
 
-  <!-- CARDS -->
+  <!-- CARDS SUPERIORES -->
 
   <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
 
@@ -11,23 +11,38 @@
 
   </div>
 
+
   <!-- FLUXO DE CAIXA -->
 
   <div class="bg-white rounded-lg shadow p-4">
+
     <h2 class="text-xl font-semibold mb-4 text-gray-700">
       Fluxo de caixa
     </h2>
 
     <div *ngFor="let m of cashFlow()" class="flex justify-between py-2 border-b text-sm text-gray-600">
+
       <span>{{ m.mes }}</span>
       <span>{{ m.saldo | currency:'BRL' }}</span>
+
     </div>
 
   </div>
 
-  <!-- DASHBOARD GRID -->
+
+  <!-- DASHBOARD GRID PRINCIPAL -->
 
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+
+    <!-- SCORE + INSIGHTS -->
+
+    <app-financial-score-widget class="lg:col-span-3">
+    </app-financial-score-widget>
+
+    <app-insights-widget class="lg:col-span-9">
+    </app-insights-widget>
+
 
     <!-- GRÁFICOS -->
 
@@ -37,10 +52,6 @@
     <app-categorias-widget class="lg:col-span-6">
     </app-categorias-widget>
 
-    <!-- INSIGHTS -->
-
-    <app-insights-widget class="lg:col-span-12">
-    </app-insights-widget>
 
     <!-- ORÇAMENTO -->
 
@@ -49,6 +60,7 @@
 
     <app-budget-suggestion-widget class="lg:col-span-6">
     </app-budget-suggestion-widget>
+
 
     <!-- ALERTAS / META / ASSINATURAS -->
 
@@ -60,6 +72,7 @@
 
     <app-recurring-subscriptions-widget class="lg:col-span-4">
     </app-recurring-subscriptions-widget>
+
 
     <!-- ÚLTIMOS LANÇAMENTOS -->
 

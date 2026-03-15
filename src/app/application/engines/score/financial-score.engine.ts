@@ -1,89 +1,94 @@
-import { FinancialAnalyticsResult }
-  from '../../models/analytics/financial-analytics-result.model'
 
 import { FinancialScore }
-  from '../../models/score/financial-score.model'
+  from '@/app/application/models/score/financial-score.model'
+
 
 export class FinancialScoreEngine {
 
-  static calcular(
-    analytics: FinancialAnalyticsResult
-  ): FinancialScore {
+  static calcular(data: {
+    analytics: any
+    budgets: any[]
+    recurring: any[]
+  }): FinancialScore {
 
-    const receitas = analytics.resumo.receitas
-    const despesas = analytics.resumo.despesas
 
-    const saldo = analytics.resumo.saldo
+    const receitas = data.analytics.resumo.receitas
+    const despesas = data.analytics.resumo.despesas
 
-    // =============================
-    // taxa de poupança
-    // =============================
+    const totalOrcado =
+      data.budgets.reduce((s, b) => s + (b.limiteMensal ?? 0), 0)
+
+    const totalGastoCategorias =
+      despesas
+
+    const totalAssinaturas =
+      data.recurring.length
 
     const taxaPoupanca =
-      receitas > 0
-        ? saldo / receitas
-        : 0
+      receitas === 0
+        ? 0
+        : (receitas - despesas) / receitas
 
-    // =============================
-    // controle de despesas
-    // =============================
+    const scorePoupanca =
+      Math.min(100, taxaPoupanca * 100)
 
-    const controleDespesas =
-      receitas > 0
-        ? 1 - (despesas / receitas)
-        : 0
-
-    // =============================
-    // estabilidade mensal
-    // =============================
-
-    const variacoes =
-      analytics.evolucaoMensal.map(m =>
-        Math.abs(m.receitas - m.despesas)
-      )
-
-    const mediaVariacao =
-      variacoes.reduce((a, b) => a + b, 0) /
-      (variacoes.length || 1)
+    const controleOrcamento =
+      totalOrcado > 0
+        ? Math.max(
+          0,
+          100 -
+          ((totalGastoCategorias - totalOrcado) /
+            totalOrcado) *
+          100
+        )
+        : 100
 
     const estabilidade =
-      Math.max(0, 1 - mediaVariacao / 5000)
+      receitas > despesas ? 100 : 40
 
-    // =============================
-    // score final
-    // =============================
-
-    const scoreBruto =
-      taxaPoupanca * 35 +
-      controleDespesas * 25 +
-      estabilidade * 20
+    const scoreAssinaturas =
+      totalAssinaturas <= 2
+        ? 100
+        : Math.max(
+          40,
+          100 - totalAssinaturas * 10
+        )
 
     const score =
-      Math.max(0, Math.min(100, Math.round(scoreBruto * 100)))
+      scorePoupanca * 0.3 +
+      controleOrcamento * 0.3 +
+      estabilidade * 0.2 +
+      scoreAssinaturas * 0.2
+
 
     return {
 
-      score,
+      score: Math.round(score),
 
-      classificacao:
-        score < 40
-          ? 'critico'
-          : score < 60
-            ? 'instavel'
-            : score < 80
-              ? 'bom'
-              : 'excelente',
+      classificacao: this.classificar(score),
 
       metricas: {
 
-        taxaPoupanca,
-        controleDespesas,
-        estabilidade
+        taxaPoupanca: Math.round(scorePoupanca),
+
+        controleDespesas: Math.round(controleOrcamento),
+
+        estabilidade: Math.round(estabilidade)
 
       }
 
     }
-
   }
 
+  private static classificar(score: number) {
+
+    if (score >= 80) return 'excelente'
+
+    if (score >= 60) return 'bom'
+
+    if (score >= 40) return 'instavel'
+
+    return 'critico'
+
+  }
 }
