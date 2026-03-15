@@ -16,6 +16,7 @@ import { InsightsWidgetComponent } from '../widgets/insights-widget/insights-wid
 import { BudgetWidgetComponent } from '../widgets/budget-widget/budget-widget.component'
 import { BudgetSuggestionWidgetComponent } from '../widgets/budget-suggestion-widget/budget-suggestion-widget.component'
 import { AlertsWidgetComponent } from '../widgets/alerts-widget/alerts-widget.component'
+import { SavingsGoalWidgetComponent } from '../widgets/savings-goal-widget/savings-goal-widget.component'
 
 @Component({
   selector: 'app-dashboard-page',
@@ -34,7 +35,8 @@ import { AlertsWidgetComponent } from '../widgets/alerts-widget/alerts-widget.co
     SaldoPrevistoCardComponent,
     BudgetWidgetComponent,
     BudgetSuggestionWidgetComponent,
-    AlertsWidgetComponent
+    AlertsWidgetComponent,
+    SavingsGoalWidgetComponent
   ],
 
   templateUrl: './dashboard-page.component.html'

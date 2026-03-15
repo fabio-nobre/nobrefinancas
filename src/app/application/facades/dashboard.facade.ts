@@ -321,4 +321,27 @@ export class DashboardFacade {
 
   })
 
+  metaEconomia = 500
+  metaEconomiaMensal = computed(() => {
+
+    const receitas = this.receitas()
+    const despesas = this.despesas()
+
+    const economia = receitas - despesas
+
+    const percentual =
+      this.metaEconomia === 0
+        ? 0
+        : (economia / this.metaEconomia) * 100
+
+    return {
+
+      metaMensal: this.metaEconomia,
+      economiaAtual: economia,
+      percentual
+
+    }
+
+  })
+
 }
