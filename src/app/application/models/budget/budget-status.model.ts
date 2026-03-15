@@ -18,4 +18,6 @@ export interface BudgetStatus {
 
   excesso: number
 
+  reducaoDiariaNecessaria: number | null
+
 }

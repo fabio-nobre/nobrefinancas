@@ -80,6 +80,14 @@
 
     </div>
 
+    <div *ngIf="b.reducaoDiariaNecessaria !== null" class="text-xs text-orange-600 mt-1">
+
+      💡 reduza
+      {{ b.reducaoDiariaNecessaria | currency:'BRL' }}
+      por dia para voltar ao orçamento
+
+    </div>
+
   </div>
 
 </div>

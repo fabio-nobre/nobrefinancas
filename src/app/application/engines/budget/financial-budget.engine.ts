@@ -43,6 +43,25 @@ export class FinancialBudgetEngine {
           ? gastoAtual - budget.limiteMensal
           : 0
 
+      const ultimoDiaMes =
+        new Date(
+          new Date().getFullYear(),
+          new Date().getMonth() + 1,
+          0
+        ).getDate()
+
+      const diasRestantesMes =
+        ultimoDiaMes - hoje
+
+      let reducaoDiariaNecessaria: number | null = null
+
+      if (excesso > 0 && diasRestantesMes > 0) {
+
+        reducaoDiariaNecessaria =
+          excesso / diasRestantesMes
+
+      }
+
       const percentualBruto =
         budget.limiteMensal === 0
           ? 0
@@ -105,7 +124,9 @@ export class FinancialBudgetEngine {
 
         diasRestantesOrcamento,
 
-        excesso
+        excesso,
+
+        reducaoDiariaNecessaria
 
       }
 
