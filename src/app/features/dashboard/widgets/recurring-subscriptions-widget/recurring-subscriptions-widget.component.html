@@ -1,0 +1,25 @@
+<div class="bg-white rounded-lg shadow p-4 h-full">
+
+  <h3 class="text-lg font-semibold mb-4 text-gray-700">
+    🔁 Assinaturas detectadas
+  </h3>
+
+  <div *ngIf="assinaturas().length === 0" class="text-sm text-gray-500">
+
+    Nenhuma assinatura detectada
+
+  </div>
+
+  <div *ngFor="let a of assinaturas()" class="flex justify-between items-center py-2 border-b text-sm">
+
+    <span class="font-medium text-gray-700">
+      {{ a.descricao }}
+    </span>
+
+    <span class="text-red-500 font-semibold">
+      {{ a.valorMedio | currency:'BRL' }}
+    </span>
+
+  </div>
+
+</div>

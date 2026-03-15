@@ -228,6 +228,15 @@ export class DashboardFacade {
     this.intelligence().recurring
   )
 
+  assinaturasDetectadas = computed(() => {
+
+    const recorrentes = this.recurring() ?? []
+
+    return recorrentes
+      .slice(0, 5)
+
+  })
+
   timeline = computed(() =>
     this.intelligence().timeline
   )

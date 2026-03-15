@@ -17,32 +17,55 @@
     <h2 class="text-xl font-semibold mb-4 text-gray-700">
       Fluxo de caixa
     </h2>
+
     <div *ngFor="let m of cashFlow()" class="flex justify-between py-2 border-b text-sm text-gray-600">
-
       <span>{{ m.mes }}</span>
-
       <span>{{ m.saldo | currency:'BRL' }}</span>
-
     </div>
 
   </div>
 
-  <!-- GRÁFICOS -->
+  <!-- DASHBOARD GRID -->
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
-    <app-evolucao-widget></app-evolucao-widget>
-    <app-categorias-widget></app-categorias-widget>
-    <app-insights-widget class="col-span-12"></app-insights-widget>
-    <app-budget-widget></app-budget-widget>
-    <app-budget-suggestion-widget></app-budget-suggestion-widget>
-    <app-alerts-widget></app-alerts-widget>
-    <app-savings-goal-widget></app-savings-goal-widget>
+    <!-- GRÁFICOS -->
+
+    <app-evolucao-widget class="lg:col-span-6">
+    </app-evolucao-widget>
+
+    <app-categorias-widget class="lg:col-span-6">
+    </app-categorias-widget>
+
+    <!-- INSIGHTS -->
+
+    <app-insights-widget class="lg:col-span-12">
+    </app-insights-widget>
+
+    <!-- ORÇAMENTO -->
+
+    <app-budget-widget class="lg:col-span-6">
+    </app-budget-widget>
+
+    <app-budget-suggestion-widget class="lg:col-span-6">
+    </app-budget-suggestion-widget>
+
+    <!-- ALERTAS / META / ASSINATURAS -->
+
+    <app-alerts-widget class="lg:col-span-4">
+    </app-alerts-widget>
+
+    <app-savings-goal-widget class="lg:col-span-4">
+    </app-savings-goal-widget>
+
+    <app-recurring-subscriptions-widget class="lg:col-span-4">
+    </app-recurring-subscriptions-widget>
+
+    <!-- ÚLTIMOS LANÇAMENTOS -->
+
+    <app-ultimos-lancamentos-widget class="lg:col-span-12">
+    </app-ultimos-lancamentos-widget>
 
   </div>
-
-  <!-- LISTA -->
-
-  <app-ultimos-lancamentos-widget></app-ultimos-lancamentos-widget>
 
 </div>
