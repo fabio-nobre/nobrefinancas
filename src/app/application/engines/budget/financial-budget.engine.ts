@@ -38,6 +38,11 @@ export class FinancialBudgetEngine {
         lancamentosCategoria
           .reduce((total, l) => total + l.valor, 0)
 
+      const excesso =
+        gastoAtual > budget.limiteMensal
+          ? gastoAtual - budget.limiteMensal
+          : 0
+
       const percentualBruto =
         budget.limiteMensal === 0
           ? 0
@@ -98,7 +103,9 @@ export class FinancialBudgetEngine {
 
         riscoEstouro,
 
-        diasRestantesOrcamento
+        diasRestantesOrcamento,
+
+        excesso
 
       }
 

@@ -16,4 +16,6 @@ export interface BudgetStatus {
 
   diasRestantesOrcamento: number | null
 
+  excesso: number
+
 }

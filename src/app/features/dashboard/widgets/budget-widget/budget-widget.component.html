@@ -73,6 +73,13 @@
 
     </div>
 
+    <div *ngIf="b.excesso > 0" class="text-xs text-red-600 mt-1">
+
+      🔴 excesso de
+      {{ b.excesso | currency:'BRL' }}
+
+    </div>
+
   </div>
 
 </div>
