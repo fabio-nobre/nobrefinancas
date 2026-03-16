@@ -6,7 +6,11 @@
 
   <div class="flex items-center gap-4">
 
-    <div class="text-4xl font-bold text-indigo-600">
+    <div class="text-4xl font-bold" [ngClass]="{
+    'text-red-500': score().score < 40,
+    'text-yellow-500': score().score >= 40 && score().score < 70,
+    'text-green-600': score().score >= 70
+  }">
       {{ score().score }}
     </div>
 

@@ -19,6 +19,7 @@ import { AlertsWidgetComponent } from '../widgets/alerts-widget/alerts-widget.co
 import { SavingsGoalWidgetComponent } from '../widgets/savings-goal-widget/savings-goal-widget.component'
 import { RecurringSubscriptionsWidgetComponent } from '../widgets/recurring-subscriptions-widget/recurring-subscriptions-widget.component'
 import { FinancialScoreWidgetComponent } from '../widgets/financial-score-widget/financial-score-widget.component'
+import { FinancialScoreGaugeWidgetComponent } from '../widgets/financial-score-gauge-widget/financial-score-gauge-widget.component'
 
 
 @Component({
@@ -41,7 +42,7 @@ import { FinancialScoreWidgetComponent } from '../widgets/financial-score-widget
     AlertsWidgetComponent,
     SavingsGoalWidgetComponent,
     RecurringSubscriptionsWidgetComponent,
-    FinancialScoreWidgetComponent
+    FinancialScoreGaugeWidgetComponent
   ],
 
   templateUrl: './dashboard-page.component.html'
