@@ -1,0 +1,16 @@
+<div class="bg-white rounded-xl shadow p-5">
+
+  <h3 class="text-sm text-gray-500 mb-4">
+    Histórico do score financeiro
+  </h3>
+
+  <div *ngFor="let h of history()" class="flex justify-between py-2 border-b text-sm">
+
+    <span>{{ h.mes }}</span>
+    <span class="font-semibold">
+      {{ h.score }}
+    </span>
+
+  </div>
+
+</div>

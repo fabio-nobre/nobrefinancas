@@ -31,6 +31,7 @@ import { FinancialTimelineEngine } from '../engines/timeline/financial-timeline.
 import { FinancialBudgetEngine } from '../engines/budget/financial-budget.engine'
 import { Budget } from '@/app/domain/financeiro/models/budget.model'
 import { FinancialBudgetSuggestionEngine } from '../engines/budget/financial-budget-suggestion.engine'
+import { FinancialScoreHistoryEngine } from '../engines/score/financial-score-history.engine'
 
 export class FinancialIntelligencePipeline {
 
@@ -125,6 +126,9 @@ export class FinancialIntelligencePipeline {
         lancamentos
       )
 
+    const scoreHistory =
+      FinancialScoreHistoryEngine.calcular(lancamentos)
+
 
     return {
 
@@ -143,7 +147,8 @@ export class FinancialIntelligencePipeline {
       budgets,
       recurring,
       timeline,
-      budgetSuggestions
+      budgetSuggestions,
+      scoreHistory
 
     }
 

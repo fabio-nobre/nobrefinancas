@@ -392,4 +392,8 @@ export class DashboardFacade {
 
   })
 
+  scoreHistory = computed(() =>
+    this.intelligence().scoreHistory
+  )
+
 }

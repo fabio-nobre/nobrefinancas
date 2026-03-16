@@ -47,10 +47,16 @@
     </app-insights-widget>
 
 
-    <!-- GRÁFICOS -->
+    <!-- SCORE HISTORY + EVOLUÇÃO -->
+
+    <app-financial-score-history-widget class="lg:col-span-6">
+    </app-financial-score-history-widget>
 
     <app-evolucao-widget class="lg:col-span-6">
     </app-evolucao-widget>
+
+
+    <!-- CATEGORIAS -->
 
     <app-categorias-widget class="lg:col-span-6">
     </app-categorias-widget>
@@ -67,14 +73,15 @@
 
     <!-- ALERTAS / META / ASSINATURAS -->
 
-    <app-alerts-widget class="lg:col-span-4">
-    </app-alerts-widget>
+    <div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-6">
 
-    <app-savings-goal-widget class="lg:col-span-4">
-    </app-savings-goal-widget>
+      <app-alerts-widget></app-alerts-widget>
 
-    <app-recurring-subscriptions-widget class="lg:col-span-4">
-    </app-recurring-subscriptions-widget>
+      <app-savings-goal-widget></app-savings-goal-widget>
+
+      <app-recurring-subscriptions-widget></app-recurring-subscriptions-widget>
+
+    </div>
 
 
     <!-- ÚLTIMOS LANÇAMENTOS -->

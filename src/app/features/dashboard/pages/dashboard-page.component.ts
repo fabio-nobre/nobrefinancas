@@ -20,6 +20,8 @@ import { SavingsGoalWidgetComponent } from '../widgets/savings-goal-widget/savin
 import { RecurringSubscriptionsWidgetComponent } from '../widgets/recurring-subscriptions-widget/recurring-subscriptions-widget.component'
 import { FinancialScoreGaugeWidgetComponent } from '../widgets/financial-score-gauge-widget/financial-score-gauge-widget.component'
 import { FinancialHealthPanelWidgetComponent } from '../widgets/financial-health-panel-widget/financial-health-panel-widget.component'
+import { FinancialScoreHistoryWidgetComponent } from '../widgets/financial-score-history-widget/financial-score-history-widget.component'
+
 
 @Component({
   selector: 'app-dashboard-page',
@@ -42,7 +44,8 @@ import { FinancialHealthPanelWidgetComponent } from '../widgets/financial-health
     SavingsGoalWidgetComponent,
     RecurringSubscriptionsWidgetComponent,
     FinancialScoreGaugeWidgetComponent,
-    FinancialHealthPanelWidgetComponent
+    FinancialHealthPanelWidgetComponent,
+    FinancialScoreHistoryWidgetComponent
   ],
 
   templateUrl: './dashboard-page.component.html'

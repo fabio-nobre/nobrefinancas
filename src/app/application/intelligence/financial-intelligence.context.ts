@@ -46,6 +46,11 @@ export interface FinancialIntelligenceContext {
 
   score: FinancialScore
 
+  scoreHistory: {
+    mes: string
+    score: number
+  }[]
+
   insights: InsightFinanceiro[]
 
   trend: FinancialTrend
