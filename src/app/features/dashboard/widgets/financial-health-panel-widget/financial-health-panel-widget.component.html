@@ -1,0 +1,55 @@
+<div class="bg-white rounded-xl shadow p-5">
+
+  <h3 class="text-sm text-gray-500 mb-4">
+    Indicadores financeiros
+  </h3>
+
+  <div class="space-y-4">
+
+    <!-- Poupança -->
+
+    <div>
+      <div class="flex justify-between text-sm mb-1">
+        <span>Taxa de poupança</span>
+        <span>{{ score().metricas.taxaPoupanca }}%</span>
+      </div>
+
+      <div class="w-full bg-gray-200 h-2 rounded">
+        <div class="bg-green-500 h-2 rounded" [style.width.%]="score().metricas.taxaPoupanca">
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Controle despesas -->
+
+    <div>
+      <div class="flex justify-between text-sm mb-1">
+        <span>Disciplina de gastos</span>
+        <span>{{ score().metricas.controleDespesas }}%</span>
+      </div>
+
+      <div class="w-full bg-gray-200 h-2 rounded">
+        <div class="bg-indigo-500 h-2 rounded" [style.width.%]="score().metricas.controleDespesas">
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Estabilidade -->
+
+    <div>
+      <div class="flex justify-between text-sm mb-1">
+        <span>Estabilidade financeira</span>
+        <span>{{ score().metricas.estabilidade }}%</span>
+      </div>
+
+      <div class="w-full bg-gray-200 h-2 rounded">
+        <div class="bg-yellow-500 h-2 rounded" [style.width.%]="score().metricas.estabilidade">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

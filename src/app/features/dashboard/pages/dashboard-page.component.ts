@@ -18,9 +18,8 @@ import { BudgetSuggestionWidgetComponent } from '../widgets/budget-suggestion-wi
 import { AlertsWidgetComponent } from '../widgets/alerts-widget/alerts-widget.component'
 import { SavingsGoalWidgetComponent } from '../widgets/savings-goal-widget/savings-goal-widget.component'
 import { RecurringSubscriptionsWidgetComponent } from '../widgets/recurring-subscriptions-widget/recurring-subscriptions-widget.component'
-import { FinancialScoreWidgetComponent } from '../widgets/financial-score-widget/financial-score-widget.component'
 import { FinancialScoreGaugeWidgetComponent } from '../widgets/financial-score-gauge-widget/financial-score-gauge-widget.component'
-
+import { FinancialHealthPanelWidgetComponent } from '../widgets/financial-health-panel-widget/financial-health-panel-widget.component'
 
 @Component({
   selector: 'app-dashboard-page',
@@ -42,7 +41,8 @@ import { FinancialScoreGaugeWidgetComponent } from '../widgets/financial-score-g
     AlertsWidgetComponent,
     SavingsGoalWidgetComponent,
     RecurringSubscriptionsWidgetComponent,
-    FinancialScoreGaugeWidgetComponent
+    FinancialScoreGaugeWidgetComponent,
+    FinancialHealthPanelWidgetComponent
   ],
 
   templateUrl: './dashboard-page.component.html'
