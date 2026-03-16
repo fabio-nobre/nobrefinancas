@@ -20,45 +20,49 @@ export class FinancialScoreGaugeWidgetComponent implements AfterViewInit {
   chartCanvas!: ElementRef<HTMLCanvasElement>
 
   ngAfterViewInit() {
+    setTimeout(() => {
+      const valor = this.score().score
 
-    const valor = this.score().score
+      new Chart(this.chartCanvas.nativeElement, {
 
-    new Chart(this.chartCanvas.nativeElement, {
+        type: 'doughnut',
 
-      type: 'doughnut',
-
-      data: {
-        datasets: [
-          {
-            data: [valor, 100 - valor],
-            backgroundColor: [
-              '#4f46e5',
-              '#e5e7eb'
-            ],
-            borderWidth: 0
-          }
-        ]
-      },
-
-      options: {
-
-        rotation: -90,
-        circumference: 180,
-
-        plugins: {
-          legend: {
-            display: false
-          },
-          tooltip: {
-            enabled: false
-          }
+        data: {
+          datasets: [
+            {
+              data: [valor, 100 - valor],
+              backgroundColor: [
+                '#4f46e5',
+                '#e5e7eb'
+              ],
+              borderWidth: 0
+            }
+          ]
         },
 
-        cutout: '70%'
+        options: {
 
-      }
+          responsive: true,
+          maintainAspectRatio: false,
 
-    })
+          animation: {
+            duration: 500
+          },
+
+          rotation: -90,
+          circumference: 180,
+
+          plugins: {
+            legend: { display: false },
+            tooltip: { enabled: false }
+          },
+
+          cutout: '70%'
+
+        }
+
+      })
+    }, 0)
 
   }
 

@@ -1,0 +1,39 @@
+<div class="bg-white rounded-xl shadow p-5">
+
+  <h3 class="text-sm text-gray-500 mb-4">
+    Inteligência financeira
+  </h3>
+
+  <div class="space-y-3 text-sm">
+
+    <div class="flex justify-between">
+      <span>Score financeiro</span>
+      <span class="font-semibold">
+        {{ score().score }} ({{ score().classificacao }})
+      </span>
+    </div>
+
+    <div class="flex justify-between">
+      <span>Tendência</span>
+      <span class="font-semibold">
+        {{ trend() | json }}
+      </span>
+    </div>
+
+    <div class="flex justify-between">
+      <span>Risco financeiro</span>
+      <span class="font-semibold">
+        {{ risk() | json }}
+      </span>
+    </div>
+
+    <div class="flex justify-between">
+      <span>Previsão do mês</span>
+      <span class="font-semibold">
+        {{ projection() | json }}
+      </span>
+    </div>
+
+  </div>
+
+</div>

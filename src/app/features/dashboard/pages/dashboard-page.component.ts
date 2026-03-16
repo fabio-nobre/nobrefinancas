@@ -12,7 +12,6 @@ import { ReceitasCardComponent } from '../cards/receitas-card/receitas-card.comp
 import { DespesasCardComponent } from '../cards/despesas-card/despesas-card.component'
 import { SaldoPrevistoCardComponent } from '../cards/saldo-previsto-card/saldo-previsto-card.component'
 
-import { InsightsWidgetComponent } from '../widgets/insights-widget/insights-widget.component'
 import { BudgetWidgetComponent } from '../widgets/budget-widget/budget-widget.component'
 import { BudgetSuggestionWidgetComponent } from '../widgets/budget-suggestion-widget/budget-suggestion-widget.component'
 import { AlertsWidgetComponent } from '../widgets/alerts-widget/alerts-widget.component'
@@ -21,8 +20,7 @@ import { RecurringSubscriptionsWidgetComponent } from '../widgets/recurring-subs
 import { FinancialScoreGaugeWidgetComponent } from '../widgets/financial-score-gauge-widget/financial-score-gauge-widget.component'
 import { FinancialHealthPanelWidgetComponent } from '../widgets/financial-health-panel-widget/financial-health-panel-widget.component'
 import { FinancialScoreHistoryWidgetComponent } from '../widgets/financial-score-history-widget/financial-score-history-widget.component'
-
-
+import { FinancialIntelligencePanelWidgetComponent } from '../widgets/financial-intelligence-panel-widget/financial-intelligence-panel-widget.component'
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
@@ -32,7 +30,6 @@ import { FinancialScoreHistoryWidgetComponent } from '../widgets/financial-score
     EvolucaoWidgetComponent,
     CategoriasWidgetComponent,
     UltimosLancamentosWidgetComponent,
-    InsightsWidgetComponent,
 
     SaldoCardComponent,
     ReceitasCardComponent,
@@ -45,7 +42,8 @@ import { FinancialScoreHistoryWidgetComponent } from '../widgets/financial-score
     RecurringSubscriptionsWidgetComponent,
     FinancialScoreGaugeWidgetComponent,
     FinancialHealthPanelWidgetComponent,
-    FinancialScoreHistoryWidgetComponent
+    FinancialScoreHistoryWidgetComponent,
+    FinancialIntelligencePanelWidgetComponent
   ],
 
   templateUrl: './dashboard-page.component.html'
