@@ -22,8 +22,8 @@ import { FinancialHealthPanelWidgetComponent } from '../widgets/financial-health
 import { FinancialScoreHistoryWidgetComponent } from '../widgets/financial-score-history-widget/financial-score-history-widget.component'
 import { FinancialIntelligencePanelWidgetComponent } from '../widgets/financial-intelligence-panel-widget/financial-intelligence-panel-widget.component'
 import { LancamentoModalComponent } from '@/app/features/lancamentos/components/lancamento-modal/lancamento-modal.component';
-import { LancamentosStore } from '@/app/application/stores/lancamentos.store'
-import { TipoLancamento } from '@/app/domain/financeiro/enums/tipo-lancamento.enum'
+import { FinanceiroStore } from '@/app/application/stores/financeiro.store';
+
 
 @Component({
   selector: 'app-dashboard-page',
@@ -56,32 +56,18 @@ import { TipoLancamento } from '@/app/domain/financeiro/enums/tipo-lancamento.en
 export class DashboardPageComponent {
 
   facade = inject(DashboardFacade)
-  lancamentosStore = inject(LancamentosStore);
+  store = inject(FinanceiroStore);
 
-  // saldo = this.facade.saldo
-  // receitas = this.facade.totalReceitas
-  // despesas = this.facade.totalDespesas
+  saldo = this.store.saldo;
+  receitas = this.store.totalReceitas;
+  despesas = this.store.totalDespesas;
   saldoPrevisto = this.facade.saldoPrevisto
 
-  receitas = computed(() =>
-    this.lancamentos()
-      .filter(l => l.tipo === TipoLancamento.RECEITA)
-      .reduce((total, l) => total + l.valor, 0)
-  );
-
-  despesas = computed(() =>
-    this.lancamentos()
-      .filter(l => l.tipo === TipoLancamento.DESPESA)
-      .reduce((total, l) => total + l.valor, 0)
-  );
-
-  saldo = computed(() => this.receitas() - this.despesas());
 
   evolucaoMensal = this.facade.evolucaoMensal
   gastosPorCategoria = this.facade.gastosPorCategoria
   ultimosLancamentos = this.facade.ultimosLancamentos
 
-  lancamentos = this.lancamentosStore.lancamentos;
 
   abrirModal = false;
 

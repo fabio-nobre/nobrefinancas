@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LancamentoFormComponent } from '../lancamento-form/lancamento-form.component';
 import { LancamentoFormStore } from '../../state/lancamento-form.store';
-import { CriarLancamentoUseCase } from '@/app/application/usercases/criar-lancamento.usecase';
+import { CriarLancamentoUseCase } from '@/app/application/usecases/lancamentos/criar-lancamento.usecase';
 
 @Component({
   selector: 'app-lancamento-modal',

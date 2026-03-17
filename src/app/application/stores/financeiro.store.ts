@@ -28,7 +28,10 @@ export interface FinanceiroState {
 export class FinanceiroStore {
 
   private state = signal<FinanceiroState>({
-    lancamentos: gerarLancamentosMock(),
+
+    // Dados macaos teste
+    // lancamentos: gerarLancamentosMock(),
+    lancamentos: [],
     contas: [],
     cartoes: [],
     categorias: []
