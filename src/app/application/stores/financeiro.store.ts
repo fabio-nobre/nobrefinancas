@@ -27,11 +27,13 @@ export interface FinanceiroState {
 })
 export class FinanceiroStore {
 
+  private STORAGE_KEY = 'nobrefinancas_lancamentos';
+
   private state = signal<FinanceiroState>({
 
     // Dados macaos teste
     // lancamentos: gerarLancamentosMock(),
-    lancamentos: [],
+    lancamentos: this.carregarLancamentos(),
     contas: [],
     cartoes: [],
     categorias: []
@@ -46,6 +48,15 @@ export class FinanceiroStore {
   cartoes = computed(() => this.state().cartoes)
 
   categorias = computed(() => this.state().categorias)
+
+  private carregarLancamentos() {
+    const data = localStorage.getItem(this.STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
+  }
+
+  private salvarLancamentos(lancamentos: Lancamento[]) {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(lancamentos));
+  }
 
 
   totalReceitas = computed(() =>
@@ -127,36 +138,45 @@ export class FinanceiroStore {
   )
 
   // ACTIONS
-
   adicionarLancamento(lancamento: Lancamento) {
+    this.state.update(state => {
+      const novos = [...state.lancamentos, lancamento];
 
-    this.state.update(state => ({
-      ...state,
-      lancamentos: [...state.lancamentos, lancamento]
-    }))
+      this.salvarLancamentos(novos);
 
+      return {
+        ...state,
+        lancamentos: novos
+      };
+    });
   }
-
 
   removerLancamento(id: string) {
+    this.state.update(state => {
+      const novos = state.lancamentos.filter(l => l.id !== id);
 
-    this.state.update(state => ({
-      ...state,
-      lancamentos: state.lancamentos.filter(l => l.id !== id)
-    }))
+      this.salvarLancamentos(novos);
 
+      return {
+        ...state,
+        lancamentos: novos
+      };
+    });
   }
 
-
   atualizarLancamento(lancamento: Lancamento) {
-
-    this.state.update(state => ({
-      ...state,
-      lancamentos: state.lancamentos.map(l =>
+    this.state.update(state => {
+      const novos = state.lancamentos.map(l =>
         l.id === lancamento.id ? lancamento : l
-      )
-    }))
+      );
 
+      this.salvarLancamentos(novos);
+
+      return {
+        ...state,
+        lancamentos: novos
+      };
+    });
   }
 
 
