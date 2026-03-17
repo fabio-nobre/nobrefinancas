@@ -1,7 +1,10 @@
 <div class="space-y-6">
 
+  <!-- HEADER -->
+
   <div class="flex items-center justify-between mb-6">
 
+    ```
     <!-- ESQUERDA -->
     <div>
       <h1 class="text-2xl font-semibold text-gray-800">
@@ -23,7 +26,7 @@
       </select>
 
       <!-- BOTÃO PRINCIPAL -->
-      <button (click)="abrirModal = true"
+      <button (click)="lancamentoSelecionado = null; abrirModal = true"
         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow flex items-center gap-2">
         <span>➕</span>
         <span>Novo lançamento</span>
@@ -35,103 +38,78 @@
       </div>
 
     </div>
+    ```
+
   </div>
 
-  <!-- CARDS SUPERIORES -->
+  <!-- CARDS -->
 
   <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
 
+    ```
     <app-saldo-card></app-saldo-card>
     <app-receitas-card></app-receitas-card>
     <app-despesas-card></app-despesas-card>
     <app-saldo-previsto-card></app-saldo-previsto-card>
-    <app-lancamento-modal *ngIf="abrirModal" [lancamentoEdicao]="lancamentoSelecionado"
-      (fechar)="abrirModal = false; lancamentoSelecionado = null">
-    </app-lancamento-modal>
+    ```
 
   </div>
-
 
   <!-- FLUXO DE CAIXA -->
 
   <div class="bg-white rounded-lg shadow p-4">
 
+    ```
     <h2 class="text-xl font-semibold mb-4 text-gray-700">
       Fluxo de caixa
     </h2>
 
     <div *ngFor="let m of cashFlow()" class="flex justify-between py-2 border-b text-sm text-gray-600">
-
       <span>{{ m.mes }}</span>
       <span>{{ m.saldo | currency:'BRL' }}</span>
-
     </div>
+    ```
 
   </div>
 
-
-  <!-- DASHBOARD GRID PRINCIPAL -->
+  <!-- GRID PRINCIPAL -->
 
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 
+    ```
+    <!-- INDICADORES -->
+    <app-financial-score-gauge-widget class="lg:col-span-3"></app-financial-score-gauge-widget>
+    <app-financial-health-panel-widget class="lg:col-span-3"></app-financial-health-panel-widget>
+    <app-financial-intelligence-panel-widget class="lg:col-span-6"></app-financial-intelligence-panel-widget>
 
-    <!-- INDICADORES FINANCEIROS -->
+    <!-- HISTÓRICO -->
+    <app-financial-score-history-widget class="lg:col-span-6"></app-financial-score-history-widget>
+    <app-evolucao-widget class="lg:col-span-6"></app-evolucao-widget>
 
-    <app-financial-score-gauge-widget class="lg:col-span-3">
-    </app-financial-score-gauge-widget>
+    <!-- CATEGORIAS / ORÇAMENTO -->
+    <app-categorias-widget class="lg:col-span-6"></app-categorias-widget>
+    <app-budget-widget class="lg:col-span-6"></app-budget-widget>
 
-    <app-financial-health-panel-widget class="lg:col-span-3">
-    </app-financial-health-panel-widget>
-
-    <app-financial-intelligence-panel-widget class="lg:col-span-6">
-    </app-financial-intelligence-panel-widget>
-
-
-    <!-- HISTÓRICO DO SCORE + EVOLUÇÃO -->
-
-    <app-financial-score-history-widget class="lg:col-span-6">
-    </app-financial-score-history-widget>
-
-    <app-evolucao-widget class="lg:col-span-6">
-    </app-evolucao-widget>
-
-
-    <!-- CATEGORIAS + ORÇAMENTO -->
-
-    <app-categorias-widget class="lg:col-span-6">
-    </app-categorias-widget>
-
-    <app-budget-widget class="lg:col-span-6">
-    </app-budget-widget>
-
-
-    <!-- SUGESTÃO DE ORÇAMENTO -->
-
-    <app-budget-suggestion-widget class="lg:col-span-12">
-    </app-budget-suggestion-widget>
-
+    <!-- SUGESTÃO -->
+    <app-budget-suggestion-widget class="lg:col-span-12"></app-budget-suggestion-widget>
 
     <!-- ALERTAS / META / ASSINATURAS -->
-
     <div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-
       <app-alerts-widget></app-alerts-widget>
-
       <app-savings-goal-widget></app-savings-goal-widget>
-
       <app-recurring-subscriptions-widget></app-recurring-subscriptions-widget>
-
     </div>
 
-
     <!-- ÚLTIMOS LANÇAMENTOS -->
-
-    <app-ultimos-lancamentos-widget class="lg:col-span-12">
+    <app-ultimos-lancamentos-widget (editar)="editarLancamento($event)">
     </app-ultimos-lancamentos-widget>
+    ```
 
   </div>
-  @if (abrirModal) {
-  <app-lancamento-modal (fechar)="abrirModal = false"></app-lancamento-modal>
-  }
 
 </div>
+
+<!-- ✅ MODAL FORA DO LAYOUT (CRÍTICO) -->
+
+<app-lancamento-modal *ngIf="abrirModal" [lancamentoEdicao]="lancamentoSelecionado"
+  (fechar)="abrirModal = false; lancamentoSelecionado = null"> </app-lancamento-modal>

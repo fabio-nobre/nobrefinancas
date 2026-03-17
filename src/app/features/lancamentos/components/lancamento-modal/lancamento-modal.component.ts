@@ -1,4 +1,4 @@
-import { Component, inject, EventEmitter, Output } from '@angular/core';
+import { Component, inject, EventEmitter, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LancamentoFormComponent } from '../lancamento-form/lancamento-form.component';
 import { LancamentoFormStore } from '../../state/lancamento-form.store';
@@ -14,7 +14,11 @@ import { Input } from '@angular/core';
   ],
   templateUrl: './lancamento-modal.component.html'
 })
-export class LancamentoModalComponent {
+export class LancamentoModalComponent implements OnChanges {
+
+  isEdicao = false;
+  private idEdicao: string | null = null;
+  lancamentoSelecionado: any = null;
 
   storeFinanceiro = inject(FinanceiroStore);
 
@@ -22,6 +26,19 @@ export class LancamentoModalComponent {
   @Output() fechar = new EventEmitter<void>();
 
 
+  ngOnChanges(changes: SimpleChanges) {
+    const lanc = changes['lancamentoEdicao']?.currentValue;
+
+    if (lanc) {
+      this.isEdicao = true;
+      this.idEdicao = lanc.id; // 👈 GUARDA ID REAL
+
+      this.store.editar(lanc);
+    } else {
+      this.isEdicao = false;
+      this.idEdicao = null;
+    }
+  }
   constructor(
     public store: LancamentoFormStore,
     private criarUseCase: CriarLancamentoUseCase) { }
@@ -30,11 +47,11 @@ export class LancamentoModalComponent {
     const form = this.store.state();
 
     const lancamento = {
-      id: this.lancamentoEdicao?.id ?? crypto.randomUUID(),
+      id: this.idEdicao ?? crypto.randomUUID(), // 👈 CORRETO
 
       descricao: form.descricao,
       valor: form.valor,
-      valorTotal: form.valor, // 👈 importante
+      valorTotal: form.valor,
 
       data: form.data,
       tipo: form.tipo,
@@ -42,12 +59,14 @@ export class LancamentoModalComponent {
       categoriaId: form.categoriaId,
       contaId: form.contaId,
 
-      parcelas: [] // 👈 por enquanto vazio
+      parcelas: []
     };
 
-    if (this.lancamentoEdicao) {
+    if (this.isEdicao) {
+      console.log('ATUALIZANDO...');
       this.storeFinanceiro.atualizarLancamento(lancamento);
     } else {
+      console.log('CRIANDO...');
       this.storeFinanceiro.adicionarLancamento(lancamento);
     }
 
@@ -56,9 +75,9 @@ export class LancamentoModalComponent {
   }
 
   excluir() {
-    if (!this.lancamentoEdicao) return;
+    if (!this.idEdicao) return;
 
-    this.storeFinanceiro.removerLancamento(this.lancamentoEdicao.id);
+    this.storeFinanceiro.removerLancamento(this.idEdicao);
 
     this.store.reset();
     this.fechar.emit();
@@ -67,5 +86,9 @@ export class LancamentoModalComponent {
   cancelar() {
     this.store.reset();
     this.fechar.emit();
+  }
+
+  editarLancamento(l: any) {
+    this.lancamentoSelecionado = l;
   }
 }

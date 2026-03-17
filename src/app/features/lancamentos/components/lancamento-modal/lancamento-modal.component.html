@@ -8,18 +8,26 @@
 
     <app-lancamento-form></app-lancamento-form>
 
-    <div class="flex justify-end gap-2 mt-6">
-      <button (click)="cancelar()" class="px-4 py-2 border rounded">
-        Cancelar
-      </button>
+    <div class="flex justify-between mt-6">
 
-      <button (click)="salvar()" class="px-4 py-2 bg-blue-600 text-white rounded">
-        Salvar
-      </button>
-
-      <button *ngIf="lancamentoEdicao" (click)="excluir()" class="px-4 py-2 bg-red-600 text-white rounded">
+      <!-- ESQUERDA -->
+      <button *ngIf="isEdicao" (click)="excluir()" class="px-4 py-2 bg-red-600 text-white rounded">
         Excluir
       </button>
+
+      <!-- DIREITA -->
+      <div class="flex gap-2">
+
+        <button (click)="cancelar()" class="px-4 py-2 border rounded">
+          Cancelar
+        </button>
+
+        <button (click)="salvar()" class="px-4 py-2 bg-blue-600 text-white rounded">
+          {{ isEdicao ? 'Atualizar' : 'Salvar' }}
+        </button>
+
+      </div>
+
     </div>
 
   </div>

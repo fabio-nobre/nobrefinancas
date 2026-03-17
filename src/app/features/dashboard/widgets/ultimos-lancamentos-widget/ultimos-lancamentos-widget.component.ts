@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, EventEmitter, Output } from '@angular/core'
 import { CommonModule } from '@angular/common'
 
 import { DashboardFacade } from '../../../../application/facades/dashboard.facade'
@@ -14,6 +14,8 @@ import { DashboardFacade } from '../../../../application/facades/dashboard.facad
 export class UltimosLancamentosWidgetComponent {
 
   private facade = inject(DashboardFacade)
+
+  @Output() editar = new EventEmitter<any>();
 
   lancamentos = this.facade.ultimosLancamentos
   lancamentosAgrupados = this.facade.lancamentosAgrupados
