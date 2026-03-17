@@ -1,60 +1,23 @@
-import { Component, inject } from '@angular/core'
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { FinanceiroStore } from '@/app/application/stores/financeiro.store'
-import { Lancamento } from '@domain'
+import { Component, computed, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { LancamentoFormStore } from '../../state/lancamento-form.store';
+import { TipoLancamento } from '@/app/domain/financeiro/enums/tipo-lancamento.enum';
 
 @Component({
   selector: 'app-lancamento-form',
   standalone: true,
-  imports: [ReactiveFormsModule],
-  template: `
-<form [formGroup]="form" (ngSubmit)="salvar()" class="space-y-3">
-
-<input formControlName="descricao" placeholder="Descrição"
-class="input"/>
-
-<input formControlName="valor" type="number"
-placeholder="Valor" class="input"/>
-
-<select formControlName="tipo" class="input">
-<option value="DESPESA">Despesa</option>
-<option value="RECEITA">Receita</option>
-</select>
-
-<button class="btn">
-Adicionar
-</button>
-
-</form>
-`
+  imports: [CommonModule],
+  templateUrl: './lancamento-form.component.html'
 })
 export class LancamentoFormComponent {
 
-  store = inject(FinanceiroStore)
-  fb = inject(FormBuilder)
+  store = inject(LancamentoFormStore);
 
-  form = this.fb.group({
-    descricao: '',
-    valor: 0,
-    tipo: 'DESPESA'
-  })
+  state = this.store.state;
 
-  salvar() {
+  tipos = Object.values(TipoLancamento);
 
-    const v = this.form.value
-
-    const lancamento = new Lancamento(
-      crypto.randomUUID(),
-      v.descricao!,
-      Number(v.valor),
-      new Date(),
-      v.tipo as any
-    )
-
-    this.store.adicionarLancamento(lancamento)
-
-    this.form.reset()
-
+  setData(value: string) {
+    this.store.setData(new Date(value));
   }
-
 }

@@ -21,6 +21,8 @@ import { FinancialScoreGaugeWidgetComponent } from '../widgets/financial-score-g
 import { FinancialHealthPanelWidgetComponent } from '../widgets/financial-health-panel-widget/financial-health-panel-widget.component'
 import { FinancialScoreHistoryWidgetComponent } from '../widgets/financial-score-history-widget/financial-score-history-widget.component'
 import { FinancialIntelligencePanelWidgetComponent } from '../widgets/financial-intelligence-panel-widget/financial-intelligence-panel-widget.component'
+import { LancamentoModalComponent } from '@/app/features/lancamentos/components/lancamento-modal/lancamento-modal.component';
+
 @Component({
   selector: 'app-dashboard-page',
   standalone: true,
@@ -43,7 +45,8 @@ import { FinancialIntelligencePanelWidgetComponent } from '../widgets/financial-
     FinancialScoreGaugeWidgetComponent,
     FinancialHealthPanelWidgetComponent,
     FinancialScoreHistoryWidgetComponent,
-    FinancialIntelligencePanelWidgetComponent
+    FinancialIntelligencePanelWidgetComponent,
+    LancamentoModalComponent
   ],
 
   templateUrl: './dashboard-page.component.html'
@@ -60,6 +63,8 @@ export class DashboardPageComponent {
   evolucaoMensal = this.facade.evolucaoMensal
   gastosPorCategoria = this.facade.gastosPorCategoria
   ultimosLancamentos = this.facade.ultimosLancamentos
+
+  abrirModal = false;
 
   cashFlow = this.facade.cashFlow
 

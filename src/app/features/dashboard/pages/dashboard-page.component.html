@@ -1,5 +1,12 @@
 <div class="space-y-6">
 
+  <button (click)="abrirModal = true">
+    + Lançamento
+  </button>
+
+  <app-lancamento-modal *ngIf="abrirModal" (fechar)="abrirModal = false">
+  </app-lancamento-modal>
+
   <!-- CARDS SUPERIORES -->
 
   <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
