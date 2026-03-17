@@ -45,6 +45,9 @@
     <app-receitas-card></app-receitas-card>
     <app-despesas-card></app-despesas-card>
     <app-saldo-previsto-card></app-saldo-previsto-card>
+    <app-lancamento-modal *ngIf="abrirModal" [lancamentoEdicao]="lancamentoSelecionado"
+      (fechar)="abrirModal = false; lancamentoSelecionado = null">
+    </app-lancamento-modal>
 
   </div>
 

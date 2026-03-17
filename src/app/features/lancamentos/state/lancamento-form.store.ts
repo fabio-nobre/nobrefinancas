@@ -54,4 +54,15 @@ export class LancamentoFormStore {
       tipo: TipoLancamento.DESPESA
     });
   }
+
+  editar(lancamento: any) {
+    this._state.set({
+      descricao: lancamento.descricao,
+      valor: lancamento.valor,
+      data: new Date(lancamento.data),
+      tipo: lancamento.tipo,
+      categoriaId: lancamento.categoriaId,
+      contaId: lancamento.contaId
+    });
+  }
 }

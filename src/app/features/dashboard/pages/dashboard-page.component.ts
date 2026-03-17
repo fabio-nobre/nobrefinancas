@@ -55,6 +55,8 @@ import { FinanceiroStore } from '@/app/application/stores/financeiro.store';
 })
 export class DashboardPageComponent {
 
+  lancamentoSelecionado: any = null;
+
   facade = inject(DashboardFacade)
   store = inject(FinanceiroStore);
 
@@ -77,6 +79,11 @@ export class DashboardPageComponent {
     console.log('Período selecionado:', periodo);
 
     // 🔜 depois vamos integrar com engines
+  }
+
+  editarLancamento(l: any) {
+    this.lancamentoSelecionado = l;
+    this.abrirModal = true;
   }
 
 }
