@@ -12,6 +12,17 @@
     </option>
   </select>
 
+  <select class="w-full border rounded p-2" [value]="state().categoriaId"
+    (change)="store.setCategoria($any($event.target).value)">
+    <option value="">Selecione uma categoria</option>
+
+    <option value="Alimentação">Alimentação</option>
+    <option value="Transporte">Transporte</option>
+    <option value="Lazer">Lazer</option>
+    <option value="Moradia">Moradia</option>
+
+  </select>
+
   <input type="date" class="w-full border rounded p-2" [value]="state().data | date:'yyyy-MM-dd'"
     (change)="setData($any($event.target).value)" />
 

@@ -27,6 +27,13 @@ export interface FinanceiroState {
 })
 export class FinanceiroStore {
 
+  orcamento = signal<Record<string, number>>({
+    Alimentação: 800,
+    Transporte: 300,
+    Lazer: 200,
+    Moradia: 1500
+  });
+
   private STORAGE_KEY = 'nobrefinancas_lancamentos';
 
   private state = signal<FinanceiroState>({
@@ -179,6 +186,34 @@ export class FinanceiroStore {
     });
   }
 
+  orcamentoStatus = computed(() => {
+    const gastosArray = this.gastosPorCategoria();
 
+    const gastos: Record<string, number> = {};
+
+    gastosArray.forEach(item => {
+      gastos[item.categoria] = item.valor;
+    });
+    const limites = this.orcamento();
+
+    return Object.keys(limites).map(categoria => {
+      const gasto = gastos[categoria] ?? 0;
+      const limite = limites[categoria];
+
+      const percentual = limite > 0 ? (gasto / limite) * 100 : 0;
+
+      return {
+        categoria,
+        gasto,
+        limite,
+        percentual,
+
+        status:
+          percentual >= 100 ? 'estourado' :
+            percentual >= 80 ? 'alerta' :
+              'ok'
+      };
+    });
+  });
 
 }

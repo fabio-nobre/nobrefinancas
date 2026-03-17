@@ -1,90 +1,35 @@
-<div class="bg-white rounded-lg shadow p-4 h-full">
+<div class="bg-white rounded-lg shadow p-4">
 
   <h3 class="text-lg font-semibold mb-4 text-gray-700">
     Orçamento por categoria
   </h3>
 
-  <!-- Quando não houver budgets -->
-  <div *ngIf="budgets.length === 0" class="text-sm text-gray-500">
-    Nenhum orçamento configurado
-  </div>
+  <div *ngFor="let item of orcamento()" class="mb-4">
 
-  <!-- Lista -->
-  <div *ngFor="let b of budgets" class="py-3 border-b">
-
-    <!-- cabeçalho -->
-    <div class="flex justify-between text-sm text-gray-700 mb-2">
-
-      <span class="font-medium">
-        {{ b.categoria }}
-      </span>
-
-      <span class="text-gray-500">
-        {{ b.gastoAtual | currency:'BRL' }}
-        /
-        {{ b.limite | currency:'BRL' }}
-      </span>
-
+    <!-- HEADER -->
+    <div class="flex justify-between text-sm mb-1">
+      <span>{{ item.categoria }}</span>
+      <span>{{ item.gasto | currency:'BRL' }} / {{ item.limite | currency:'BRL' }}</span>
     </div>
 
-    <!-- barra -->
+    <!-- BARRA -->
     <div class="w-full bg-gray-200 rounded h-2">
 
-      <div class="h-2 rounded transition-all" [style.width.%]="b.percentual" [class.bg-green-500]="b.percentual < 60"
-        [class.bg-yellow-500]="b.percentual >= 60 && b.percentual < 80" [class.bg-red-500]="b.percentual >= 80">
-      </div>
+      <div class="h-2 rounded" [style.width.%]="item.percentual" [class.bg-green-500]="item.status === 'ok'"
+        [class.bg-yellow-500]="item.status === 'alerta'" [class.bg-red-600]="item.status === 'estourado'"></div>
 
     </div>
 
-    <!-- percentual -->
-    <div class="text-xs text-gray-500 mt-1">
-      {{ b.percentual | number:'1.0-0' }}% utilizado
-    </div>
-
-    <!-- projeção -->
-    <div *ngIf="b.riscoEstouro" class="text-xs text-orange-600 mt-1">
-
-      📈 projeção até fim do mês:
-      {{ b.projecao | currency:'BRL' }}
-
-    </div>
-    <div *ngIf="b.diasRestantesOrcamento !== null && b.percentual > 50" class="text-xs text-orange-600 mt-1">
-
-      ⚠️ orçamento acaba em
-      {{ b.diasRestantesOrcamento }}
-      dias
-
-    </div>
-
-    <!-- alertas -->
+    <!-- ALERTA -->
     <div class="text-xs mt-1">
 
-      <span *ngIf="b.alerta === 'proximo'" class="text-yellow-600">
-        ⚠️ próximo do limite
+      <span *ngIf="item.status === 'alerta'" class="text-yellow-600">
+        ⚠️ Atenção ao limite
       </span>
 
-      <span *ngIf="b.alerta === 'estourado'" class="text-red-600">
-        🔴 limite ultrapassado
+      <span *ngIf="item.status === 'estourado'" class="text-red-600">
+        🚨 Orçamento estourado
       </span>
-
-      <span *ngIf="b.riscoEstouro" class="text-red-500">
-        ⚠️ risco de estouro
-      </span>
-
-    </div>
-
-    <div *ngIf="b.excesso > 0" class="text-xs text-red-600 mt-1">
-
-      🔴 excesso de
-      {{ b.excesso | currency:'BRL' }}
-
-    </div>
-
-    <div *ngIf="b.reducaoDiariaNecessaria !== null" class="text-xs text-orange-600 mt-1">
-
-      💡 reduza
-      {{ b.reducaoDiariaNecessaria | currency:'BRL' }}
-      por dia para voltar ao orçamento
 
     </div>
 
