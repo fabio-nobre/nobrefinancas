@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, computed } from '@angular/core'
 import { CommonModule } from '@angular/common'
 
 import { DashboardFacade } from '@/app/application/facades/dashboard.facade'
@@ -23,6 +23,7 @@ import { FinancialScoreHistoryWidgetComponent } from '../widgets/financial-score
 import { FinancialIntelligencePanelWidgetComponent } from '../widgets/financial-intelligence-panel-widget/financial-intelligence-panel-widget.component'
 import { LancamentoModalComponent } from '@/app/features/lancamentos/components/lancamento-modal/lancamento-modal.component';
 import { LancamentosStore } from '@/app/application/stores/lancamentos.store'
+import { TipoLancamento } from '@/app/domain/financeiro/enums/tipo-lancamento.enum'
 
 @Component({
   selector: 'app-dashboard-page',
@@ -57,10 +58,24 @@ export class DashboardPageComponent {
   facade = inject(DashboardFacade)
   lancamentosStore = inject(LancamentosStore);
 
-  saldo = this.facade.saldo
-  receitas = this.facade.totalReceitas
-  despesas = this.facade.totalDespesas
+  // saldo = this.facade.saldo
+  // receitas = this.facade.totalReceitas
+  // despesas = this.facade.totalDespesas
   saldoPrevisto = this.facade.saldoPrevisto
+
+  receitas = computed(() =>
+    this.lancamentos()
+      .filter(l => l.tipo === TipoLancamento.RECEITA)
+      .reduce((total, l) => total + l.valor, 0)
+  );
+
+  despesas = computed(() =>
+    this.lancamentos()
+      .filter(l => l.tipo === TipoLancamento.DESPESA)
+      .reduce((total, l) => total + l.valor, 0)
+  );
+
+  saldo = computed(() => this.receitas() - this.despesas());
 
   evolucaoMensal = this.facade.evolucaoMensal
   gastosPorCategoria = this.facade.gastosPorCategoria
