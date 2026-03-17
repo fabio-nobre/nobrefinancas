@@ -1,25 +1,13 @@
-import { inject } from '@angular/core'
-import { FinanceiroStore } from '../stores/financeiro.store'
+import { Injectable, inject } from '@angular/core';
+import { LancamentosStore } from '@/app/application/stores/lancamentos.store';
+import { Lancamento } from '@/app/domain/financeiro';
 
-import { Lancamento } from '@/app/domain/financeiro'
-
-import { EventBus } from '../events/event-bus'
-import { LancamentoCriadoEvent } from '../events/financeiro/lancamento-criado.event'
-
+@Injectable({ providedIn: 'root' })
 export class CriarLancamentoUseCase {
 
-  private store = inject(FinanceiroStore)
+  private store = inject(LancamentosStore);
 
   executar(lancamento: Lancamento) {
-
-    this.store.adicionarLancamento(lancamento)
-
-    EventBus.publish(
-      new LancamentoCriadoEvent(
-        lancamento.id
-      )
-    )
-
+    this.store.adicionar(lancamento);
   }
-
 }

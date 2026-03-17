@@ -22,6 +22,7 @@ import { FinancialHealthPanelWidgetComponent } from '../widgets/financial-health
 import { FinancialScoreHistoryWidgetComponent } from '../widgets/financial-score-history-widget/financial-score-history-widget.component'
 import { FinancialIntelligencePanelWidgetComponent } from '../widgets/financial-intelligence-panel-widget/financial-intelligence-panel-widget.component'
 import { LancamentoModalComponent } from '@/app/features/lancamentos/components/lancamento-modal/lancamento-modal.component';
+import { LancamentosStore } from '@/app/application/stores/lancamentos.store'
 
 @Component({
   selector: 'app-dashboard-page',
@@ -54,6 +55,7 @@ import { LancamentoModalComponent } from '@/app/features/lancamentos/components/
 export class DashboardPageComponent {
 
   facade = inject(DashboardFacade)
+  lancamentosStore = inject(LancamentosStore);
 
   saldo = this.facade.saldo
   receitas = this.facade.totalReceitas
@@ -64,8 +66,16 @@ export class DashboardPageComponent {
   gastosPorCategoria = this.facade.gastosPorCategoria
   ultimosLancamentos = this.facade.ultimosLancamentos
 
+  lancamentos = this.lancamentosStore.lancamentos;
+
   abrirModal = false;
 
   cashFlow = this.facade.cashFlow
+
+  onPeriodoChange(periodo: string) {
+    console.log('Período selecionado:', periodo);
+
+    // 🔜 depois vamos integrar com engines
+  }
 
 }
