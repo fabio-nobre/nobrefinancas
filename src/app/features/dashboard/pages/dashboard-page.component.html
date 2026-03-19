@@ -3,8 +3,6 @@
   <!-- HEADER -->
 
   <div class="flex items-center justify-between mb-6">
-
-    ```
     <!-- ESQUERDA -->
     <div>
       <h1 class="text-2xl font-semibold text-gray-800">
@@ -25,7 +23,7 @@
         <option value="ano">Este ano</option>
       </select>
 
-      <!-- BOTÃO PRINCIPAL -->
+      <!-- BOTÃO -->
       <button (click)="lancamentoSelecionado = null; abrirModal = true"
         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow flex items-center gap-2">
         <span>➕</span>
@@ -38,20 +36,16 @@
       </div>
 
     </div>
-    ```
-
   </div>
 
   <!-- CARDS -->
 
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
-    ```
     <app-saldo-card></app-saldo-card>
     <app-receitas-card></app-receitas-card>
     <app-despesas-card></app-despesas-card>
     <app-saldo-previsto-card></app-saldo-previsto-card>
-    ```
 
   </div>
 
@@ -59,7 +53,6 @@
 
   <div class="bg-white rounded-lg shadow p-4">
 
-    ```
     <h2 class="text-xl font-semibold mb-4 text-gray-700">
       Fluxo de caixa
     </h2>
@@ -68,15 +61,13 @@
       <span>{{ m.mes }}</span>
       <span>{{ m.saldo | currency:'BRL' }}</span>
     </div>
-    ```
 
   </div>
 
   <!-- GRID PRINCIPAL -->
 
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-    ```
     <!-- INDICADORES -->
     <app-financial-score-gauge-widget class="lg:col-span-3"></app-financial-score-gauge-widget>
     <app-financial-health-panel-widget class="lg:col-span-3"></app-financial-health-panel-widget>
@@ -86,9 +77,20 @@
     <app-financial-score-history-widget class="lg:col-span-6"></app-financial-score-history-widget>
     <app-evolucao-widget class="lg:col-span-6"></app-evolucao-widget>
 
-    <!-- CATEGORIAS / ORÇAMENTO -->
-    <app-categorias-widget class="lg:col-span-6"></app-categorias-widget>
-    <app-budget-widget class="lg:col-span-6"></app-budget-widget>
+    <!-- 🔥 CATEGORIAS + BUDGET (CORRIGIDO) -->
+    <div class="lg:col-span-12 grid grid-cols-1 xl:grid-cols-3 gap-6 items-stretch">
+
+      <!-- GRÁFICO (MAIOR) -->
+      <div class="xl:col-span-2">
+        <app-categorias-widget></app-categorias-widget>
+      </div>
+
+      <!-- BUDGET (AGORA CORRETO) -->
+      <div class="xl:col-span-1 h-full flex">
+        <app-budget-widget class="flex-1"></app-budget-widget>
+      </div>
+
+    </div>
 
     <!-- SUGESTÃO -->
     <app-budget-suggestion-widget class="lg:col-span-12"></app-budget-suggestion-widget>
@@ -101,15 +103,15 @@
     </div>
 
     <!-- ÚLTIMOS LANÇAMENTOS -->
-    <app-ultimos-lancamentos-widget (editar)="editarLancamento($event)">
+    <app-ultimos-lancamentos-widget class="lg:col-span-12" (editar)="editarLancamento($event)">
     </app-ultimos-lancamentos-widget>
-    ```
 
   </div>
 
 </div>
 
-<!-- ✅ MODAL FORA DO LAYOUT (CRÍTICO) -->
+<!-- MODAL -->
 
 <app-lancamento-modal *ngIf="abrirModal" [lancamentoEdicao]="lancamentoSelecionado"
-  (fechar)="abrirModal = false; lancamentoSelecionado = null"> </app-lancamento-modal>
+  (fechar)="abrirModal = false; lancamentoSelecionado = null">
+</app-lancamento-modal>

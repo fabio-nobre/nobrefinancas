@@ -1,35 +1,65 @@
-<div class="bg-white rounded-lg shadow p-4">
+<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 h-full flex flex-col">
 
-  <h3 class="text-lg font-semibold mb-4 text-gray-700">
-    Orçamento por categoria
-  </h3>
+  <!-- HEADER -->
+  <div class="mb-4">
+    <h2 class="text-base font-semibold text-gray-900">
+      Orçamento por Categoria
+    </h2>
+  </div>
 
-  <div *ngFor="let item of orcamento()" class="mb-4">
+  <!-- LISTA -->
+  <div class="space-y-4 flex-1">
 
-    <!-- HEADER -->
-    <div class="flex justify-between text-sm mb-1">
-      <span>{{ item.categoria }}</span>
-      <span>{{ item.gasto | currency:'BRL' }} / {{ item.limite | currency:'BRL' }}</span>
-    </div>
+    <div *ngFor="let b of budgets()" class="bg-gray-50 rounded-lg p-3 space-y-2 border border-gray-100">
 
-    <!-- BARRA -->
-    <div class="w-full bg-gray-200 rounded h-2">
+      <!-- TOP -->
+      <div class="flex justify-between items-center">
 
-      <div class="h-2 rounded" [style.width.%]="item.percentual" [class.bg-green-500]="item.status === 'ok'"
-        [class.bg-yellow-500]="item.status === 'alerta'" [class.bg-red-600]="item.status === 'estourado'"></div>
+        <span class="font-medium text-gray-700 text-sm">
+          {{ b.categoria }}
+        </span>
 
-    </div>
+        <span class="text-xs font-semibold" [ngClass]="{
+            'text-green-600': b.percentual < 80,
+            'text-amber-600': b.percentual >= 80 && b.percentual < 100,
+            'text-red-600': b.percentual >= 100
+          }">
 
-    <!-- ALERTA -->
-    <div class="text-xs mt-1">
+          {{ b.percentual | number:'1.0-0' }}%
 
-      <span *ngIf="item.status === 'alerta'" class="text-yellow-600">
-        ⚠️ Atenção ao limite
-      </span>
+        </span>
 
-      <span *ngIf="item.status === 'estourado'" class="text-red-600">
-        🚨 Orçamento estourado
-      </span>
+      </div>
+
+      <!-- BARRA -->
+      <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+
+        <div class="h-full transition-all duration-500" [style.width.%]="b.percentual" [ngClass]="{
+            'bg-green-500': b.percentual < 80,
+            'bg-amber-400': b.percentual >= 80 && b.percentual < 100,
+            'bg-red-500': b.percentual >= 100
+          }">
+        </div>
+
+      </div>
+
+      <!-- VALORES -->
+      <div class="flex justify-between text-xs text-gray-500">
+
+        <span>
+          {{ b.gastoAtual | currency:'BRL' }}
+        </span>
+
+        <span>
+          {{ b.limite | currency:'BRL' }}
+        </span>
+
+      </div>
+
+      <!-- PROJEÇÃO -->
+      <div class="text-xs text-gray-400">
+        Projeção: {{ b.projecao | currency:'BRL' }}
+      </div>
 
     </div>
 

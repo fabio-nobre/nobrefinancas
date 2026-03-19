@@ -1,25 +1,17 @@
-import { Component, inject } from '@angular/core'
-import { CommonModule } from '@angular/common'
-
-import { DashboardFacade } from '@/app/application/facades/dashboard.facade'
-import { BudgetStatus } from '@/app/application/models/budget/budget-status.model'
-import { FinanceiroStore } from '@/app/application/stores/financeiro.store'
+import { Component, computed, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DashboardFacade } from '@/app/application/facades/dashboard.facade';
 
 @Component({
   selector: 'app-budget-widget',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './budget-widget.component.html',
-  styleUrls: ['./budget-widget.component.scss']
 })
 export class BudgetWidgetComponent {
 
-  private facade = inject(DashboardFacade)
+  private facade = inject(DashboardFacade);
 
-  private store = inject(FinanceiroStore);
+  budgets = computed(() => this.facade.budgets());
 
-  get budgets(): BudgetStatus[] {
-    return this.facade.intelligence()?.budgets ?? []
-  }
-  orcamento = this.store.orcamentoStatus;
 }
