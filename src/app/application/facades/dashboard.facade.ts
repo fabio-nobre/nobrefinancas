@@ -13,13 +13,14 @@ import { ObterDashboardHandler } from '../handlers/obter-dashboard.handler'
 import { DashboardReadModel } from '../read-models/dashboard.read-model'
 import { CashFlowEngine } from '../engines/analytics/cash-flow.engine'
 import { Budget } from '@/app/domain/financeiro/models/budget.model'
+import { BudgetService } from '@/app/features/budget/services/budget.service';
 
-const budgetsConfig: Budget[] = []
 
 @Injectable({ providedIn: 'root' })
 export class DashboardFacade {
 
   private financeiro = inject(FinanceiroStore)
+  private budgetService = inject(BudgetService)
 
 
   // =============================
@@ -241,19 +242,23 @@ export class DashboardFacade {
     this.intelligence().timeline
   )
 
-
   private budgetsConfig = [
     { categoria: 'Alimentação', limiteMensal: 800 },
     { categoria: 'Transporte', limiteMensal: 300 },
     { categoria: 'Lazer', limiteMensal: 200 }
   ]
 
-  intelligence = computed(() =>
-    FinancialIntelligencePipeline.processar(
+  intelligence = computed(() => {
+
+    console.log("DEBUG budgetsConfig:", this.budgetsConfig);
+
+    return FinancialIntelligencePipeline.processar(
       this.lancamentos(),
-      this.budgetsConfig
-    )
-  )
+      this.budgetsConfig,
+      this.budgetService
+    );
+
+  });
 
   budgetSuggestions = computed(() =>
     this.intelligence().budgetSuggestions

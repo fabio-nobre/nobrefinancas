@@ -32,12 +32,16 @@ import { FinancialBudgetEngine } from '../engines/budget/financial-budget.engine
 import { Budget } from '@/app/domain/financeiro/models/budget.model'
 import { FinancialBudgetSuggestionEngine } from '../engines/budget/financial-budget-suggestion.engine'
 import { FinancialScoreHistoryEngine } from '../engines/score/financial-score-history.engine'
+import { BudgetService } from '@/app/features/budget/services/budget.service';
+
 
 export class FinancialIntelligencePipeline {
 
+
   static processar(
     lancamentos: Lancamento[],
-    budgetsConfig: Budget[]
+    budgetsConfig: Budget[],
+    budgetService: BudgetService
   ): FinancialIntelligenceContext {
 
     // etapa 1
@@ -45,8 +49,11 @@ export class FinancialIntelligencePipeline {
       FinanceAnalyticsEngine.calcular(lancamentos)
 
     // etapa 2
+    const budgetEngine =
+      new FinancialBudgetEngine(budgetService);
+
     const budgets =
-      FinancialBudgetEngine.calcular(
+      budgetEngine.calcular(
         lancamentos,
         budgetsConfig
       )

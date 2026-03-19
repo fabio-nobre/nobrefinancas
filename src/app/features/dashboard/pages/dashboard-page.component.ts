@@ -23,7 +23,7 @@ import { FinancialScoreHistoryWidgetComponent } from '../widgets/financial-score
 import { FinancialIntelligencePanelWidgetComponent } from '../widgets/financial-intelligence-panel-widget/financial-intelligence-panel-widget.component'
 import { LancamentoModalComponent } from '@/app/features/lancamentos/components/lancamento-modal/lancamento-modal.component';
 import { FinanceiroStore } from '@/app/application/stores/financeiro.store';
-
+import { BudgetService } from '@/app/features/budget/services/budget.service';
 
 @Component({
   selector: 'app-dashboard-page',
@@ -59,6 +59,7 @@ export class DashboardPageComponent {
 
   facade = inject(DashboardFacade)
   store = inject(FinanceiroStore);
+  budgetService = inject(BudgetService)
 
   saldo = this.store.saldo;
   receitas = this.store.totalReceitas;
@@ -84,6 +85,13 @@ export class DashboardPageComponent {
   editarLancamento(l: any) {
     this.lancamentoSelecionado = l;
     this.abrirModal = true;
+  }
+
+  ngOnInit() {
+
+    // 🔥 TESTE
+    this.budgetService.definirBudget('alimentacao', 800);
+
   }
 
 }
