@@ -23,6 +23,10 @@ export class DashboardFacade {
   private budgetService = inject(BudgetService)
 
 
+  definirBudget(categoria: string, valor: number) {
+    this.budgetService.definirBudget(categoria, valor);
+  }
+
   // =============================
   // Base
   // =============================
@@ -45,6 +49,7 @@ export class DashboardFacade {
   dashboard = computed(() =>
     DashboardReadModelFactory.create(this.analytics())
   )
+
 
   // =============================
   // Indicadores principais
@@ -400,5 +405,6 @@ export class DashboardFacade {
   scoreHistory = computed(() =>
     this.intelligence().scoreHistory
   )
+
 
 }

@@ -1,67 +1,58 @@
-<div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 h-full flex flex-col">
+<div class="space-y-4">
 
-  <!-- HEADER -->
-  <div class="mb-4">
-    <h2 class="text-base font-semibold text-gray-900">
-      Orçamento por Categoria
-    </h2>
-  </div>
+  <h2 class="text-lg font-semibold text-gray-700">
+    Orçamento por Categoria
+  </h2>
 
-  <!-- LISTA -->
-  <div class="space-y-4 flex-1">
+  <div *ngFor="let b of budgets()" class="bg-white rounded-xl p-4 shadow-sm border">
 
-    <div *ngFor="let b of budgets()" class="bg-gray-50 rounded-lg p-3 space-y-2 border border-gray-100">
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-2">
+      <span class="font-medium text-gray-800">
+        {{ b.categoria }}
+      </span>
 
-      <!-- TOP -->
-      <div class="flex justify-between items-center">
-
-        <span class="font-medium text-gray-700 text-sm">
-          {{ b.categoria }}
-        </span>
-
-        <span class="text-xs font-semibold" [ngClass]="{
-            'text-green-600': b.percentual < 80,
-            'text-amber-600': b.percentual >= 80 && b.percentual < 100,
-            'text-red-600': b.percentual >= 100
-          }">
-
-          {{ b.percentual | number:'1.0-0' }}%
-
-        </span>
-
-      </div>
-
-      <!-- BARRA -->
-      <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-
-        <div class="h-full transition-all duration-500" [style.width.%]="b.percentual" [ngClass]="{
-            'bg-green-500': b.percentual < 80,
-            'bg-amber-400': b.percentual >= 80 && b.percentual < 100,
-            'bg-red-500': b.percentual >= 100
-          }">
-        </div>
-
-      </div>
-
-      <!-- VALORES -->
-      <div class="flex justify-between text-xs text-gray-500">
-
-        <span>
-          {{ b.gastoAtual | currency:'BRL' }}
-        </span>
-
-        <span>
-          {{ b.limite | currency:'BRL' }}
-        </span>
-
-      </div>
-
-      <!-- PROJEÇÃO -->
-      <div class="text-xs text-gray-400">
-        Projeção: {{ b.projecao | currency:'BRL' }}
-      </div>
-
+      <span class="text-sm text-gray-500">
+        {{ b.limite > 0 ? (b.percentual | number:'1.0-0') + '%' : '—' }}
+      </span>
     </div>
+
+    <!-- BARRA -->
+    <div class="w-full bg-gray-200 rounded h-2">
+      <div class="h-2 rounded transition-all duration-300" [class.bg-blue-500]="b.limite > 0 && b.alerta === 'ok'"
+        [class.bg-yellow-500]="b.limite > 0 && b.alerta === 'proximo'"
+        [class.bg-red-500]="b.alerta === 'estourado' || b.limite === 0"
+        [style.width.%]="b.limite > 0 ? b.percentual : 100"></div>
+    </div>
+
+    <!-- VALORES -->
+    <div class="flex justify-between text-sm text-gray-600 mt-2">
+      <span>{{ b.gastoAtual | currency:'BRL' }}</span>
+      <span>{{ b.limite | currency:'BRL' }}</span>
+    </div>
+
+    <!-- PROJEÇÃO -->
+    <p class="text-xs text-gray-500 mt-1">
+      Projeção: {{ b.projecao | currency:'BRL' }}
+    </p>
+
+    <!-- ALERTAS -->
+    <p *ngIf="b.limite === 0" class="text-red-600 text-sm mt-2">
+      ⚠️ Defina um orçamento para esta categoria
+    </p>
+
+    <p *ngIf="b.alerta === 'proximo'" class="text-yellow-600 text-sm mt-2">
+      ⚠️ Próximo do limite
+    </p>
+
+    <p *ngIf="b.alerta === 'estourado'" class="text-red-600 text-sm mt-2">
+      🚨 Orçamento estourado
+    </p>
+
+    <!-- BOTÃO -->
+    <button (click)="editar(b.categoria)" class="text-blue-600 text-sm mt-3 hover:underline">
+      {{ b.limite === 0 ? 'Definir orçamento' : 'Editar orçamento' }}
+    </button>
 
   </div>
 
