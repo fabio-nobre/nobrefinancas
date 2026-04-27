@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { DashboardFacade } from '@/app/application/facades/dashboard.facade'
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-savings-goal-widget',
@@ -10,10 +9,8 @@ import { DashboardFacade } from '@/app/application/facades/dashboard.facade'
 })
 export class SavingsGoalWidgetComponent {
 
-  private facade = inject(DashboardFacade)
-
-  meta = this.facade.metaEconomiaMensal
-  status = this.facade.statusMetaEconomia
-
+  // 🔥 ESSAS LINHAS RESOLVEM
+  @Input() meta: any;
+  @Input() status: any;
 
 }

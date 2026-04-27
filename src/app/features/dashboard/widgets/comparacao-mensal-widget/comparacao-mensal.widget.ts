@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { DashboardFacade } from '../../../../application/facades/dashboard.facade'
+import { DashboardFacade } from '../../../../features/dashboard/facade/dashboard.facade'
 
 @Component({
   selector: 'app-comparacao-mensal',

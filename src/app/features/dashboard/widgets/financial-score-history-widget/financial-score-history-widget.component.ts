@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
 
 import { DashboardFacade }
-  from '@/app/application/facades/dashboard.facade'
+  from '@/app/features/dashboard/facade/dashboard.facade'
 
 @Component({
   selector: 'app-financial-score-history-widget',

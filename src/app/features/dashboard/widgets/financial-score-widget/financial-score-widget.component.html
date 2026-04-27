@@ -7,15 +7,15 @@
   <div class="flex items-center gap-4">
 
     <div class="text-4xl font-bold" [ngClass]="{
-    'text-red-500': score().score < 40,
-    'text-yellow-500': score().score >= 40 && score().score < 70,
-    'text-green-600': score().score >= 70
+    'text-red-500': score.score < 40,
+    'text-yellow-500': score.score >= 40 && score.score < 70,
+    'text-green-600': score.score >= 70
   }">
-      {{ score().score }}
+      {{ score.score }}
     </div>
 
     <div class="text-sm text-gray-500">
-      {{ score().classificacao }}
+      {{ score.classificacao }}
     </div>
 
   </div>
@@ -23,15 +23,15 @@
   <div class="mt-4 space-y-2 text-xs">
 
     <div>
-      Poupança: {{ score().metricas.taxaPoupanca }}%
+      Poupança: {{ score.metricas.taxaPoupanca }}%
     </div>
 
     <div>
-      Controle despesas: {{ score().metricas.controleDespesas }}%
+      Controle despesas: {{ score.metricas.controleDespesas }}%
     </div>
 
     <div>
-      Estabilidade: {{ score().metricas.estabilidade }}%
+      Estabilidade: {{ score.metricas.estabilidade }}%
     </div>
 
   </div>

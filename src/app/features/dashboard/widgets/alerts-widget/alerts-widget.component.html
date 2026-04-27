@@ -4,10 +4,9 @@
     ⚠️ Alertas financeiros
   </h3>
 
-  <div *ngFor="let a of alerts()" class="text-sm py-2 border-b">
+  <div *ngFor="let a of alerts" class="text-sm py-2 border-b">
 
-    <span [class.text-yellow-600]="a.severidade === 'ALERTA'" [class.text-red-600]="a.severidade === 'CRITICO'"
-      class="font-medium">
+    <span [class.text-yellow-600]="a.tipo === 'ALERTA'" [class.text-red-600]="a.tipo === 'CRITICO'" class="font-medium">
 
       {{ a.mensagem }}
 

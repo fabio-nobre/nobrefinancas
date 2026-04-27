@@ -1,32 +1,22 @@
-import { FinancialAnalyticsResult } from "@/app/application/models/analytics/financial-analytics-result.model"
+import { FinancialContext, ForecastResult } from '../../types/financial.types';
 
-export interface FinancialRisk {
+interface RiskInput {
+  context: FinancialContext;
+  forecast: ForecastResult;
+}
 
-  saldoNegativo: boolean
-  despesasAltas: boolean
-
+export interface RiskResult {
+  risco: number;
 }
 
 export class FinancialRiskEngine {
 
-  static analisar(
-    analytics: FinancialAnalyticsResult
-  ): FinancialRisk {
+  process(input: RiskInput): RiskResult {
 
-    const receitas = analytics.resumo.receitas
-    const despesas = analytics.resumo.despesas
+    const { context, forecast } = input;
 
-    return {
+    const risco = context.despesas > forecast.saldoPrevisto ? 0.9 : 0.1;
 
-      saldoNegativo:
-        despesas > receitas,
-
-      despesasAltas:
-        receitas > 0 &&
-        despesas / receitas > 0.8
-
-    }
-
+    return { risco };
   }
-
 }

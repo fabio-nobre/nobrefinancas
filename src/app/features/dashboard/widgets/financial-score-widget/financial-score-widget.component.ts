@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { DashboardFacade } from '@/app/application/facades/dashboard.facade'
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-financial-score-widget',
@@ -10,8 +9,7 @@ import { DashboardFacade } from '@/app/application/facades/dashboard.facade'
 })
 export class FinancialScoreWidgetComponent {
 
-  facade = inject(DashboardFacade)
-
-  score = this.facade.scoreFinanceiro
+  // 🔥 ESSA LINHA RESOLVE
+  @Input() score: any;
 
 }

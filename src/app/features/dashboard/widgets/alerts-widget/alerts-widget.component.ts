@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { DashboardFacade } from '@/app/application/facades/dashboard.facade'
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-alerts-widget',
@@ -10,8 +9,6 @@ import { DashboardFacade } from '@/app/application/facades/dashboard.facade'
 })
 export class AlertsWidgetComponent {
 
-  private facade = inject(DashboardFacade)
-
-  alerts = this.facade.alertsFinanceiros
+  @Input() alerts: any[] = [];
 
 }

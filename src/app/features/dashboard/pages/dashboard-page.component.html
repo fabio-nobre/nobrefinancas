@@ -1,117 +1,27 @@
-<div class="space-y-6">
+<!-- DEBUG -->
 
-  <!-- HEADER -->
+<hr>
 
-  <div class="flex items-center justify-between mb-6">
-    <!-- ESQUERDA -->
-    <div>
-      <h1 class="text-2xl font-semibold text-gray-800">
-        Dashboard
-      </h1>
-      <p class="text-sm text-gray-500">
-        Visão geral das suas finanças
-      </p>
-    </div>
+<!-- ALERTAS -->
+<app-alerts-widget [alerts]="facade.alertsFinanceiros()">
+</app-alerts-widget>
 
-    <!-- DIREITA -->
-    <div class="flex items-center gap-3">
+<!-- CATEGORIAS -->
+<app-categorias-widget [categorias]="facade.gastosPorCategoria()">
+</app-categorias-widget>
 
-      <!-- FILTRO DE PERÍODO -->
-      <select class="border rounded-lg px-3 py-2 text-sm" (change)="onPeriodoChange($any($event.target).value)">
-        <option value="mes">Este mês</option>
-        <option value="mes-anterior">Mês anterior</option>
-        <option value="ano">Este ano</option>
-      </select>
+<!-- BUDGET -->
+<app-budget-suggestion-widget [sugestoes]="facade.budgetSuggestions()">
+</app-budget-suggestion-widget>
 
-      <!-- BOTÃO -->
-      <button (click)="lancamentoSelecionado = null; abrirModal = true"
-        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow flex items-center gap-2">
-        <span>➕</span>
-        <span>Novo lançamento</span>
-      </button>
+<!-- SCORE -->
+<app-financial-score-widget [score]="facade.scoreFinanceiro()">
+</app-financial-score-widget>
 
-      <!-- AVATAR -->
-      <div class="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center text-sm font-semibold">
-        FN
-      </div>
+<!-- META -->
+<app-savings-goal-widget [meta]="facade.metaEconomiaMensal()" [status]="facade.statusMetaEconomia()">
+</app-savings-goal-widget>
 
-    </div>
-  </div>
-
-  <!-- CARDS -->
-
-  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-
-    <app-saldo-card></app-saldo-card>
-    <app-receitas-card></app-receitas-card>
-    <app-despesas-card></app-despesas-card>
-    <app-saldo-previsto-card></app-saldo-previsto-card>
-
-  </div>
-
-  <!-- FLUXO DE CAIXA -->
-
-  <div class="bg-white rounded-lg shadow p-4">
-
-    <h2 class="text-xl font-semibold mb-4 text-gray-700">
-      Fluxo de caixa
-    </h2>
-
-    <div *ngFor="let m of cashFlow()" class="flex justify-between py-2 border-b text-sm text-gray-600">
-      <span>{{ m.mes }}</span>
-      <span>{{ m.saldo | currency:'BRL' }}</span>
-    </div>
-
-  </div>
-
-  <!-- GRID PRINCIPAL -->
-
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-    <!-- INDICADORES -->
-    <app-financial-score-gauge-widget class="lg:col-span-3"></app-financial-score-gauge-widget>
-    <app-financial-health-panel-widget class="lg:col-span-3"></app-financial-health-panel-widget>
-    <app-financial-intelligence-panel-widget class="lg:col-span-6"></app-financial-intelligence-panel-widget>
-
-    <!-- HISTÓRICO -->
-    <app-financial-score-history-widget class="lg:col-span-6"></app-financial-score-history-widget>
-    <app-evolucao-widget class="lg:col-span-6"></app-evolucao-widget>
-
-    <!-- 🔥 CATEGORIAS + BUDGET (CORRIGIDO) -->
-    <div class="lg:col-span-12 grid grid-cols-1 xl:grid-cols-3 gap-6 items-stretch">
-
-      <!-- GRÁFICO (MAIOR) -->
-      <div class="xl:col-span-2">
-        <app-categorias-widget></app-categorias-widget>
-      </div>
-
-      <!-- BUDGET (AGORA CORRETO) -->
-      <div class="xl:col-span-1 h-full flex">
-        <app-budget-widget class="flex-1"></app-budget-widget>
-      </div>
-
-    </div>
-
-    <!-- SUGESTÃO -->
-    <app-budget-suggestion-widget class="lg:col-span-12"></app-budget-suggestion-widget>
-
-    <!-- ALERTAS / META / ASSINATURAS -->
-    <div class="lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-6">
-      <app-alerts-widget></app-alerts-widget>
-      <app-savings-goal-widget></app-savings-goal-widget>
-      <app-recurring-subscriptions-widget></app-recurring-subscriptions-widget>
-    </div>
-
-    <!-- ÚLTIMOS LANÇAMENTOS -->
-    <app-ultimos-lancamentos-widget class="lg:col-span-12" (editar)="editarLancamento($event)">
-    </app-ultimos-lancamentos-widget>
-
-  </div>
-
-</div>
-
-<!-- MODAL -->
-
-<app-lancamento-modal *ngIf="abrirModal" [lancamentoEdicao]="lancamentoSelecionado"
-  (fechar)="abrirModal = false; lancamentoSelecionado = null">
-</app-lancamento-modal>
+<!-- LISTA -->
+<app-ultimos-lancamentos-widget [grupos]="facade.lancamentosAgrupados()">
+</app-ultimos-lancamentos-widget>

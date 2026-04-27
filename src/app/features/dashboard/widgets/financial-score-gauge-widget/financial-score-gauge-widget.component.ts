@@ -2,7 +2,7 @@ import { Component, inject, AfterViewInit, ViewChild, ElementRef } from '@angula
 import { CommonModule } from '@angular/common'
 import { Chart } from 'chart.js/auto'
 
-import { DashboardFacade } from '@/app/application/facades/dashboard.facade'
+import { DashboardFacade } from '@/app/features/dashboard/facade/dashboard.facade'
 
 @Component({
   selector: 'app-financial-score-gauge-widget',

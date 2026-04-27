@@ -1,23 +1,17 @@
-import { Component, inject, EventEmitter, Output } from '@angular/core'
-import { CommonModule } from '@angular/common'
-
-import { DashboardFacade } from '../../../../application/facades/dashboard.facade'
+import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-ultimos-lancamentos-widget',
   standalone: true,
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   templateUrl: './ultimos-lancamentos-widget.component.html'
 })
 export class UltimosLancamentosWidgetComponent {
 
-  private facade = inject(DashboardFacade)
-
   @Output() editar = new EventEmitter<any>();
 
-  lancamentos = this.facade.ultimosLancamentos
-  lancamentosAgrupados = this.facade.lancamentosAgrupados
+  // 🔥 ESSA LINHA RESOLVE
+  @Input() grupos: any[] = [];
 
 }

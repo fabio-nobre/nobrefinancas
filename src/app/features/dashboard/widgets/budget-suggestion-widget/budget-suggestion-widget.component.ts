@@ -1,8 +1,5 @@
-import { Component, inject } from '@angular/core'
-import { CommonModule } from '@angular/common'
-
-import { DashboardFacade }
-  from '@/app/application/facades/dashboard.facade'
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-budget-suggestion-widget',
@@ -12,11 +9,14 @@ import { DashboardFacade }
 })
 export class BudgetSuggestionWidgetComponent {
 
-  private facade = inject(DashboardFacade)
+  @Input() sugestoes: any[] = [];
 
-  get suggestions() {
-    return this.facade
-      .budgetSuggestions()
-      .sort((a, b) => b.sugestaoOrcamento - a.sugestaoOrcamento)
+  // mantém sua lógica
+  get suggestionsOrdenadas() {
+    return this.sugestoes
+      .slice()
+      .sort((a: any, b: any) =>
+        b.sugestaoOrcamento - a.sugestaoOrcamento
+      );
   }
 }
