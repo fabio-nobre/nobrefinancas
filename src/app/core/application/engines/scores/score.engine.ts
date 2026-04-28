@@ -4,12 +4,15 @@ import { Engine } from '../engine';
 export class ScoreEngine implements Engine<FinancialContext, { value: number }> {
   execute(context: any) {
 
-    const transactions = context?.transactions ?? [];
+    const receitas = context.resumo?.receitas ?? 0;
+    const despesas = context.resumo?.despesas ?? 0;
 
-    const total = transactions.length;
+    if (receitas === 0) return { value: 0 };
+
+    const taxa = (receitas - despesas) / receitas;
 
     return {
-      value: Math.max(0, 100 - total)
+      value: Math.max(0, Math.min(100, taxa * 100))
     };
   }
 }

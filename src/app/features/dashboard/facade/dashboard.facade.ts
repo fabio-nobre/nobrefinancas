@@ -2,6 +2,9 @@ import { Injectable, computed, inject } from '@angular/core';
 
 import { FinancialOrchestrator } from '@/app/core/application/orchestrator/financial-orchestrator';
 import { createFinancialPipeline } from '@/app/core/application/factory/financial-pipeline.factory';
+import { buildFinancialContext } from '@/app/core/application/context/financial-context.adapter';
+import { ObterDashboardHandler } from '@/app/application/handlers/obter-dashboard.handler';
+
 
 @Injectable({ providedIn: 'root' })
 export class DashboardFacade {
@@ -9,6 +12,9 @@ export class DashboardFacade {
   private orchestrator = new FinancialOrchestrator(
     createFinancialPipeline()
   );
+
+  // 🔥 VOLTA O HANDLER (dados reais)
+  private handler = inject(ObterDashboardHandler);
 
   // =============================
   // CONTEXTO (substitui handler)
@@ -28,7 +34,18 @@ export class DashboardFacade {
   // =============================
 
   // 🔥 MANTÉM O PIPELINE
-  vm = computed(() => this.orchestrator.execute(this.context));
+  vm = computed(() => {
+
+    const data = this.handler.executar();
+
+    const context = buildFinancialContext(data);
+
+    const snapshot = this.orchestrator.execute(context);
+
+    console.log('🔥 SNAPSHOT REAL:', snapshot);
+
+    return snapshot;
+  });
 
   // =============================
   // RESUMO (AGORA DIRETO)
