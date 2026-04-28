@@ -4,6 +4,8 @@ import { FinancialOrchestrator } from '@/app/core/application/orchestrator/finan
 import { createFinancialPipeline } from '@/app/core/application/factory/financial-pipeline.factory';
 import { buildFinancialContext } from '@/app/core/application/context/financial-context.adapter';
 import { ObterDashboardHandler } from '@/app/application/handlers/obter-dashboard.handler';
+import { RecommendationActionExecutor } from '@/app/core/application/actions/recommendation-action.executor';
+
 
 
 @Injectable({ providedIn: 'root' })
@@ -12,6 +14,8 @@ export class DashboardFacade {
   private orchestrator = new FinancialOrchestrator(
     createFinancialPipeline()
   );
+
+  private actionExecutor = new RecommendationActionExecutor();
 
   // 🔥 VOLTA O HANDLER (dados reais)
   private handler = inject(ObterDashboardHandler);
@@ -153,5 +157,13 @@ export class DashboardFacade {
   ]);
 
   assinaturasDetectadas = computed<{ descricao: string; valorMedio: number }[]>(() => []);
+
+  // =============================
+  // EXECUTAR RECOMENDAÇÃO
+  // =============================
+
+  executarRecomendacao(rec: any) {
+    return this.actionExecutor.execute(rec.acao, this.vm());
+  }
 
 }

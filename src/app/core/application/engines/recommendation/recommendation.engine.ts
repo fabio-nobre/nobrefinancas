@@ -1,34 +1,4 @@
-// =============================
-// TIPOS DE DOMÍNIO
-// =============================
-
-type Prioridade = 'ALTA' | 'MEDIA' | 'BAIXA';
-
-type TipoRecomendacao =
-  | 'ECONOMIA'
-  | 'RISCO'
-  | 'COMPORTAMENTO'
-  | 'OTIMIZACAO';
-
-export type Recommendation = {
-  tipo: TipoRecomendacao;
-
-  titulo: string;
-  descricao: string;
-
-  impacto: number;
-
-  prioridade: Prioridade;
-
-  acao: {
-    tipo: string;
-    payload?: any;
-  };
-};
-
-// =============================
-// ENGINE
-// =============================
+import { Recommendation, Prioridade } from './recommendation.types';
 
 export class RecommendationEngine {
 
@@ -46,7 +16,7 @@ export class RecommendationEngine {
     const transacoes = ctx.transactions ?? [];
 
     // =============================
-    // 1. BAIXA POUPANÇA
+    // POUPANÇA
     // =============================
 
     if ((score.metricas?.poupanca ?? 0) < 30) {
@@ -56,17 +26,15 @@ export class RecommendationEngine {
       recomendacoes.push({
         tipo: 'ECONOMIA',
         titulo: 'Aumentar sua taxa de poupança',
-        descricao: `Reduza aproximadamente R$ ${valor.toFixed(2)} em gastos para melhorar sua saúde financeira`,
+        descricao: `Reduza R$ ${valor.toFixed(2)} em gastos`,
         impacto: valor,
         prioridade: 'ALTA',
-        acao: {
-          tipo: 'REDUZIR_GASTOS'
-        }
+        acao: { tipo: 'REDUZIR_GASTOS' }
       });
     }
 
     // =============================
-    // 2. GASTO ALTO EM CATEGORIA
+    // CATEGORIA
     // =============================
 
     const categoriaTop = this.getCategoriaMaisCara(categorias);
@@ -77,8 +45,8 @@ export class RecommendationEngine {
 
       recomendacoes.push({
         tipo: 'OTIMIZACAO',
-        titulo: `Reduzir gastos em ${categoriaTop.nome}`,
-        descricao: `Você pode economizar até R$ ${economia.toFixed(2)} nessa categoria`,
+        titulo: `Reduzir ${categoriaTop.nome}`,
+        descricao: `Economize até R$ ${economia.toFixed(2)}`,
         impacto: economia,
         prioridade: 'MEDIA',
         acao: {
@@ -89,51 +57,41 @@ export class RecommendationEngine {
     }
 
     // =============================
-    // 3. RISCO ALTO
+    // RISCO
     // =============================
 
     if ((score.metricas?.risco ?? 0) > 70) {
 
       recomendacoes.push({
         tipo: 'RISCO',
-        titulo: 'Risco financeiro elevado',
-        descricao: 'Seus gastos estão próximos ou acima da sua renda',
+        titulo: 'Risco financeiro alto',
+        descricao: 'Gastos elevados em relação à renda',
         impacto: 0,
         prioridade: 'ALTA',
-        acao: {
-          tipo: 'REVISAR_ORCAMENTO'
-        }
+        acao: { tipo: 'REVISAR_ORCAMENTO' }
       });
     }
 
     // =============================
-    // 4. COMPORTAMENTO RECENTE
+    // COMPORTAMENTO
     // =============================
 
-    const gastosRecentes = transacoes
-      .slice(-10)
-      .filter((t: any) => t?.valor < 0);
+    const recentes = transacoes.slice(-10);
 
-    if (gastosRecentes.length > 7) {
+    if (recentes.length > 7) {
 
       recomendacoes.push({
         tipo: 'COMPORTAMENTO',
         titulo: 'Muitos gastos recentes',
-        descricao: 'Você realizou muitos gastos nos últimos dias',
+        descricao: 'Reduza frequência de consumo',
         impacto: 0,
         prioridade: 'MEDIA',
-        acao: {
-          tipo: 'REDUZIR_FREQUENCIA'
-        }
+        acao: { tipo: 'REDUZIR_FREQUENCIA' }
       });
     }
 
     return this.rankear(recomendacoes);
   }
-
-  // =============================
-  // HELPERS
-  // =============================
 
   private getCategoriaMaisCara(categorias: any[]) {
     if (!categorias?.length) return null;
