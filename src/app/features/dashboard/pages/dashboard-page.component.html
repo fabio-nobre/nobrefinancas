@@ -1,27 +1,18 @@
-<!-- DEBUG -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-<hr>
+  <app-alerts-widget [alerts]="facade.alertsFinanceiros()">
+  </app-alerts-widget>
 
-<!-- ALERTAS -->
-<app-alerts-widget [alerts]="facade.alertsFinanceiros()">
-</app-alerts-widget>
+  <app-categorias-widget [categorias]="facade.gastosPorCategoria()">
+  </app-categorias-widget>
 
-<!-- CATEGORIAS -->
-<app-categorias-widget [categorias]="facade.gastosPorCategoria()">
-</app-categorias-widget>
+  <app-budget-suggestion-widget [sugestoes]="facade.budgetSuggestions()">
+  </app-budget-suggestion-widget>
 
-<!-- BUDGET -->
-<app-budget-suggestion-widget [sugestoes]="facade.budgetSuggestions()">
-</app-budget-suggestion-widget>
+  <app-financial-score-widget [score]="facade.scoreFinanceiro()">
+  </app-financial-score-widget>
 
-<!-- SCORE -->
-<app-financial-score-widget [score]="facade.scoreFinanceiro()">
-</app-financial-score-widget>
+  <app-savings-goal-widget [meta]="facade.metaEconomiaMensal()" [status]="facade.statusMetaEconomia()">
+  </app-savings-goal-widget>
 
-<!-- META -->
-<app-savings-goal-widget [meta]="facade.metaEconomiaMensal()" [status]="facade.statusMetaEconomia()">
-</app-savings-goal-widget>
-
-<!-- LISTA -->
-<app-ultimos-lancamentos-widget [grupos]="facade.lancamentosAgrupados()">
-</app-ultimos-lancamentos-widget>
+</div>

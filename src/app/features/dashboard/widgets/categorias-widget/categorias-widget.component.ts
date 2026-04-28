@@ -1,176 +1,80 @@
 import {
-  AfterViewInit,
   Component,
   ElementRef,
   Input,
   ViewChild,
-  OnChanges,
-  SimpleChanges
+  AfterViewInit
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { Chart } from 'chart.js/auto';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-
-import { ChartCardComponent } from '@/app/shared/ui/chart-card/chart-card.component';
-
-// registra plugins uma única vez
-Chart.register(ChartDataLabels);
-
-const centerTextPlugin = {
-  id: 'centerText',
-  afterDraw(chart: any) {
-
-    const { ctx } = chart;
-
-    const data = chart.data.datasets[0].data;
-
-    const total = data.reduce((a: number, b: number) => a + b, 0);
-
-    const texto = total.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    });
-
-    const x = chart.getDatasetMeta(0).data[0]?.x;
-    const y = chart.getDatasetMeta(0).data[0]?.y;
-
-    if (!x || !y) return;
-
-    ctx.save();
-
-    ctx.font = 'bold 16px sans-serif';
-    ctx.fillStyle = '#374151';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-
-    ctx.fillText(texto, x, y);
-  }
-};
-
-Chart.register(centerTextPlugin);
+import Chart from 'chart.js/auto';
 
 @Component({
   selector: 'app-categorias-widget',
   standalone: true,
-  imports: [
-    CommonModule,
-    ChartCardComponent
-  ],
+  imports: [CommonModule],
   templateUrl: './categorias-widget.component.html'
 })
-export class CategoriasWidgetComponent
-  implements AfterViewInit, OnChanges {
+export class CategoriasWidgetComponent implements AfterViewInit {
 
-  @Input() categorias: any[] = [];
-
-  private chart?: Chart;
-
-  @ViewChild('chartCanvas')
+  @ViewChild('chartCanvas', { static: true })
   canvas!: ElementRef<HTMLCanvasElement>;
 
+  @Input()
+  categorias: { categoria: string; valor: number }[] = [];
+
+  private chart?: Chart;
+  private rendered = false;
+
   ngAfterViewInit(): void {
-    this.criarGrafico();
+    this.safeRender();
+  }
+  constructor() {
+    console.log('🧱 COMPONENTE CRIADO');
+  }
+  private safeRender() {
+
+    if (this.rendered) return;
+    if (!this.categorias?.length) return;
+
+    this.rendered = true;
+
+    setTimeout(() => {
+      this.render();
+    }, 0);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['categorias'] && this.canvas) {
-      this.criarGrafico();
-    }
-  }
+  private render(): void {
 
-  private criarGrafico() {
+    if (!this.canvas) return;
 
-    const dados = this.categorias;
+    const el = this.canvas.nativeElement;
 
-    // 🔥 evita gráfico vazio/quebra
-    if (!dados || dados.length === 0) return;
+    console.log('canvas real:', el);
 
-    if (this.chart) {
-      this.chart.destroy();
-    }
+    // 🔥 TESTE VISUAL DIRETO (já funcionou)
+    const ctx = el.getContext('2d');
+    if (!ctx) return;
 
-    this.chart = new Chart(this.canvas.nativeElement, {
-      type: 'doughnut',
+    ctx.fillStyle = 'red';
+    ctx.fillRect(0, 0, 300, 300);
 
+    // 🔥 AGORA TESTE CHART MÍNIMO
+    this.chart = new Chart(el, {
+      type: 'bar',
       data: {
-        labels: dados.map((c: any) => c.categoria),
-
-        datasets: [
-          {
-            data: dados.map((c: any) => c.valor),
-
-            backgroundColor: [
-              '#2563eb',
-              '#16a34a',
-              '#dc2626',
-              '#d97706',
-              '#7c3aed'
-            ]
-          }
-        ]
+        labels: ['A', 'B'],
+        datasets: [{
+          label: 'Teste',
+          data: [10, 20]
+        }]
       },
-
       options: {
-        cutout: '65%',
-
         responsive: true,
-        maintainAspectRatio: false,
-
-        plugins: {
-
-          legend: {
-            position: 'top',
-            labels: {
-              boxWidth: 12,
-              padding: 15,
-              usePointStyle: true
-            }
-          },
-
-          datalabels: {
-            color: '#fff',
-            font: {
-              weight: 'bold',
-              size: 12
-            },
-
-            formatter: (value: number, ctx) => {
-
-              const data = ctx.chart.data.datasets[0].data as number[];
-
-              const total = data.reduce((a, b) => a + b, 0);
-
-              const pct = (value / total) * 100;
-
-              return pct.toFixed(0) + '%';
-            }
-          },
-
-          tooltip: {
-            callbacks: {
-              label: (context) => {
-
-                const valor = context.raw as number;
-
-                const data = context.chart.data.datasets[0].data as number[];
-
-                const total = data.reduce((a, b) => a + b, 0);
-
-                const percentual = ((valor / total) * 100).toFixed(1);
-
-                const valorFormatado = valor.toLocaleString('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL'
-                });
-
-                return `${context.label}: ${valorFormatado} (${percentual}%)`;
-              }
-            }
-          }
-
-        }
+        maintainAspectRatio: false
       }
     });
+
+    console.log('🔥 TESTE CHART EXECUTADO');
   }
 }

@@ -2,3 +2,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+canvas {
+  display: block !important;
+}
+
+canvas {
+  border: 2px solid red;
+}

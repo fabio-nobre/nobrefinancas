@@ -15,7 +15,13 @@ export class DashboardFacade {
   // VIEW MODEL BASE
   // =============================
 
-  vm = computed(() => this.handler.executar());
+  vm = computed(() => {
+    const result = this.handler.executar();
+
+    console.log('🔥 RESULT RAW:', result);
+
+    return result;
+  });
 
   // =============================
   // RESUMO
@@ -36,40 +42,54 @@ export class DashboardFacade {
   }));
 
   // =============================
-  // ALERTAS
+  // ALERTAS (REAIS)
   // =============================
 
-  alertsFinanceiros = computed(() => {
-    const saldo = this.saldo();
+  alertsFinanceiros = computed(() =>
+    this.vm()?.alertas ?? []
+  );
 
-    if (saldo < 0) {
-      return [
-        { tipo: 'CRITICO', mensagem: 'Saldo negativo' }
-      ];
-    }
+  // =============================
+  // SCORE (INTELIGÊNCIA)
+  // =============================
 
-    return [
-      { tipo: 'ALERTA', mensagem: 'Situação estável' }
-    ];
+  scoreFinanceiro = computed(() => {
+
+    const intel = this.vm()?.inteligencia;
+
+    // 🔥 DEBUG (pode remover depois)
+    console.log('🔥 SCORE RAW:', intel?.score);
+
+    return {
+      score:
+        typeof intel?.score === 'number'
+          ? intel.score
+          : intel?.score?.valor
+          ?? intel?.score?.score
+          ?? 0,
+
+      classificacao:
+        intel?.score?.classificacao
+        ?? 'N/A',
+
+      metricas: {
+        taxaPoupanca:
+          intel?.score?.taxaPoupanca ?? 30,
+
+        controleDespesas:
+          intel?.score?.controleDespesas ?? 70,
+
+        estabilidade:
+          intel?.score?.estabilidade ?? 60
+      }
+    };
   });
-
-  // =============================
-  // SCORE
-  // =============================
-
-  scoreFinanceiro = computed(() => ({
-    score: this.saldo() > 0 ? 80 : 40,
-    classificacao: this.saldo() > 0 ? 'Bom' : 'Ruim',
-    metricas: {
-      taxaPoupanca: 30,
-      controleDespesas: 70,
-      estabilidade: 60
-    }
-  }));
 
   trendFinanceiro = computed(() => 'estável');
 
-  riskFinanceiro = computed(() => this.saldo() < 0 ? 0.8 : 0.2);
+  riskFinanceiro = computed(() =>
+    this.vm()?.inteligencia?.risco?.risco ?? 0
+  );
 
   projectionFinanceira = computed(() => ({}));
 
@@ -83,9 +103,9 @@ export class DashboardFacade {
   // INSIGHTS / IA
   // =============================
 
-  insights = computed(() => [
-    { mensagem: 'Você está dentro do orçamento' }
-  ]);
+  insights = computed(() =>
+    this.vm()?.inteligencia?.insights ?? []
+  );
 
   assinaturasDetectadas = computed(() => [
     { descricao: 'Netflix', valorMedio: 39.9 }
@@ -108,52 +128,46 @@ export class DashboardFacade {
   }));
 
   // =============================
-  // BUDGET
+  // BUDGET (INTELIGÊNCIA)
   // =============================
 
-  budgets = computed(() => this.vm()?.budget ?? []);
+  budgets = computed(() =>
+    this.vm()?.budget ?? {}
+  );
 
-  budgetSuggestions = computed(() => [
-    { categoria: 'Alimentação', sugestaoOrcamento: 800 },
-    { categoria: 'Lazer', sugestaoOrcamento: 300 }
-  ]);
+  budgetSuggestions = computed(() =>
+    this.vm()?.inteligencia?.recomendacoes ?? []
+  );
 
   definirBudget(categoria: string, valor: number) {
     console.log('definir budget', categoria, valor);
   }
 
   // =============================
-  // GRÁFICOS
+  // GRÁFICOS (REAIS)
   // =============================
 
-  gastosPorCategoria = computed(() => [
-    { categoria: 'Alimentação', valor: 500 },
-    { categoria: 'Moradia', valor: 1200 }
-  ]);
+  gastosPorCategoria = computed(() =>
+    this.vm()?.categorias ?? []
+  );
 
   comparacaoMensal = computed(() => ({
-    receitasAtual: 5000,
-    despesasAtual: 3000,
-    saldoAtual: 2000,
-    variacaoReceitas: 10,
-    variacaoDespesas: -5,
-    variacaoSaldo: 15
+    receitasAtual: this.receitas(),
+    despesasAtual: this.despesas(),
+    saldoAtual: this.saldo(),
+    variacaoReceitas: 0,
+    variacaoDespesas: 0,
+    variacaoSaldo: 0
   }));
 
   evolucaoComPrevisao = computed(() => []);
 
   // =============================
-  // LISTAS
+  // LISTAS (REAIS)
   // =============================
 
-  ultimosLancamentos = computed(() => [
-    { descricao: 'Teste', valor: 100 }
-  ]);
+  ultimosLancamentos = computed(() => []);
 
-  lancamentosAgrupados = computed<GrupoLancamentos[]>(() => [
-    {
-      categoria: 'Alimentação',
-      lancamentos: []
-    }
-  ]);
+  lancamentosAgrupados = computed<GrupoLancamentos[]>(() => []);
+
 }
