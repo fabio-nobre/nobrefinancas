@@ -1,4 +1,4 @@
-import { Injectable, computed, inject } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 
 import { FinancialOrchestrator } from '@/app/core/application/orchestrator/financial-orchestrator';
 import { createFinancialPipeline } from '@/app/core/application/factory/financial-pipeline.factory';
@@ -16,6 +16,12 @@ export class DashboardFacade {
   );
 
   private actionExecutor = new RecommendationActionExecutor();
+
+  private state = signal<{
+    override?: Partial<any>;
+  }>({
+    override: {}
+  });
 
   // 🔥 VOLTA O HANDLER (dados reais)
   private handler = inject(ObterDashboardHandler);
@@ -42,14 +48,38 @@ export class DashboardFacade {
 
     const data = this.handler.executar();
 
-    const context = buildFinancialContext(data);
+    const base = buildFinancialContext(data);
+
+    const override = this.state().override ?? {};
+
+    const context = this.mergeDeep(base, override);
 
     const snapshot = this.orchestrator.execute(context);
 
-    console.log('🔥 SNAPSHOT REAL:', snapshot);
+    console.log('🔥 SNAPSHOT REATIVO:', snapshot);
 
     return snapshot;
   });
+
+  private mergeDeep(target: any, source: any): any {
+    if (!source) return target;
+
+    const output = { ...target };
+
+    for (const key of Object.keys(source)) {
+      if (
+        source[key] &&
+        typeof source[key] === 'object' &&
+        !Array.isArray(source[key])
+      ) {
+        output[key] = this.mergeDeep(target[key] ?? {}, source[key]);
+      } else {
+        output[key] = source[key];
+      }
+    }
+
+    return output;
+  }
 
   // =============================
   // RESUMO (AGORA DIRETO)
@@ -158,12 +188,67 @@ export class DashboardFacade {
 
   assinaturasDetectadas = computed<{ descricao: string; valorMedio: number }[]>(() => []);
 
+
   // =============================
   // EXECUTAR RECOMENDAÇÃO
   // =============================
 
   executarRecomendacao(rec: any) {
-    return this.actionExecutor.execute(rec.acao, this.vm());
-  }
 
+    const result = this.actionExecutor.execute(rec.acao, this.vm());
+
+    const patch = this.calcularImpacto(rec);
+
+    this.aplicarPatch(patch);
+
+    return result;
+  }
+  private calcularImpacto(rec: any): any {
+
+    const vm = this.vm();
+
+    switch (rec.acao.tipo) {
+
+      case 'REDUZIR_GASTOS':
+        return {
+          resumo: {
+            despesas: (vm.budget?.despesas ?? 0) * 0.9
+          }
+        };
+
+      case 'AJUSTAR_CATEGORIA':
+        return {
+          categorias: (vm.patterns ?? []).map((c: any) =>
+            c.nome === rec.acao.payload
+              ? { ...c, valor: c.valor * 0.8 }
+              : c
+          )
+        };
+
+      case 'REVISAR_ORCAMENTO':
+        return {
+          resumo: {
+            despesas: (vm.budget?.despesas ?? 0) * 0.95
+          }
+        };
+
+      case 'REDUZIR_FREQUENCIA':
+
+        const base = buildFinancialContext(this.handler.executar());
+        const current = this.mergeDeep(base, this.state().override ?? {});
+
+        return {
+          transactions: (current.transactions ?? []).slice(0, -2)
+        };
+
+      default:
+        return {};
+    }
+  }
+  private aplicarPatch(patch: any) {
+
+    this.state.update(s => ({
+      override: this.mergeDeep(s.override ?? {}, patch)
+    }));
+  }
 }
