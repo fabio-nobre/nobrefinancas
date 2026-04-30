@@ -31,6 +31,7 @@ export class EvolucaoWidgetComponent implements AfterViewInit {
 
   }
 
+
   private renderizarGrafico(dados: any[]) {
 
     if (this.chart) {

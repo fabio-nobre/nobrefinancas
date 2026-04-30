@@ -6,10 +6,14 @@ import { buildFinancialContext } from '@/app/core/application/context/financial-
 import { ObterDashboardHandler } from '@/app/application/handlers/obter-dashboard.handler';
 import { RecommendationActionExecutor } from '@/app/core/application/actions/recommendation-action.executor';
 
-
-
 @Injectable({ providedIn: 'root' })
 export class DashboardFacade {
+
+  // =============================
+  // DEPENDÊNCIAS
+  // =============================
+
+  private handler = inject(ObterDashboardHandler);
 
   private orchestrator = new FinancialOrchestrator(
     createFinancialPipeline()
@@ -17,49 +21,40 @@ export class DashboardFacade {
 
   private actionExecutor = new RecommendationActionExecutor();
 
+  // =============================
+  // STATE (REATIVO)
+  // =============================
+
   private state = signal<{
     override?: Partial<any>;
   }>({
     override: {}
   });
 
-  // 🔥 VOLTA O HANDLER (dados reais)
-  private handler = inject(ObterDashboardHandler);
-
   // =============================
-  // CONTEXTO (substitui handler)
+  // VM (ROOT - SEM DEPENDÊNCIA CÍCLICA)
   // =============================
 
-  private context = {
-    userId: '1',
-    transactions: [],
-    accounts: [],
-    cards: [],
-    goals: [],
-    referenceDate: new Date()
-  };
-
-  // =============================
-  // VIEW MODEL BASE (🔥 AGORA LIMPO)
-  // =============================
-
-  // 🔥 MANTÉM O PIPELINE
   vm = computed(() => {
 
     const data = this.handler.executar();
 
-    const base = buildFinancialContext(data);
+    const baseContext = buildFinancialContext(data);
 
     const override = this.state().override ?? {};
 
-    const context = this.mergeDeep(base, override);
+    const context = this.mergeDeep(baseContext, override);
 
     const snapshot = this.orchestrator.execute(context);
 
-    console.log('🔥 SNAPSHOT REATIVO:', snapshot);
-
+    console.log('🔥 SNAPSHOT:', snapshot);
+    console.log('🔥 RAW DATA:', this.handler.executar());
     return snapshot;
   });
+
+  // =============================
+  // HELPERS
+  // =============================
 
   private mergeDeep(target: any, source: any): any {
     if (!source) return target;
@@ -81,25 +76,29 @@ export class DashboardFacade {
     return output;
   }
 
+  private getCurrentContext() {
+    const data = this.handler.executar();
+    const base = buildFinancialContext(data);
+    return this.mergeDeep(base, this.state().override ?? {});
+  }
+
   // =============================
-  // RESUMO (AGORA DIRETO)
+  // DERIVADOS (SAFE)
   // =============================
 
   receitas = computed(() => this.vm()?.budget?.receitas ?? 0);
   despesas = computed(() => this.vm()?.budget?.despesas ?? 0);
   saldo = computed(() => this.vm()?.budget?.saldo ?? 0);
 
-  // =============================
-  // ALERTAS (SEM GAMBIARRA)
-  // =============================
+  alertsFinanceiros = computed(() => this.vm()?.alerts ?? []);
 
-  alertsFinanceiros = computed(() =>
-    this.vm()?.alerts ?? []
-  );
+  insights = computed(() => this.vm()?.insights ?? []);
 
-  // =============================
-  // SCORE (FINAL LIMPO)
-  // =============================
+  budgetSuggestions = computed(() => this.vm()?.recommendations ?? []);
+
+  gastosPorCategoria = computed(() => this.vm()?.patterns ?? []);
+
+  budgets = computed(() => this.vm()?.budget ?? {});
 
   previsaoFinanceira = computed(() => ({
     saldoPrevisto: this.vm()?.forecast?.saldo ?? 0,
@@ -107,33 +106,9 @@ export class DashboardFacade {
     despesasRestantes: this.vm()?.forecast?.despesas ?? 0
   }));
 
-  // =============================
-  // INSIGHTS (DIRETO DO PIPELINE)
-  // =============================
-
-  insights = computed(() =>
-    this.vm()?.insights ?? []
-  );
-
-  // =============================
-  // RECOMENDAÇÕES
-  // =============================
-
-  budgetSuggestions = computed(() =>
-    this.vm()?.recommendations ?? []
-  );
-
-  // =============================
-  // GRÁFICOS
-  // =============================
-
-  gastosPorCategoria = computed(() =>
-    this.vm()?.patterns ?? []
-  );
-
   metaEconomiaMensal = computed(() => ({
     metaMensal: 500,
-    economiaAtual: this.vm()?.budget?.saldo ?? 0,
+    economiaAtual: this.saldo(),
     percentual: 60,
     previsao: 700
   }));
@@ -143,54 +118,23 @@ export class DashboardFacade {
     mensagem: this.vm()?.status ?? ''
   }));
 
-  budgets = computed(() => this.vm()?.budget ?? {});
-
-  definirBudget(categoria: string, valor: number) {
-    console.log('definir budget', categoria, valor);
-  }
-
   comparacaoMensal = computed(() => ({
-    receitasAtual: this.vm()?.budget?.receitas ?? 0,
-    despesasAtual: this.vm()?.budget?.despesas ?? 0,
-    saldoAtual: this.vm()?.budget?.saldo ?? 0,
+    receitasAtual: this.receitas(),
+    despesasAtual: this.despesas(),
+    saldoAtual: this.saldo(),
     variacaoReceitas: 0,
     variacaoDespesas: 0,
     variacaoSaldo: 0
   }));
 
-  evolucaoComPrevisao = computed(() => []);
-
-  scoreFinanceiro = computed(() => ({
-    score: this.vm()?.score?.value ?? 0,
-    classificacao: this.vm()?.status ?? 'N/A',
-    metricas: {
-      taxaPoupanca: 30,
-      controleDespesas: 70,
-      estabilidade: 60
-    }
-  }));
-
-  trendFinanceiro = computed(() => 'estável');
-
-  riskFinanceiro = computed(() =>
-    this.vm()?.risks?.length ?? 0
-  );
-
-  projectionFinanceira = computed(() => ({}));
-
-  // Array vazio
-  // scoreHistory = computed<{ mes: string; score: number }[]>(() => []);
-  scoreHistory = computed<{ mes: string; score: number }[]>(() => [
-    { mes: 'Jan', score: 60 },
-    { mes: 'Fev', score: 70 },
-    { mes: 'Mar', score: 80 }
-  ]);
-
-  assinaturasDetectadas = computed<{ descricao: string; valorMedio: number }[]>(() => []);
-
+  scoreFinanceiro = computed(() => this.vm()?.score ?? {
+    value: 0,
+    classificacao: 'N/A',
+    metricas: {}
+  });
 
   // =============================
-  // EXECUTAR RECOMENDAÇÃO
+  // AÇÕES (REAIS)
   // =============================
 
   executarRecomendacao(rec: any) {
@@ -203,6 +147,7 @@ export class DashboardFacade {
 
     return result;
   }
+
   private calcularImpacto(rec: any): any {
 
     const vm = this.vm();
@@ -234,21 +179,118 @@ export class DashboardFacade {
 
       case 'REDUZIR_FREQUENCIA':
 
-        const base = buildFinancialContext(this.handler.executar());
-        const current = this.mergeDeep(base, this.state().override ?? {});
+        const context = this.getCurrentContext();
 
         return {
-          transactions: (current.transactions ?? []).slice(0, -2)
+          transactions: (context.transactions ?? []).slice(0, -2)
         };
 
       default:
         return {};
     }
   }
-  private aplicarPatch(patch: any) {
 
+  private aplicarPatch(patch: any) {
     this.state.update(s => ({
       override: this.mergeDeep(s.override ?? {}, patch)
     }));
   }
+
+  // =============================
+  // SIMULAÇÃO
+  // =============================
+
+  simularRecomendacao(rec: any) {
+
+    const currentContext = this.getCurrentContext();
+
+    const snapshotAtual = this.orchestrator.execute(currentContext);
+
+    const patch = this.calcularImpacto(rec);
+
+    const simulatedContext = this.mergeDeep(currentContext, patch);
+
+    const snapshotSimulado = this.orchestrator.execute(simulatedContext);
+
+    return {
+      antes: snapshotAtual,
+      depois: snapshotSimulado,
+      diferenca: {
+        score:
+          (snapshotSimulado.score?.value ?? 0) -
+          (snapshotAtual.score?.value ?? 0)
+      }
+    };
+  }
+
+  evolucaoComPrevisao = computed(() =>
+    this.vm()?.forecast?.evolucao ?? []
+  );
+
+  trendFinanceiro = computed(() => {
+
+    const score = this.vm()?.score?.value ?? 0;
+
+    if (score >= 80) return 'positivo';
+    if (score >= 50) return 'estável';
+    return 'negativo';
+  });
+
+  riskFinanceiro = computed(() => {
+
+    const riscos = this.vm()?.risks ?? [];
+
+    if (!riscos.length) return 0;
+
+    // exemplo simples: cada risco pesa 20
+    return Math.min(100, riscos.length * 20);
+  });
+
+  projectionFinanceira = computed(() => ({
+    saldoPrevisto: this.vm()?.forecast?.saldo ?? 0,
+    receitasRestantes: this.vm()?.forecast?.receitas ?? 0,
+    despesasRestantes: this.vm()?.forecast?.despesas ?? 0
+  }));
+
+  scoreHistory = computed<{ mes: string; score: number }[]>(() => {
+
+    const score = this.vm()?.score?.value ?? 0;
+
+    // versão simples (mock inteligente)
+    return [
+      { mes: 'Jan', score: score - 10 },
+      { mes: 'Fev', score: score - 5 },
+      { mes: 'Mar', score: score }
+    ];
+  });
+
+  assinaturasDetectadas = computed(() => {
+
+    const transactions = this.getCurrentContext().transactions ?? [];
+
+    // heurística simples (recorrência fake)
+    const map = new Map<string, number[]>();
+
+    transactions.forEach((t: any) => {
+      if (!t.descricao) return;
+
+      const key = t.descricao;
+
+      if (!map.has(key)) {
+        map.set(key, []);
+      }
+
+      map.get(key)!.push(t.valor);
+    });
+
+    return Array.from(map.entries())
+      .filter(([_, values]) => values.length >= 3)
+      .map(([descricao, values]) => ({
+        descricao,
+        valorMedio:
+          values.reduce((a, b) => a + b, 0) / values.length
+      }));
+  });
+
+
 }

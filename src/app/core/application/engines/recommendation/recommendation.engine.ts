@@ -56,6 +56,7 @@ export class RecommendationEngine {
       });
     }
 
+
     // =============================
     // RISCO
     // =============================
@@ -90,6 +91,17 @@ export class RecommendationEngine {
       });
     }
 
+    if (!recomendacoes.length) {
+      recomendacoes.push({
+        tipo: 'ECONOMIA',
+        titulo: 'Teste ativo',
+        descricao: 'Pipeline funcionando',
+        impacto: 100,
+        prioridade: 'ALTA',
+        acao: { tipo: 'REDUZIR_GASTOS' }
+      });
+    }
+
     return this.rankear(recomendacoes);
   }
 
@@ -113,4 +125,5 @@ export class RecommendationEngine {
       (a, b) => peso[b.prioridade] - peso[a.prioridade]
     );
   }
+
 }
